@@ -137,4 +137,63 @@ http://localhost:8080/api/v1/swagger/index.html
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Deployment on Render.com
+
+This project is configured for easy deployment on [Render.com](https://render.com/). The `render.yaml` file in the root directory provides the infrastructure as code needed to deploy all services.
+
+### Features of the Render Deployment
+
+- **Web Service**: The main API application
+- **PostgreSQL Database**: For storing all application data
+- **Redis**: For caching and session management
+- **Automatic Migrations**: Database migrations run automatically on deployment
+
+### Deployment Steps
+
+1. Sign up for a [Render account](https://dashboard.render.com/register) if you don't have one.
+
+2. Fork or clone this repository to your GitHub account.
+
+3. In the Render dashboard, click "New" and select "Blueprint" from the dropdown.
+
+4. Connect your GitHub account and select this repository.
+
+5. Render will detect the `render.yaml` file and show you the resources that will be created.
+
+6. Click "Apply" to start the deployment.
+
+7. Render will create all the necessary services and provide you with URLs to access them.
+
+### Environment Variables
+
+The application is configured to use environment variables for configuration in production. Render automatically sets these up based on the `render.yaml` file.
+
+### Manual Deployment (Alternative Method)
+
+If you prefer to set up services manually:
+
+1. In the Render dashboard, create a new PostgreSQL database.
+
+2. Create a new Web Service, selecting the "Docker" environment.
+
+3. Connect your GitHub repository and set the following environment variables:
+   - `DATABASE_HOST`: Your Render PostgreSQL hostname
+   - `DATABASE_PORT`: Usually 5432
+   - `DATABASE_USER`: From your Render PostgreSQL credentials
+   - `DATABASE_PASSWORD`: From your Render PostgreSQL credentials
+   - `DATABASE_NAME`: Your database name
+   - `DATABASE_SSLMODE`: Set to "require" for Render
+   - `JWT_SECRET`: A secure random string
+   - `SERVER_ENV`: Set to "production"
+
+4. Deploy the service.
+
+### Cost Considerations
+
+The deployment is configured to use Render's free tier, which is suitable for testing but has limitations:
+- Free PostgreSQL databases have a 90-day lifespan
+- Free services spin down after periods of inactivity
+
+For production use, consider upgrading to paid plans. 

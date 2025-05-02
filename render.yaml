@@ -1,10 +1,49 @@
 services:
   - type: web
-    name: ecommerce-app
+    name: boldbyte-ecommerce
     env: docker
     dockerfilePath: ./Dockerfile
     plan: free
     autoDeploy: true
     envVars:
       - key: PORT
-        value: 8080 
+        value: 8080
+      - key: SERVER_ENV
+        value: production
+      - key: DATABASE_HOST
+        fromDatabase:
+          name: boldbyte-postgres
+          property: host
+      - key: DATABASE_PORT
+        fromDatabase:
+          name: boldbyte-postgres
+          property: port
+      - key: DATABASE_USER
+        fromDatabase:
+          name: boldbyte-postgres
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: boldbyte-postgres
+          property: password
+      - key: DATABASE_NAME
+        fromDatabase:
+          name: boldbyte-postgres
+          property: database
+      - key: DATABASE_SSLMODE
+        value: require
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRYHOURS
+        value: 24
+
+  - type: redis
+    name: boldbyte-redis
+    ipAllowList: []
+    plan: free
+
+  - type: postgres
+    name: boldbyte-postgres
+    plan: free
+    ipAllowList: []
+    postgresMajorVersion: 14 

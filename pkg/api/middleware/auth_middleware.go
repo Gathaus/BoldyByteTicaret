@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/mert-yagci/ecommerce-api/pkg/domain/service"
 	"net/http"
 	"strings"
 
