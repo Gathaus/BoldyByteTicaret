@@ -36,23 +36,42 @@ func InitDB(cfg *config.Config) (*gorm.DB, error) {
 // MigrateDB performs auto-migration for database models
 // This is only for development, use golang-migrate for production
 func MigrateDB(db *gorm.DB) error {
-	err := db.AutoMigrate(
-		&entity.Product{},
-		&entity.Category{},
-		&entity.User{},
-		&entity.Order{},
-		&entity.OrderItem{},
-	)
-	if err != nil {
-		return err
-	}
-
-	// Initialize logger for seed data
+	// Initialize logger
 	logger := logrus.New()
 
-	// Load seed data
-	if err := seedDatabase(db, logger); err != nil {
-		return fmt.Errorf("failed to seed database: %w", err)
+	// Check if tables already exist
+	var hasProductsTable, hasCategoriesTable, hasUsersTable bool
+
+	// Check if Products table exists
+	db.Raw("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'products')").Scan(&hasProductsTable)
+
+	// Check if Categories table exists
+	db.Raw("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'categories')").Scan(&hasCategoriesTable)
+
+	// Check if Users table exists
+	db.Raw("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = CURRENT_SCHEMA() AND table_name = 'users')").Scan(&hasUsersTable)
+
+	// If tables don't exist, run migrations and seed data
+	if !hasProductsTable || !hasCategoriesTable || !hasUsersTable {
+		logger.Info("Running database migrations...")
+
+		err := db.AutoMigrate(
+			&entity.Product{},
+			&entity.Category{},
+			&entity.User{},
+			&entity.Order{},
+			&entity.OrderItem{},
+		)
+		if err != nil {
+			return err
+		}
+
+		// Seed data only if tables were just created
+		if err := seedDatabase(db, logger); err != nil {
+			return fmt.Errorf("failed to seed database: %w", err)
+		}
+	} else {
+		logger.Info("Database tables already exist, skipping migrations and seeding.")
 	}
 
 	return nil
