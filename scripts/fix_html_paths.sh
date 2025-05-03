@@ -47,4 +47,15 @@ for file in ${TEMPLATES_DIR}/home_electronic/*.html; do
     fix_paths "$file"
 done
 
+# Define the file to fix
+file="web/templates/home_electronic/index.html"
+
+# Fix paths in the HTML file
+sed -i '' -e 's|src="assets/|src="/assets/|g' $file
+sed -i '' -e 's|href="assets/|href="/assets/|g' $file
+sed -i '' -e 's|src="../common/|src="/common/|g' $file
+sed -i '' -e 's|href="../common/|href="/common/|g' $file
+
+echo "Paths fixed in $file"
+
 echo "Done fixing paths in HTML files." 
