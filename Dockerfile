@@ -9,6 +9,9 @@ COPY go.mod go.sum ./
 # Download Go modules
 RUN go mod download
 
+# Install golang-migrate during build
+RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
 # Copy the source code
 COPY . .
 
@@ -19,7 +22,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server ./cmd/app/
 FROM alpine:latest
 
 # Install ca-certificates, tzdata, and netcat for health checks
-RUN apk --no-cache add ca-certificates tzdata go git netcat-openbsd
+RUN apk --no-cache add ca-certificates tzdata netcat-openbsd
 
 # Set working directory
 WORKDIR /app
@@ -30,6 +33,7 @@ COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/config ./config
 COPY --from=builder /app/web ./web
 COPY --from=builder /app/run.sh .
+COPY --from=builder /go/bin/migrate /usr/local/bin/migrate
 
 # Make sure run.sh is executable
 RUN chmod +x run.sh
@@ -41,8 +45,7 @@ USER appuser
 
 # Set environment variables
 ENV TZ=UTC
-ENV PATH="/app:${PATH}"
-ENV GOPATH="/go"
+ENV PATH="/app:/usr/local/bin:${PATH}"
 
 # Expose port
 EXPOSE 8080
