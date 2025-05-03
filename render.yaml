@@ -10,32 +10,13 @@ services:
         value: 8080
       - key: SERVER_ENV
         value: production
-      - key: DATABASE_HOST
-        value: boldbyte-postgres.internal
-      - key: DATABASE_PORT
-        value: 5432
-      - key: DATABASE_USER
-        value: postgres
-      - key: DATABASE_PASSWORD
-        sync: false
-      - key: DATABASE_NAME
-        value: postgres
-      - key: DATABASE_SSLMODE
-        value: disable
+      # Aiven credentials (not needed, hardcoded in run.sh)
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRYHOURS
         value: 24
-    dependsOn:
-      - boldbyte-postgres
 
   - type: redis
     name: boldbyte-redis
     ipAllowList: []
-    plan: free
-
-  - type: postgres
-    name: boldbyte-postgres
-    plan: free
-    ipAllowList: []
-    postgresMajorVersion: 14 
+    plan: free 
