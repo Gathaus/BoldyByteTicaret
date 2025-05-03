@@ -21,8 +21,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server ./cmd/app/
 # Create a minimal production image
 FROM alpine:latest
 
-# Install ca-certificates, tzdata, and netcat for health checks
-RUN apk --no-cache add ca-certificates tzdata netcat-openbsd
+# Install ca-certificates, tzdata, and PostgreSQL client tools
+RUN apk --no-cache add ca-certificates tzdata postgresql-client
 
 # Set working directory
 WORKDIR /app
