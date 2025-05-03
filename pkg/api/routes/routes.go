@@ -66,8 +66,8 @@ func setupStaticRoutes(router *gin.Engine, staticHandler *handlers.StaticHandler
 	router.GET("/single-product-pay", staticHandler.SingleProductPay)
 
 	// Serve static assets
-	router.Static("/assets", "./web/static/home_electronic/assets")
-	router.Static("/inner_pages/assets", "./web/static/inner_pages/assets")
+	router.Static("/assets", "./web/static/pages/assets")
+	router.Static("/inner_pages/assets", "./web/static/pages/assets")
 	router.Static("/common", "./web/static/common")
 }
 
