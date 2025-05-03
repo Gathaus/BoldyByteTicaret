@@ -11,31 +11,23 @@ services:
       - key: SERVER_ENV
         value: production
       - key: DATABASE_HOST
-        fromDatabase:
-          name: boldbyte-postgres
-          property: host
+        value: boldbyte-postgres.internal
       - key: DATABASE_PORT
-        fromDatabase:
-          name: boldbyte-postgres
-          property: port
+        value: 5432
       - key: DATABASE_USER
-        fromDatabase:
-          name: boldbyte-postgres
-          property: user
+        value: postgres
       - key: DATABASE_PASSWORD
-        fromDatabase:
-          name: boldbyte-postgres
-          property: password
+        sync: false
       - key: DATABASE_NAME
-        fromDatabase:
-          name: boldbyte-postgres
-          property: database
+        value: postgres
       - key: DATABASE_SSLMODE
-        value: require
+        value: disable
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRYHOURS
         value: 24
+    dependsOn:
+      - boldbyte-postgres
 
   - type: redis
     name: boldbyte-redis
