@@ -3,12 +3,12 @@ server:
   env: "development"
 
 database:
-  host: "localhost"
-  port: 5432
-  user: "postgres"
-  password: "postgres"
+  host: "pg-126bf3ed-rizamertyagci-dd43.l.aivencloud.com"
+  port: 25406
+  user: "avnadmin"
+  password: "AVNS_q6IcUYO6K9TNpZkKTKX"
   dbname: "ecommerce"
-  sslmode: "disable"
+  sslmode: "require"
 
 jwt:
   secret: "your-256-bit-secret-at-least-32-characters"
