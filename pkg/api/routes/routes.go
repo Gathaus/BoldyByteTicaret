@@ -27,7 +27,7 @@ func SetupRouter(
 	// Static file serving
 	setupStaticRoutes(router, staticHandler)
 
-	// API v1 group
+	// API v1 group - all API routes are prefixed with /api/v1
 	v1 := router.Group("/api/v1")
 
 	// Swagger documentation
@@ -52,8 +52,22 @@ func setupStaticRoutes(router *gin.Engine, staticHandler *handlers.StaticHandler
 	// Serve home page at root URL
 	router.GET("/", staticHandler.Home)
 
+	// Serve inner pages
+	router.GET("/about", staticHandler.About)
+	router.GET("/contact", staticHandler.Contact)
+	router.GET("/login", staticHandler.Login)
+	router.GET("/register", staticHandler.Register)
+	router.GET("/profile", staticHandler.Profile)
+	router.GET("/products", staticHandler.Products)
+	router.GET("/products-layout-2", staticHandler.ProductsLayout2)
+	router.GET("/cart", staticHandler.Cart)
+	router.GET("/checkout", staticHandler.Checkout)
+	router.GET("/single-product", staticHandler.SingleProduct)
+	router.GET("/single-product-pay", staticHandler.SingleProductPay)
+
 	// Serve static assets
 	router.Static("/assets", "./web/static/home_electronic/assets")
+	router.Static("/inner_pages/assets", "./web/static/inner_pages/assets")
 	router.Static("/common", "./web/static/common")
 }
 
