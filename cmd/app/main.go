@@ -32,14 +32,15 @@ import (
 // @license.name MIT
 // @license.url https://opensource.org/licenses/MIT
 
-// @host localhost:8080
-// @BasePath /api/v1
+// @host localhost:8081
+// @BasePath /
 // @schemes http https
 
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and the JWT token.
+
 func main() {
 	// Load configuration
 	cfg, err := config.NewConfig()

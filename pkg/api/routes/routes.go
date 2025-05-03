@@ -66,10 +66,13 @@ func SetupRouter(
 	// Add a special handler for relative path that can't be directly mapped
 	router.StaticFS("/inner_pages_common_assets", gin.Dir(swooHtmlBase+"/common/assets", false))
 
+	// Add Swagger documentation at root level
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// API v1 group
 	v1 := router.Group("/api/v1")
 
-	// Swagger documentation
+	// Swagger documentation in the API group as well (optional)
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Public routes
