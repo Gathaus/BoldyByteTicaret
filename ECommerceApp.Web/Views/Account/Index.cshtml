@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div class="container mt-5">
+    <h1>My Account</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Account Management</h5>
+                    <p class="card-text">Manage your account settings and profile information.</p>
+                    <a asp-controller="Profile" asp-action="Profile" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order History</h5>
+                    <p class="card-text">View your previous orders and their details.</p>
+                    <a href="#" class="btn btn-primary">View Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
