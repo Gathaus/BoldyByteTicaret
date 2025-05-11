@@ -17,6 +17,11 @@ public class HomeController : Controller
     {
         return View();
     }
+    
+    public IActionResult About()
+    {
+        return View();
+    }
 
     public IActionResult SwooHome()
     {
@@ -24,6 +29,51 @@ public class HomeController : Controller
     }
 
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    public IActionResult Products()
+    {
+        return View();
+    }
+
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    public IActionResult Single_product()
+    {
+        return View();
+    }
+
+    public IActionResult Single_product_pay()
+    {
+        return View();
+    }
+
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    public IActionResult Checkout()
+    {
+        return View();
+    }
+
+    public IActionResult Contact()
+    {
+        return View();
+    }
+
+    public IActionResult Cart()
+    {
+        return View();
+    }
+
+    public IActionResult Profile()
     {
         return View();
     }

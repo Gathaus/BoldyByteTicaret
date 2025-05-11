@@ -1261,6 +1261,626 @@
       "PackagePath": "staticwebassets/swoo/home_electronic/assets/js/home_1_scripts.js"
     },
     {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/css/inner_pages.css",
+      "PackagePath": "staticwebassets/swoo2/assets/css/inner_pages.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/about2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/about2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/about3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/about3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/ban1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/ban1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo10.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo10.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo6.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo6.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo7.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo7.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo8.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo8.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/logos/logo9.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/logos/logo9.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/members/mem1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/members/mem1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/members/mem2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/members/mem2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/members/mem3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/members/mem3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/members/mem4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/members/mem4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/about/members/mem5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/about/members/mem5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/addimg.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/addimg.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/affirm.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/affirm.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/avatar.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/avatar.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/ban1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/ban1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/ban2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/ban2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/banner1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/banner1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/banner2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/banner2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/brands/brand6.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/brands/brand6.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/contact.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/contact.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det1.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det1.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/det6.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/det6.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/eng.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/eng.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/gift.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/gift.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/header/slider1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/header/slider1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/header/slider2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/header/slider2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/header/slider3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/header/slider3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/icons/smile_face.html",
+      "PackagePath": "staticwebassets/swoo2/assets/img/icons/smile_face.html"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/insta/insta6.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/insta/insta6.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/login.svg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/login.svg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/logo.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/logo.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay/pay1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay/pay1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay/pay2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay/pay2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay/pay3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay/pay3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay/pay4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay/pay4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/pay/pay5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/pay/pay5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/payment/pay1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/payment/pay1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/payment/pay2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/payment/pay2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/payment/pay3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/payment/pay3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/payment/pay4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/payment/pay4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/payment/pay5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/payment/pay5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/paypal.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/paypal.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/cl_1.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/cl_1.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod10.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod10.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod11.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod11.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod12.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod12.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod13.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod13.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod20.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod20.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod21.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod21.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod22.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod22.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod23.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod23.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod24.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod24.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod25.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod25.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod26.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod26.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod27.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod27.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod28.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod28.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod29.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod29.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod30.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod30.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod37.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod37.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod58.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod58.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod59.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod59.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod60.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod60.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod61.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod61.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod62.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod62.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod63.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod63.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod64.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod64.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod65.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod65.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod66.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod66.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod67.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod67.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod68.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod68.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod69.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod69.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod70.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod70.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products/prod9.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products/prod9.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/10a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/10a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/11a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/11a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/12a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/12a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/1a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/1a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/2a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/2a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/3a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/3a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/4a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/4a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/5a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/5a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/6a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/6a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/8a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/8a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/products_2/9a.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/products_2/9a.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod1.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod1.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod10.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod10.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod2.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod2.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod3.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod3.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod4.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod4.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod5.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod5.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod6.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod6.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod7.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod7.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod8.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod8.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product/prod9.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product/prod9.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat1.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat1.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat2.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat2.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat3.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat3.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat4.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat4.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat5.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat5.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/cats/cat6.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/cats/cat6.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/sin_product_2/inner_head.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/sin_product_2/inner_head.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/star.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/star.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/team/2.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/team/2.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/team/4.jpg",
+      "PackagePath": "staticwebassets/swoo2/assets/img/team/4.jpg"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/img/user.png",
+      "PackagePath": "staticwebassets/swoo2/assets/img/user.png"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/assets/js/inner_pages.js",
+      "PackagePath": "staticwebassets/swoo2/assets/js/inner_pages.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/common_style.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/common_style.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/all.min.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/all.min.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/animate.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/animate.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/bootstrap.min.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/ionicons.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/ionicons.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/iziToast.min.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/iziToast.min.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/jquery.fancybox.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/jquery.fancybox.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/line-awesome.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/line-awesome.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/lity.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/lity.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/css/lib/swiper8.min.css",
+      "PackagePath": "staticwebassets/swoo2/common/assets/css/lib/swiper8.min.css"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/img/fav2.html",
+      "PackagePath": "staticwebassets/swoo2/common/assets/img/fav2.html"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/common_js.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/common_js.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/gsap_lib/gsap.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/gsap_lib/gsap.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/iziToast.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/iziToast.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/jquery-3.0.0.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/jquery-3.0.0.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/jquery-migrate-3.0.0.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/jquery-migrate-3.0.0.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/jquery.counterup.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/jquery.counterup.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/jquery.fancybox.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/jquery.fancybox.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/jquery.waypoints.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/jquery.waypoints.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/lity.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/lity.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/parallaxie.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/parallaxie.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/swiper8-bundle.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/swiper8-bundle.min.js"
+    },
+    {
+      "Id": "/Users/mert.yagci/myDevLogs/BoldByteTicaret/ECommerceApp.Web/wwwroot/swoo2/common/assets/js/lib/wow.min.js",
+      "PackagePath": "staticwebassets/swoo2/common/assets/js/lib/wow.min.js"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.ECommerceApp.Web.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
