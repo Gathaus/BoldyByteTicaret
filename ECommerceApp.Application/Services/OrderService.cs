@@ -50,11 +50,15 @@ namespace ECommerceApp.Application.Services
             // Set timestamps
             order.CreatedAt = DateTime.UtcNow;
             order.UpdatedAt = DateTime.UtcNow;
-            order.Status = "pending";
-            order.PaymentStatus = "pending";
+            order.Status = "Pending";
+            order.PaymentStatus = "Pending";
+            order.FulfillmentStatus = "Unfulfilled";
+            
+            // Generate order number
+            order.OrderNumber = GenerateOrderNumber();
             
             // Calculate total amount
-            decimal totalAmount = 0;
+            decimal subtotalAmount = 0;
             foreach (var item in order.OrderItems)
             {
                 var product = await _productRepository.GetByIdAsync(item.ProductId);
@@ -72,14 +76,29 @@ namespace ECommerceApp.Application.Services
                 product.Stock -= item.Quantity;
                 _productRepository.Update(product);
                 
-                // Set price from current product price
-                item.Price = product.Price;
+                // Set prices and product details (snapshot)
+                item.UnitPrice = product.Price;
+                item.TotalPrice = item.UnitPrice * item.Quantity;
+                item.ProductName = product.Name;
+                item.ProductSKU = product.SKU;
+                item.RequiresShipping = product.RequiresShipping;
+                item.IsDigital = product.IsDigital;
+                item.Weight = product.Weight;
                 item.CreatedAt = DateTime.UtcNow;
                 item.UpdatedAt = DateTime.UtcNow;
-                totalAmount += item.Price * item.Quantity;
+                
+                // Set main product image
+                var mainImage = product.ProductImages?.FirstOrDefault(x => x.IsMain);
+                if (mainImage != null)
+                {
+                    item.ProductImageUrl = mainImage.ImageUrl;
+                }
+                
+                subtotalAmount += item.TotalPrice;
             }
             
-            order.TotalAmount = totalAmount;
+            order.SubtotalAmount = subtotalAmount;
+            order.TotalAmount = subtotalAmount + order.ShippingAmount + order.TaxAmount - order.DiscountAmount;
             
             // Save the order
             await _orderRepository.AddAsync(order);
@@ -103,10 +122,21 @@ namespace ECommerceApp.Application.Services
                 throw new Exception($"Order with id {id} not found.");
             }
             
+            var oldStatus = order.Status;
             order.Status = status;
             order.UpdatedAt = DateTime.UtcNow;
             
+            // Create status history
+            var statusHistory = new OrderStatusHistory
+            {
+                OrderId = id,
+                Status = status,
+                Comment = $"Status changed from {oldStatus} to {status}",
+                CreatedAt = DateTime.UtcNow
+            };
+            
             _orderRepository.Update(order);
+            // Note: OrderStatusHistory should be added through repository if available
             await _orderRepository.SaveChangesAsync();
         }
         
@@ -118,8 +148,8 @@ namespace ECommerceApp.Application.Services
                 throw new Exception($"Order with id {id} not found.");
             }
             
-            // Only pending orders can be cancelled
-            if (order.Status != "pending")
+            // Only pending or confirmed orders can be cancelled
+            if (order.Status != "Pending" && order.Status != "Confirmed")
             {
                 return false;
             }
@@ -136,13 +166,22 @@ namespace ECommerceApp.Application.Services
             }
             
             // Update order status
-            order.Status = "cancelled";
+            order.Status = "Cancelled";
+            order.CancelledAt = DateTime.UtcNow;
             order.UpdatedAt = DateTime.UtcNow;
             
             _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
             
             return true;
+        }
+        
+        private string GenerateOrderNumber()
+        {
+            // Generate unique order number with timestamp
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+            var random = new Random().Next(100, 999);
+            return $"ORD-{timestamp}-{random}";
         }
     }
 } 

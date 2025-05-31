@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
+            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"] ?? "default-secret-key-for-development")),
         ClockSkew = TimeSpan.Zero
     };
 });

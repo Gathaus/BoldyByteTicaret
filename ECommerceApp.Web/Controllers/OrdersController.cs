@@ -101,7 +101,8 @@ namespace ECommerceApp.Web.Controllers
                 var order = new Order
                 {
                     UserId = userId,
-                    AddressId = model.AddressId,
+                    ShippingAddressId = model.ShippingAddressId,
+                    BillingAddressId = model.BillingAddressId,
                     PaymentMethod = model.PaymentMethod,
                     OrderItems = cart.CartItems.Select(ci => new OrderItem
                     {

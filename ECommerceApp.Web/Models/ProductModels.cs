@@ -6,11 +6,11 @@ namespace ECommerceApp.Web.Models
     {
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
         
         [Required]
         [StringLength(1000)]
-        public string Description { get; set; }
+        public required string Description { get; set; }
         
         [Required]
         [Range(0.01, 10000)]
@@ -21,7 +21,7 @@ namespace ECommerceApp.Web.Models
         public int Stock { get; set; }
         
         [Url]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         
         [Required]
         public int CategoryId { get; set; }

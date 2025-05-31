@@ -34,7 +34,8 @@ namespace ECommerceApp.Infrastructure.Repositories
             return await _context.Orders
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.Product)
-                .Include(o => o.Address)
+                .Include(o => o.ShippingAddress)
+                .Include(o => o.BillingAddress)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
     }

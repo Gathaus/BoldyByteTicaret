@@ -82,7 +82,6 @@ namespace ECommerceApp.Web.Controllers
                 Description = model.Description,
                 Price = model.Price,
                 Stock = model.Stock,
-                ImageUrl = model.ImageUrl,
                 CategoryId = model.CategoryId
             };
             
@@ -119,7 +118,6 @@ namespace ECommerceApp.Web.Controllers
                 Description = model.Description,
                 Price = model.Price,
                 Stock = model.Stock,
-                ImageUrl = model.ImageUrl,
                 CategoryId = model.CategoryId
             };
             

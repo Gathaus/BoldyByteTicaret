@@ -50,6 +50,8 @@ namespace ECommerceApp.Application.Services
         {
             product.CreatedAt = DateTime.UtcNow;
             product.UpdatedAt = DateTime.UtcNow;
+            product.IsActive = true;
+            product.PublishedAt = DateTime.UtcNow;
             
             await _productRepository.AddAsync(product);
             await _productRepository.SaveChangesAsync();
@@ -65,12 +67,31 @@ namespace ECommerceApp.Application.Services
                 throw new Exception($"Product with id {product.Id} not found.");
             }
             
+            // Update basic properties
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
+            existingProduct.ShortDescription = product.ShortDescription;
             existingProduct.Price = product.Price;
+            existingProduct.ComparePrice = product.ComparePrice;
             existingProduct.Stock = product.Stock;
-            existingProduct.ImageUrl = product.ImageUrl;
+            existingProduct.SKU = product.SKU;
+            existingProduct.Barcode = product.Barcode;
+            existingProduct.Weight = product.Weight;
             existingProduct.CategoryId = product.CategoryId;
+            existingProduct.BrandId = product.BrandId;
+            existingProduct.IsActive = product.IsActive;
+            existingProduct.IsFeatured = product.IsFeatured;
+            existingProduct.IsDigital = product.IsDigital;
+            existingProduct.RequiresShipping = product.RequiresShipping;
+            existingProduct.TrackQuantity = product.TrackQuantity;
+            existingProduct.ContinueSelling = product.ContinueSelling;
+            existingProduct.LowStockThreshold = product.LowStockThreshold;
+            
+            // SEO fields
+            existingProduct.MetaTitle = product.MetaTitle;
+            existingProduct.MetaDescription = product.MetaDescription;
+            existingProduct.Slug = product.Slug;
+            
             existingProduct.UpdatedAt = DateTime.UtcNow;
             
             _productRepository.Update(existingProduct);
@@ -87,6 +108,7 @@ namespace ECommerceApp.Application.Services
             
             // Soft delete
             product.DeletedAt = DateTime.UtcNow;
+            product.IsActive = false;
             _productRepository.Update(product);
             await _productRepository.SaveChangesAsync();
         }

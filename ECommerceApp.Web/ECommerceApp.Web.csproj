@@ -242,6 +242,15 @@
     <Folder Include="wwwroot\swoo2\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Shared\_MainNavbar.cshtml" />
+    <Content Remove="Views\Shared\_LinksNav.cshtml" />
+    <Content Remove="Views\Shared\_Footer.cshtml" />
+    <Content Remove="Views\Home\_PopularCategories.cshtml" />
+    <Content Remove="Views\Home\_MainProductSliders.cshtml" />
+    <Content Remove="Views\Home\_HeaderSlider.cshtml" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>

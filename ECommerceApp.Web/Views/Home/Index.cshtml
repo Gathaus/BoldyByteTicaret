@@ -1,6 +1,93 @@
-﻿
-@{
+﻿@{
     Layout = null;
+    
+    // Best Sellers temporary data model
+    var bestSellerProducts = new List<dynamic>
+    {
+        new {
+            Id = 1,
+            Name = "Durotan Manual Espresso Machine, Coffe Maker",
+            Price = 489.00M,
+            OldPrice = 619.00M,
+            Image = "~/swoo/home_electronic/assets/img/products/prod3.png",
+            Rating = 5,
+            ReviewCount = 34,
+            Labels = new [] { 
+                new { Text = "15% OFF", Class = "bg-red1" },
+                new { Text = "best seller", Class = "bg-blue1" }
+            },
+            HasInstallment = true
+        },
+        new {
+            Id = 2,
+            Name = "Conar DSLR Camera EOS II, Only Body",
+            Price = 579.00M,
+            OldPrice = 819.00M,
+            Image = "~/swoo/home_electronic/assets/img/products/prod7.png",
+            Rating = 4,
+            ReviewCount = 5,
+            Labels = new [] { 
+                new { Text = "15% OFF", Class = "bg-red1" },
+                new { Text = "best seller", Class = "bg-blue1" }
+            },
+            HasInstallment = false
+        },
+        new {
+            Id = 3,
+            Name = "Shorp 49\" Class FHD (1080p) Android Led TV",
+            Price = 3029.50M,
+            OldPrice = 0,
+            Image = "~/swoo/home_electronic/assets/img/products/prod8.png",
+            Rating = 0,
+            ReviewCount = 0,
+            Labels = new [] { 
+                new { Text = "new", Class = "bg-cyan1" },
+                new { Text = "best seller", Class = "bg-blue1" }
+            },
+            HasInstallment = false
+        },
+        new {
+            Id = 4,
+            Name = "Gigabyte PC Gaming Case, Core i7, 32GB Ram",
+            Price = 1279.00M,
+            OldPrice = 0,
+            Image = "~/swoo/home_electronic/assets/img/products/prod9.png",
+            Rating = 5,
+            ReviewCount = 2,
+            Labels = new [] { 
+                new { Text = "best seller", Class = "bg-blue1" }
+            },
+            HasInstallment = true
+        },
+        new {
+            Id = 5,
+            Name = "Sceptre 32\" Internet TV",
+            Price = 610.00M,
+            OldPrice = 0,
+            Image = "~/swoo/home_electronic/assets/img/products/prod10.png",
+            Rating = 5,
+            ReviewCount = 12,
+            Labels = new [] { 
+                new { Text = "best seller", Class = "bg-blue1" },
+                new { Text = "top rated", Class = "bg-green1" }
+            },
+            HasInstallment = true
+        },
+        new {
+            Id = 6,
+            Name = "Shorp 49\" Class FHD (1080p) Android Led TV",
+            Price = 3029.50M,
+            OldPrice = 0,
+            Image = "~/swoo/home_electronic/assets/img/products/prod8.png",
+            Rating = 0,
+            ReviewCount = 0,
+            Labels = new [] { 
+                new { Text = "new", Class = "bg-cyan1" },
+                new { Text = "best seller", Class = "bg-blue1" }
+            },
+            HasInstallment = false
+        }
+    };
 }
 
 <!DOCTYPE html>
@@ -583,7 +670,10 @@
                                         <i class="fas fa-star active"></i>
                                         <span> (34) </span>
                                     </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> $489.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span> </p>
+                                    <p class="price color-red1 mt-2 fsz-20"> 
+                                        $489.00 
+                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                    </p>
                                     <div class="progress mt-20">
                                         <div class="progress-bar bg-blue1" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -617,7 +707,10 @@
                                         <i class="fas fa-star active"></i>
                                         <span> (2) </span>
                                     </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> $1,759.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $2,069.00 </span> </p>
+                                    <p class="price color-red1 mt-2 fsz-20"> 
+                                        $489.00 
+                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                    </p>
                                     <div class="progress mt-20">
                                         <div class="progress-bar bg-blue1" role="progressbar" style="width: 8%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -639,7 +732,10 @@
                                 <div class="info">
                                     <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white"> pre-order </span>
                                     <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shaork Robot Vacuum with Self-Empty Base </a>
-                                    <p class="price color-red1 mt-2 fsz-20"> $325.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $428.00 </span> </p>
+                                    <p class="price color-red1 mt-2 fsz-20"> 
+                                        $489.00 
+                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                    </p>
                                     <div class="progress mt-20">
                                         <div class="progress-bar bg-blue1" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -672,7 +768,10 @@
                                         <i class="fas fa-star"></i>
                                         <span> (5) </span>
                                     </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> $489.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span> </p>
+                                    <p class="price color-red1 mt-2 fsz-20"> 
+                                        $489.00 
+                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                    </p>
                                     <div class="progress mt-20">
                                         <div class="progress-bar bg-blue1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -694,7 +793,10 @@
                                 <div class="info">
                                     <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white"> 5% OFF </span>
                                     <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shaork Robot Vacuum with Self-Empty Base </a>
-                                    <p class="price color-red1 mt-2 fsz-20"> $325.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $428.00 </span> </p>
+                                    <p class="price color-red1 mt-2 fsz-20"> 
+                                        $489.00 
+                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                    </p>
                                     <div class="progress mt-20">
                                         <div class="progress-bar bg-blue1" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
@@ -813,178 +915,61 @@
                     <div class="tab-pane fade show active" id="pills-tab1" role="tabpanel" aria-labelledby="pills-tab1-tab">
                         <div class="products-slider">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod3.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                @foreach (var product in bestSellerProducts)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="product-card">
+                                            <div class="top">
+                                                @if (product.HasInstallment)
+                                                {
+                                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                                }
+                                                <div class="icons">
+                                                    <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                    <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                    <a href="@product.Image" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                                </div>
                                             </div>
+                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                                <img src="@product.Image" alt="" class="img-contain">
+                                            </a>
+                                            <div class="info">
+                                                @if (product.Labels.Length > 0)
+                                                {
+                                                    <div class="tags">
+                                                        @foreach (var label in product.Labels)
+                                                        {
+                                                            <span class="label fsz-11 py-1 px-3 rounded-pill @label.Class text-white text-uppercase"> @label.Text </span>
+                                                        }
+                                                    </div>
+                                                }
+                                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                                @if (product.Rating > 0)
+                                                {
+                                                    <div class="stars fsz-13 mt-2">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            if (i <= product.Rating)
+                                                            {
+                                                                <i class="fas fa-star active"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fas fa-star"></i>
+                                                            }
+                                                        }
+                                                        <span> (@product.ReviewCount) </span>
+                                                    </div>
+                                                }
+                                                <p class="price color-red1 mt-2 fsz-20"> 
+                                                    $489.00 
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                                </p>
+                                            </div>
+                                            <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                         </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod3.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Durotan Manual Espresso Machine, Coffe Maker </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (34) </span>
-                                            </div>
-                                            <p class="price color-red1 mt-2 fsz-20"> $489.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span> </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod7.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod7.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Conar DSLR Camera EOS II, Only Body </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span> (5) </span>
-                                            </div>
-                                            <p class="price color-red1 mt-2 fsz-20"> $579.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $819.00 </span> </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod8.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod8.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-cyan1 text-white text-uppercase"> new </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shorp 49" Class FHD (1080p) Android Led TV </a>
-                                            <p class="price mt-2 fsz-20"> $3,029.50 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod9.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod9.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Gigabyte PC Gaming Case, Core i7, 32GB Ram </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (2) </span>
-                                            </div>
-                                            <p class="price mt-2 fsz-20"> $1,279.00 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod10.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod10.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top  rated </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Sceptre 32" Internet TV </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (12) </span>
-                                            </div>
-                                            <p class="price mt-2 fsz-20"> $610.00 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod8.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod8.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-cyan1 text-white text-uppercase"> new </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shorp 49" Class FHD (1080p) Android Led TV </a>
-                                            <p class="price mt-2 fsz-20"> $3,029.50 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
+                                }
                             </div>
                             <div class="slider-controls">
                                 <div class="swiper-button-prev"></div>
@@ -996,178 +981,61 @@
                     <div class="tab-pane fade" id="pills-tab2" role="tabpanel" aria-labelledby="pills-tab2-tab">
                         <div class="products-slider">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod3.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                @foreach (var product in bestSellerProducts)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="product-card">
+                                            <div class="top">
+                                                @if (product.HasInstallment)
+                                                {
+                                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                                }
+                                                <div class="icons">
+                                                    <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                    <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                    <a href="@product.Image" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                                </div>
                                             </div>
+                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                                <img src="@product.Image" alt="" class="img-contain">
+                                            </a>
+                                            <div class="info">
+                                                @if (product.Labels.Length > 0)
+                                                {
+                                                    <div class="tags">
+                                                        @foreach (var label in product.Labels)
+                                                        {
+                                                            <span class="label fsz-11 py-1 px-3 rounded-pill @label.Class text-white text-uppercase"> @label.Text </span>
+                                                        }
+                                                    </div>
+                                                }
+                                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                                @if (product.Rating > 0)
+                                                {
+                                                    <div class="stars fsz-13 mt-2">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            if (i <= product.Rating)
+                                                            {
+                                                                <i class="fas fa-star active"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fas fa-star"></i>
+                                                            }
+                                                        }
+                                                        <span> (@product.ReviewCount) </span>
+                                                    </div>
+                                                }
+                                                <p class="price color-red1 mt-2 fsz-20"> 
+                                                    $489.00 
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
+                                                </p>
+                                            </div>
+                                            <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                         </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod3.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Durotan Manual Espresso Machine, Coffe Maker </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (34) </span>
-                                            </div>
-                                            <p class="price color-red1 mt-2 fsz-20"> $489.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span> </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod7.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod7.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Conar DSLR Camera EOS II, Only Body </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star"></i>
-                                                <span> (5) </span>
-                                            </div>
-                                            <p class="price color-red1 mt-2 fsz-20"> $579.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $819.00 </span> </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod8.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod8.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-cyan1 text-white text-uppercase"> new </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shorp 49" Class FHD (1080p) Android Led TV </a>
-                                            <p class="price mt-2 fsz-20"> $3,029.50 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod9.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod9.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Gigabyte PC Gaming Case, Core i7, 32GB Ram </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (2) </span>
-                                            </div>
-                                            <p class="price mt-2 fsz-20"> $1,279.00 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod10.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod10.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top  rated </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Sceptre 32" Internet TV </a>
-                                            <div class="stars fsz-13 mt-2">
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <i class="fas fa-star active"></i>
-                                                <span> (12) </span>
-                                            </div>
-                                            <p class="price mt-2 fsz-20"> $610.00 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-card">
-                                        <div class="top">
-                                            <div class="icons">
-                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
-                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                                <a href="/assets/img/products/prod8.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                            </div>
-                                        </div>
-                                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
-                                            <img src="~/swoo/home_electronic/assets/img/products/prod8.png" alt="" class="img-contain">
-                                        </a>
-                                        <div class="info">
-                                            <div class="tags">
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-cyan1 text-white text-uppercase"> new </span>
-                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                            </div>
-                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shorp 49" Class FHD (1080p) Android Led TV </a>
-                                            <p class="price mt-2 fsz-20"> $3,029.50 </p>
-                                        </div>
-                                        <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                                    </div>
-                                </div>
+                                }
                             </div>
                             <div class="slider-controls">
                                 <div class="swiper-button-prev"></div>
@@ -1733,6 +1601,48 @@
                                         <span> (2) </span>
                                     </div>
                                     <p class="price mt-2 fsz-20"> $725.00 </p>
+                                </div>
+                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                            </div>
+                            <div class="product-card">
+                                <div class="top">
+                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                    <div class="icons">
+                                        <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                        <a href="/assets/img/products/prod19.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                    </div>
+                                </div>
+                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                    <img src="~/swoo/home_electronic/assets/img/products/prod19.png" alt="" class="img-contain">
+                                </a>
+                                <div class="info">
+                                    <div class="tags">
+                                        <span class="label fsz-11 py-1 px-3 rounded-pill bg-dark text-white text-uppercase"> out of stock </span>
+                                    </div>
+                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> TCL OLed 4K Ultra HD, 47" Smart TV  </a>
+                                    <p class="price mt-2 fsz-20"> $1,205.00 </p>
+                                </div>
+                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                            </div>
+                            <div class="product-card">
+                                <div class="top">
+                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                    <div class="icons">
+                                        <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                        <a href="/assets/img/products/prod20.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                    </div>
+                                </div>
+                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                    <img src="~/swoo/home_electronic/assets/img/products/prod20.png" alt="" class="img-contain">
+                                </a>
+                                <div class="info">
+                                    <div class="tags">
+                                        <span class="label fsz-11 py-1 px-3 rounded-pill bg-cyan1 text-white text-uppercase"> new </span>
+                                    </div>
+                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> BE Home Security Camera </a>
+                                    <p class="price mt-2 fsz-20"> $69.00 </p>
                                 </div>
                                 <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                             </div>
