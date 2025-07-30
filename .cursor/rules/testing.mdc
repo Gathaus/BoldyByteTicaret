@@ -1,0 +1,352 @@
+# Testing Rules
+
+Bu projede test yazarken uyulması gereken kurallar ve best practice'ler.
+
+## Test Project Structure
+
+### Naming Convention
+- Unit test dosyaları: `{ClassName}Tests.cs`
+- Integration test dosyaları: `{FeatureName}IntegrationTests.cs`
+- Test method'ları: `{MethodName}_Should_{ExpectedBehavior}_When_{Condition}`
+
+```csharp
+// ✅ Doğru test class isimlendirmesi
+public class ProductServiceTests
+{
+    [Fact]
+    public void CreateProduct_Should_ThrowArgumentException_When_PriceIsNegative()
+    {
+        // Test implementation
+    }
+}
+```
+
+## Unit Testing
+
+### Service Layer Tests
+Service katmanı için unit test'ler yazılmalı:
+
+```csharp
+// ✅ Doğru service unit test
+public class ProductServiceTests
+{
+    private readonly Mock<IProductRepository> _mockProductRepository;
+    private readonly Mock<ILogger<ProductService>> _mockLogger;
+    private readonly ProductService _productService;
+    
+    public ProductServiceTests()
+    {
+        _mockProductRepository = new Mock<IProductRepository>();
+        _mockLogger = new Mock<ILogger<ProductService>>();
+        _productService = new ProductService(_mockProductRepository.Object, _mockLogger.Object);
+    }
+    
+    [Fact]
+    public async Task CreateProductAsync_Should_ReturnProduct_When_ValidDataProvided()
+    {
+        // Arrange
+        var dto = new CreateProductDto 
+        { 
+            Name = "Test Product", 
+            Price = 100.00m, 
+            CategoryId = 1 
+        };
+        
+        var expectedProduct = new Product 
+        { 
+            Id = 1, 
+            Name = dto.Name, 
+            Price = dto.Price 
+        };
+        
+        _mockProductRepository
+            .Setup(x => x.AddAsync(It.IsAny<Product>()))
+            .ReturnsAsync(expectedProduct);
+        
+        // Act
+        var result = await _productService.CreateProductAsync(dto);
+        
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(dto.Name, result.Name);
+        Assert.Equal(dto.Price, result.Price);
+        _mockProductRepository.Verify(x => x.AddAsync(It.IsAny<Product>()), Times.Once);
+    }
+    
+    [Fact]
+    public async Task CreateProductAsync_Should_ThrowArgumentException_When_PriceIsZero()
+    {
+        // Arrange
+        var dto = new CreateProductDto 
+        { 
+            Name = "Test Product", 
+            Price = 0, 
+            CategoryId = 1 
+        };
+        
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => _productService.CreateProductAsync(dto));
+    }
+}
+```
+
+### Controller Tests
+Controller'lar için unit test'ler:
+
+```csharp
+// ✅ Doğru controller unit test
+public class ProductsControllerTests
+{
+    private readonly Mock<IProductService> _mockProductService;
+    private readonly Mock<ILogger<ProductsController>> _mockLogger;
+    private readonly ProductsController _controller;
+    
+    public ProductsControllerTests()
+    {
+        _mockProductService = new Mock<IProductService>();
+        _mockLogger = new Mock<ILogger<ProductsController>>();
+        _controller = new ProductsController(_mockProductService.Object, _mockLogger.Object);
+    }
+    
+    [Fact]
+    public async Task GetProduct_Should_ReturnOkResult_When_ProductExists()
+    {
+        // Arrange
+        var productId = 1;
+        var product = new Product { Id = productId, Name = "Test Product" };
+        
+        _mockProductService
+            .Setup(x => x.GetProductByIdAsync(productId))
+            .ReturnsAsync(product);
+        
+        // Act
+        var result = await _controller.GetProduct(productId);
+        
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var returnedProduct = Assert.IsType<Product>(okResult.Value);
+        Assert.Equal(productId, returnedProduct.Id);
+    }
+    
+    [Fact]
+    public async Task GetProduct_Should_ReturnNotFound_When_ProductDoesNotExist()
+    {
+        // Arrange
+        var productId = 999;
+        
+        _mockProductService
+            .Setup(x => x.GetProductByIdAsync(productId))
+            .ReturnsAsync((Product)null);
+        
+        // Act
+        var result = await _controller.GetProduct(productId);
+        
+        // Assert
+        Assert.IsType<NotFoundResult>(result);
+    }
+}
+```
+
+## Integration Testing
+
+### Database Integration Tests
+DbContext ile integration test'ler:
+
+```csharp
+// ✅ Doğru integration test setup
+public class ProductRepositoryIntegrationTests : IDisposable
+{
+    private readonly ApplicationDbContext _context;
+    private readonly ProductRepository _repository;
+    
+    public ProductRepositoryIntegrationTests()
+    {
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+            
+        _context = new ApplicationDbContext(options);
+        _repository = new ProductRepository(_context);
+    }
+    
+    [Fact]
+    public async Task GetByCategoryAsync_Should_ReturnProductsInCategory()
+    {
+        // Arrange
+        var category = new Category { Id = 1, Name = "Electronics" };
+        await _context.Categories.AddAsync(category);
+        
+        var products = new List<Product>
+        {
+            new Product { Name = "Laptop", CategoryId = 1, IsActive = true },
+            new Product { Name = "Phone", CategoryId = 1, IsActive = true },
+            new Product { Name = "Book", CategoryId = 2, IsActive = true }
+        };
+        
+        await _context.Products.AddRangeAsync(products);
+        await _context.SaveChangesAsync();
+        
+        // Act
+        var result = await _repository.GetByCategoryAsync(1);
+        
+        // Assert
+        Assert.Equal(2, result.Count());
+        Assert.All(result, p => Assert.Equal(1, p.CategoryId));
+    }
+    
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+}
+```
+
+### API Integration Tests
+Full API integration test'leri:
+
+```csharp
+// ✅ Doğru API integration test
+public class ProductsApiIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly WebApplicationFactory<Program> _factory;
+    private readonly HttpClient _client;
+    
+    public ProductsApiIntegrationTests(WebApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+        _client = _factory.CreateClient();
+    }
+    
+    [Fact]
+    public async Task GetProducts_Should_ReturnSuccessStatusCode()
+    {
+        // Act
+        var response = await _client.GetAsync("/api/products");
+        
+        // Assert
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.NotEmpty(content);
+    }
+    
+    [Fact]
+    public async Task CreateProduct_Should_RequireAuthentication()
+    {
+        // Arrange
+        var product = new { Name = "Test Product", Price = 100.00, CategoryId = 1 };
+        var json = JsonSerializer.Serialize(product);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
+        // Act
+        var response = await _client.PostAsync("/api/products", content);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+}
+```
+
+## Test Configuration
+
+### Test Settings
+Test projesi için ayrı configuration:
+
+```json
+// appsettings.Test.json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=ECommerceApp_Test;Trusted_Connection=true;"
+  },
+  "JwtSettings": {
+    "Key": "test-jwt-secret-key-for-testing-32-chars",
+    "Issuer": "ECommerceApp-Test",
+    "Audience": "ECommerceApp-Test-Users"
+  }
+}
+```
+
+### Test Data Builders
+Test data oluşturmak için builder pattern:
+
+```csharp
+// ✅ Test data builder
+public class ProductBuilder
+{
+    private Product _product = new Product();
+    
+    public ProductBuilder WithName(string name)
+    {
+        _product.Name = name;
+        return this;
+    }
+    
+    public ProductBuilder WithPrice(decimal price)
+    {
+        _product.Price = price;
+        return this;
+    }
+    
+    public ProductBuilder WithCategory(int categoryId)
+    {
+        _product.CategoryId = categoryId;
+        return this;
+    }
+    
+    public ProductBuilder AsActive()
+    {
+        _product.IsActive = true;
+        return this;
+    }
+    
+    public Product Build() => _product;
+}
+
+// Usage in tests
+var product = new ProductBuilder()
+    .WithName("Test Product")
+    .WithPrice(99.99m)
+    .WithCategory(1)
+    .AsActive()
+    .Build();
+```
+
+## Testing Best Practices
+
+### Arrange-Act-Assert Pattern
+Her test AAA pattern'ini takip etmeli:
+
+```csharp
+[Fact]
+public async Task Method_Should_Behavior_When_Condition()
+{
+    // Arrange - Test verilerini hazırla
+    var input = new CreateProductDto { /* test data */ };
+    
+    // Act - Test edilecek method'u çağır
+    var result = await _service.CreateProductAsync(input);
+    
+    // Assert - Sonucu doğrula
+    Assert.NotNull(result);
+    Assert.Equal(input.Name, result.Name);
+}
+```
+
+### Test Isolation
+- Her test independent olmalı
+- Test'ler birbirini etkilememeli
+- Setup ve cleanup doğru yapılmalı
+
+### Mock Usage
+- External dependency'leri mock'la
+- Database call'ları mock'la (unit test'lerde)
+- Network call'ları mock'la
+
+```csharp
+// ✅ Doğru mock usage
+_mockRepository
+    .Setup(x => x.GetByIdAsync(It.IsAny<int>()))
+    .ReturnsAsync(new Product { Id = 1 });
+
+// Verify mock calls
+_mockRepository.Verify(x => x.AddAsync(It.IsAny<Product>()), Times.Once);
+```

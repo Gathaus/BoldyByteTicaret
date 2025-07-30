@@ -75,23 +75,23 @@ namespace ECommerceApp.Domain.Entities
         }
         
         // Computed Properties
-        public decimal SubtotalAmount => CartItems?.Sum(x => x.TotalPrice) ?? 0;
+        public decimal SubtotalAmount { get => CartItems?.Sum(x => x.TotalPrice) ?? 0; private set { } }
         
-        public decimal TotalAmount => SubtotalAmount + ShippingAmount + TaxAmount - DiscountAmount;
+        public decimal TotalAmount { get => SubtotalAmount + ShippingAmount + TaxAmount - DiscountAmount; private set { } }
         
-        public int ItemsCount => CartItems?.Sum(x => x.Quantity) ?? 0;
+        public int ItemsCount { get => CartItems?.Sum(x => x.Quantity) ?? 0; private set { } }
         
-        public int UniqueItemsCount => CartItems?.Count ?? 0;
+        public int UniqueItemsCount { get => CartItems?.Count ?? 0; private set { } }
         
-        public bool IsEmpty => !CartItems?.Any() ?? true;
+        public bool IsEmpty { get => !CartItems?.Any() ?? true; private set { } }
         
-        public double TotalWeight => CartItems?.Sum(x => (x.Product?.Weight ?? x.ProductVariant?.Weight ?? 0) * x.Quantity) ?? 0;
+        public double TotalWeight { get => CartItems?.Sum(x => (x.Product?.Weight ?? x.ProductVariant?.Weight ?? 0) * x.Quantity) ?? 0; private set { } }
         
-        public bool RequiresShipping => CartItems?.Any(x => x.RequiresShipping) ?? false;
+        public bool RequiresShipping { get => CartItems?.Any(x => x.RequiresShipping) ?? false; private set { } }
         
-        public bool HasDigitalItems => CartItems?.Any(x => x.IsDigital) ?? false;
+        public bool HasDigitalItems { get => CartItems?.Any(x => x.IsDigital) ?? false; private set { } }
         
-        public bool IsExpired => ExpiresAt.HasValue && ExpiresAt.Value < DateTime.UtcNow;
+        public bool IsExpired { get => ExpiresAt.HasValue && ExpiresAt.Value < DateTime.UtcNow; private set { } }
     }
     
     public class CartItem
@@ -158,15 +158,15 @@ namespace ECommerceApp.Domain.Entities
         public virtual Discount Discount { get; set; }
         
         // Computed Properties
-        public decimal OriginalTotalPrice => UnitPrice * Quantity;
+        public decimal OriginalTotalPrice { get => UnitPrice * Quantity; private set { } }
         
-        public decimal SavedAmount => OriginalTotalPrice - TotalPrice;
+        public decimal SavedAmount { get => OriginalTotalPrice - TotalPrice; private set { } }
         
-        public decimal DiscountPercentage => ComparePrice.HasValue && ComparePrice.Value > 0 
+        public decimal DiscountPercentage { get => ComparePrice.HasValue && ComparePrice.Value > 0 
             ? Math.Round(((ComparePrice.Value - UnitPrice) / ComparePrice.Value) * 100, 2) 
-            : 0;
+            : 0; private set { } }
         
-        public bool HasDiscount => DiscountAmount > 0 || (ComparePrice.HasValue && ComparePrice.Value > UnitPrice);
+        public bool HasDiscount { get => DiscountAmount > 0 || (ComparePrice.HasValue && ComparePrice.Value > UnitPrice); private set { } }
     }
     
     public class CartDiscount

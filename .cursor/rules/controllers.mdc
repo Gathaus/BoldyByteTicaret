@@ -1,0 +1,246 @@
+# MVC Controller Rules
+
+Bu projede ASP.NET Core MVC pattern kullanılıyor. Controller'lar [ECommerceApp.Web/Controllers/](mdc:ECommerceApp.Web/Controllers/) klasöründe bulunuyor.
+
+## Controller Structure
+
+### Base Controller Pattern
+```csharp
+// ✅ Doğru controller yapısı
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService _productService;
+    private readonly ILogger<ProductsController> _logger;
+    
+    public ProductsController(IProductService productService, ILogger<ProductsController> logger)
+    {
+        _productService = productService;
+        _logger = logger;
+    }
+}
+```
+
+### Action Method Guidelines
+- Action method'lar sadece orchestration yapmalı
+- Business logic service layer'da olmalı
+- Appropriate HTTP status code'ları döndürülmeli
+
+```csharp
+// ✅ Doğru action method
+[HttpGet("{id}")]
+public async Task<IActionResult> GetProduct(int id)
+{
+    try
+    {
+        var product = await _productService.GetProductByIdAsync(id);
+        if (product == null)
+            return NotFound($"Product with ID {id} not found");
+            
+        return Ok(product);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error getting product {ProductId}", id);
+        return StatusCode(500, "Internal server error");
+    }
+}
+
+// ❌ Yanlış - Business logic controller'da
+[HttpPost]
+public async Task<IActionResult> CreateProduct(ProductDto dto)
+{
+    // Business logic controller'da olmamalı!
+    if (dto.Price < 0)
+        return BadRequest("Price cannot be negative");
+        
+    var product = new Product 
+    { 
+        Name = dto.Name,
+        Price = dto.Price,
+        CreatedAt = DateTime.UtcNow
+    };
+    
+    // Direct repository access olmamalı!
+    await _productRepository.AddAsync(product);
+    return Ok(product);
+}
+```
+
+## Mevcut Controller'lar
+
+### Authentication Controller - [AuthController.cs](mdc:ECommerceApp.Web/Controllers/AuthController.cs)
+- User registration ve login işlemleri
+- JWT token generation
+- Profile management
+
+### Products Controller - [ProductsController.cs](mdc:ECommerceApp.Web/Controllers/ProductsController.cs)
+- Product CRUD operations
+- Category-based filtering
+- Product search
+
+### Cart Controller - [CartController.cs](mdc:ECommerceApp.Web/Controllers/CartController.cs)
+- Shopping cart management
+- Add/remove/update cart items
+
+### Orders Controller - [OrdersController.cs](mdc:ECommerceApp.Web/Controllers/OrdersController.cs)
+- Order creation ve management
+- Order status updates
+- Order history
+
+## HTTP Status Codes
+
+Doğru HTTP status code'ları kullanılmalı:
+
+```csharp
+// ✅ Doğru status code usage
+[HttpGet("{id}")]
+public async Task<IActionResult> GetProduct(int id)
+{
+    var product = await _productService.GetProductByIdAsync(id);
+    
+    if (product == null)
+        return NotFound(); // 404
+        
+    return Ok(product); // 200
+}
+
+[HttpPost]
+public async Task<IActionResult> CreateProduct(CreateProductDto dto)
+{
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState); // 400
+        
+    var product = await _productService.CreateProductAsync(dto);
+    return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product); // 201
+}
+
+[HttpPut("{id}")]
+public async Task<IActionResult> UpdateProduct(int id, UpdateProductDto dto)
+{
+    var result = await _productService.UpdateProductAsync(id, dto);
+    
+    if (!result)
+        return NotFound(); // 404
+        
+    return NoContent(); // 204
+}
+
+[HttpDelete("{id}")]
+public async Task<IActionResult> DeleteProduct(int id)
+{
+    var result = await _productService.DeleteProductAsync(id);
+    
+    if (!result)
+        return NotFound(); // 404
+        
+    return NoContent(); // 204
+}
+```
+
+## Model Validation
+
+### Data Annotations
+Model validation için Data Annotations kullanılmalı:
+
+```csharp
+// ✅ Doğru model validation
+public class CreateProductDto
+{
+    [Required(ErrorMessage = "Product name is required")]
+    [MaxLength(200, ErrorMessage = "Product name cannot exceed 200 characters")]
+    public string Name { get; set; }
+    
+    [Required(ErrorMessage = "Price is required")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
+    public decimal Price { get; set; }
+    
+    [Required(ErrorMessage = "Category is required")]
+    public int CategoryId { get; set; }
+}
+```
+
+### ModelState Validation
+```csharp
+// ✅ Doğru ModelState validation
+[HttpPost]
+public async Task<IActionResult> CreateProduct(CreateProductDto dto)
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
+    
+    var product = await _productService.CreateProductAsync(dto);
+    return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+}
+```
+
+## Authorization
+
+### Attribute-based Authorization
+```csharp
+// ✅ Doğru authorization
+[Authorize(Roles = "Admin")]
+[HttpPost]
+public async Task<IActionResult> CreateProduct(CreateProductDto dto)
+{
+    // Sadece Admin role'ü erişebilir
+}
+
+[Authorize]
+[HttpGet("my-orders")]
+public async Task<IActionResult> GetMyOrders()
+{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var orders = await _orderService.GetUserOrdersAsync(userId);
+    return Ok(orders);
+}
+```
+
+## Error Handling
+
+### Global Exception Handling
+- Global exception middleware kullanılmalı
+- Structured logging yapılmalı
+
+```csharp
+// ✅ Doğru error handling
+try
+{
+    var result = await _productService.GetProductsAsync();
+    return Ok(result);
+}
+catch (ArgumentException ex)
+{
+    _logger.LogWarning(ex, "Invalid argument provided");
+    return BadRequest(ex.Message);
+}
+catch (Exception ex)
+{
+    _logger.LogError(ex, "Unexpected error occurred");
+    return StatusCode(500, "An error occurred while processing your request");
+}
+```
+
+## API Documentation
+
+### Swagger Attributes
+Swagger dokümantasyonu için attribute'lar kullanılmalı:
+
+```csharp
+/// <summary>
+/// Gets all products with optional filtering
+/// </summary>
+/// <param name="categoryId">Filter by category ID</param>
+/// <param name="searchTerm">Search term for product name</param>
+/// <returns>List of products</returns>
+[HttpGet]
+[ProducesResponseType(typeof(IEnumerable<ProductDto>), 200)]
+[ProducesResponseType(400)]
+public async Task<IActionResult> GetProducts(int? categoryId, string? searchTerm)
+{
+     // Implementation
+ }
+ ```

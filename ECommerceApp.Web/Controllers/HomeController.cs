@@ -1,20 +1,34 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceApp.Web.Models;
+using ECommerceApp.Domain.Services;
 
 namespace ECommerceApp.Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ICategoryService _categoryService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ICategoryService categoryService)
     {
         _logger = logger;
+        _categoryService = categoryService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        try
+        {
+            var categories = await _categoryService.GetActiveTopLevelCategoriesAsync();
+            ViewBag.Categories = categories;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting categories for Index page");
+            ViewBag.Categories = new List<ECommerceApp.Domain.Entities.Category>();
+        }
+        
         return View();
     }
     

@@ -1,0 +1,309 @@
+# Authentication & Authorization Rules
+
+Bu proje ASP.NET Core Identity ve JWT token authentication kullanıyor.
+
+## User Entity - [User.cs](mdc:ECommerceApp.Domain/Entities/User.cs)
+
+User entity ASP.NET Core Identity'den inherit ediyor:
+
+```csharp
+// ✅ User entity yapısı
+public class User : IdentityUser
+{
+    [Required]
+    public string FirstName { get; set; }
+    
+    [Required] 
+    public string LastName { get; set; }
+    
+    public DateTime? LastLoginAt { get; set; }
+    public bool IsActive { get; set; } = true;
+    
+    // Navigation properties
+    public virtual ICollection<Order> Orders { get; set; }
+    public virtual ICollection<Cart> Carts { get; set; }
+}
+```
+
+## Identity Configuration - [Program.cs](mdc:ECommerceApp.Web/Program.cs)
+
+### Identity Setup
+```csharp
+// Identity configuration
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+// Identity options
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    
+    // User settings
+    options.User.RequireUniqueEmail = true;
+});
+```
+
+### JWT Configuration
+```csharp
+// JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+    };
+});
+```
+
+## Auth Service - [AuthService.cs](mdc:ECommerceApp.Application/Services/AuthService.cs)
+
+### User Registration
+```csharp
+// ✅ Doğru user registration
+public async Task<bool> RegisterAsync(User user, string password)
+{
+    user.CreatedAt = DateTime.UtcNow;
+    user.UpdatedAt = DateTime.UtcNow;
+    
+    var result = await _userManager.CreateAsync(user, password);
+    if (result.Succeeded)
+    {
+        // Add to default 'Customer' role
+        await _userManager.AddToRoleAsync(user, "Customer");
+        return true;
+    }
+    
+    return false;
+}
+```
+
+### Login & JWT Token Generation
+```csharp
+// ✅ Doğru login implementation
+public async Task<(bool success, string token)> LoginAsync(string email, string password)
+{
+    var user = await _userManager.FindByEmailAsync(email);
+    if (user == null || !user.IsActive)
+        return (false, null);
+        
+    var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+    if (!result.Succeeded)
+        return (false, null);
+        
+    // Update last login
+    user.LastLoginAt = DateTime.UtcNow;
+    await _userManager.UpdateAsync(user);
+    
+    // Generate JWT token
+    var token = await GenerateJwtTokenAsync(user);
+    return (true, token);
+}
+
+private async Task<string> GenerateJwtTokenAsync(User user)
+{
+    var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
+    };
+    
+    // Add user roles
+    var roles = await _userManager.GetRolesAsync(user);
+    foreach (var role in roles)
+    {
+        claims.Add(new Claim(ClaimTypes.Role, role));
+    }
+    
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
+    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+    
+    var token = new JwtSecurityToken(
+        issuer: _configuration["JwtSettings:Issuer"],
+        audience: _configuration["JwtSettings:Audience"],
+        claims: claims,
+        expires: DateTime.UtcNow.AddHours(24),
+        signingCredentials: credentials
+    );
+    
+    return new JwtSecurityTokenHandler().WriteToken(token);
+}
+```
+
+## Role Management
+
+### Default Roles
+Sistem başlangıcında otomatik olarak roller oluşturuluyor:
+
+```csharp
+// Default roles creation in Program.cs
+if (!await roleManager.RoleExistsAsync("Admin"))
+{
+    await roleManager.CreateAsync(new IdentityRole("Admin"));
+}
+
+if (!await roleManager.RoleExistsAsync("Customer"))
+{
+    await roleManager.CreateAsync(new IdentityRole("Customer"));
+}
+```
+
+### Default Admin User
+```csharp
+// Default admin user creation
+var adminUser = new User
+{
+    UserName = "admin@example.com",
+    Email = "admin@example.com", 
+    FirstName = "Admin",
+    LastName = "User",
+    EmailConfirmed = true
+};
+
+await _userManager.CreateAsync(adminUser, "Admin@123");
+await _userManager.AddToRoleAsync(adminUser, "Admin");
+```
+
+## Authorization in Controllers
+
+### Role-based Authorization
+```csharp
+// ✅ Doğru role-based authorization
+[Authorize(Roles = "Admin")]
+[HttpPost]
+public async Task<IActionResult> CreateProduct(CreateProductDto dto)
+{
+    // Only Admin can create products
+}
+
+[Authorize(Roles = "Admin,Customer")]
+[HttpGet("my-orders")]
+public async Task<IActionResult> GetMyOrders()
+{
+    // Both Admin and Customer can access
+}
+```
+
+### User-specific Authorization
+```csharp
+// ✅ Doğru user-specific authorization
+[Authorize]
+[HttpGet("profile")]
+public async Task<IActionResult> GetProfile()
+{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var userProfile = await _authService.GetUserProfileAsync(userId);
+    return Ok(userProfile);
+}
+
+[Authorize]
+[HttpPut("profile")]
+public async Task<IActionResult> UpdateProfile(UpdateProfileDto dto)
+{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var result = await _authService.UpdateProfileAsync(userId, dto);
+    
+    if (!result)
+        return BadRequest("Failed to update profile");
+        
+    return NoContent();
+}
+```
+
+## Security Best Practices
+
+### Password Security
+```csharp
+// ✅ Doğru password validation
+public async Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+{
+    var user = await _userManager.FindByIdAsync(userId);
+    if (user == null)
+        return false;
+        
+    var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+    return result.Succeeded;
+}
+```
+
+### Token Validation
+```csharp
+// ✅ Doğru token validation middleware
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+### Secure Headers
+```csharp
+// ✅ Security headers (production için)
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+    app.UseHttpsRedirection();
+}
+```
+
+## JWT Settings Configuration
+
+[appsettings.json](mdc:ECommerceApp.Web/appsettings.json) dosyasında JWT ayarları:
+
+```json
+{
+  "JwtSettings": {
+    "Key": "your-secret-key-here-min-32-chars",
+    "Issuer": "ECommerceApp",
+    "Audience": "ECommerceApp-Users",
+    "ExpiresInHours": 24
+  }
+}
+```
+
+## Error Handling
+
+### Authentication Errors
+```csharp
+// ✅ Doğru authentication error handling
+[HttpPost("login")]
+public async Task<IActionResult> Login(LoginDto dto)
+{
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState);
+        
+    var (success, token) = await _authService.LoginAsync(dto.Email, dto.Password);
+    
+    if (!success)
+        return Unauthorized("Invalid email or password");
+        
+    return Ok(new { Token = token });
+}
+```
+
+### Forbidden vs Unauthorized
+```csharp
+// ✅ Doğru HTTP status codes
+// 401 Unauthorized - Not authenticated
+if (!User.Identity.IsAuthenticated)
+    return Unauthorized();
+
+// 403 Forbidden - Authenticated but no permission  
+ if (!User.IsInRole("Admin"))
+     return Forbid();
+ ```

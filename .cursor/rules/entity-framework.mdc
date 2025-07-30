@@ -1,0 +1,184 @@
+# Entity Framework Core Rules
+
+Bu projede PostgreSQL veritabanı ile Entity Framework Core kullanılıyor.
+
+## DbContext - [ApplicationDbContext.cs](mdc:ECommerceApp.Infrastructure/Data/ApplicationDbContext.cs)
+
+### DbSet Tanımlamaları
+- Tüm entity'ler için DbSet tanımlanmalı
+- Navigation property'ler için HasMany/WithMany konfigürasyonu yapılmalı
+
+```csharp
+// ✅ Doğru DbSet tanımlaması
+public DbSet<Product> Products { get; set; }
+public DbSet<Category> Categories { get; set; }
+```
+
+### Entity Configuration
+- `OnModelCreating` method'unda entity konfigürasyonları yapılmalı
+- Index'ler, constraint'ler ve precision'lar tanımlanmalı
+
+```csharp
+// ✅ Doğru entity configuration
+modelBuilder.Entity<Product>(entity =>
+{
+    entity.HasKey(e => e.Id);
+    entity.HasIndex(e => e.SKU).IsUnique();
+    entity.Property(e => e.Price).HasPrecision(18, 2);
+});
+```
+
+## Migration Yönetimi
+
+### Migration Oluşturma
+Migration oluşturmak için project script'lerini kullan:
+
+```bash
+# Windows
+./create-migration.bat "MigrationName"
+
+# Linux/Mac  
+./create-migration.sh "MigrationName"
+```
+
+### Migration Naming Convention
+- Migration isimleri açıklayıcı olmalı: `AddProductVariants`, `UpdateOrderStatus`
+- Timestamp prefix otomatik eklenir
+
+### Migration Dosyaları
+- Migration dosyaları [ECommerceApp.Infrastructure/Migrations/](mdc:ECommerceApp.Infrastructure/Migrations/) klasöründe
+- Manual migration dosyası değişikliği YAPILMAMALI
+
+## Repository Pattern
+
+### Generic Repository - [IRepository.cs](mdc:ECommerceApp.Domain/Repositories/IRepository.cs)
+```csharp
+// ✅ Doğru generic repository interface
+public interface IRepository<T> where T : class
+{
+    Task<T> GetByIdAsync(int id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T> AddAsync(T entity);
+    Task UpdateAsync(T entity);
+    Task DeleteAsync(int id);
+}
+```
+
+### Specific Repository Interfaces
+Her entity için spesifik repository interface'i olmalı:
+
+```csharp
+// ✅ Doğru - Spesifik repository interface
+public interface IProductRepository : IRepository<Product>
+{
+    Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
+    Task<Product> GetBySlugAsync(string slug);
+}
+```
+
+### Repository Implementation
+```csharp
+// ✅ Doğru repository implementation
+public class ProductRepository : Repository<Product>, IProductRepository
+{
+    public ProductRepository(ApplicationDbContext context) : base(context) { }
+    
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId && p.IsActive)
+            .ToListAsync();
+    }
+}
+```
+
+## Query Best Practices
+
+### Include Strategy
+- Lazy loading kapalı, explicit Include kullan
+- N+1 problem'ini önlemek için Include kullan
+
+```csharp
+// ✅ Doğru - Explicit include
+var products = await _context.Products
+    .Include(p => p.Category)
+    .Include(p => p.ProductImages)
+    .ToListAsync();
+
+// ❌ Yanlış - N+1 query problem
+var products = await _context.Products.ToListAsync();
+foreach(var product in products)
+{
+    var category = await _context.Categories.FindAsync(product.CategoryId); // N+1!
+}
+```
+
+### AsNoTracking for Read-Only
+- Read-only query'ler için AsNoTracking kullan
+
+```csharp
+// ✅ Doğru - Read-only query
+var products = await _context.Products
+    .AsNoTracking()
+    .Where(p => p.IsActive)
+    .ToListAsync();
+```
+
+### Pagination
+- Büyük dataset'ler için pagination kullan
+
+```csharp
+// ✅ Doğru pagination
+public async Task<(IEnumerable<Product> Products, int Total)> GetPagedProductsAsync(int page, int pageSize)
+{
+    var query = _context.Products.Where(p => p.IsActive);
+    
+    var total = await query.CountAsync();
+    var products = await query
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
+        
+    return (products, total);
+}
+```
+
+## Transaction Management
+
+### Unit of Work Pattern
+- Birden fazla repository operation için transaction kullan
+
+```csharp
+// ✅ Doğru transaction usage
+public async Task<Order> CreateOrderAsync(CreateOrderDto dto)
+{
+    using var transaction = await _context.Database.BeginTransactionAsync();
+    try
+    {
+        var order = new Order { /* properties */ };
+        await _context.Orders.AddAsync(order);
+        
+        // Update product stocks
+        foreach(var item in dto.Items)
+        {
+            var product = await _context.Products.FindAsync(item.ProductId);
+            product.Stock -= item.Quantity;
+        }
+        
+        await _context.SaveChangesAsync();
+        await transaction.CommitAsync();
+        
+        return order;
+    }
+    catch
+    {
+        await transaction.RollbackAsync();
+        throw;
+    }
+}
+```
+
+## Connection String
+- PostgreSQL connection string [appsettings.json](mdc:ECommerceApp.Web/appsettings.json)'da `DefaultConnection` key'i ile tanımlı
+- Development environment için [appsettings.Development.json](mdc:ECommerceApp.Web/appsettings.Development.json) kullanılır

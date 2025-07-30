@@ -71,12 +71,14 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Register services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Add API explorer and Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -181,6 +183,129 @@ using (var scope = app.Services.CreateScope())
             {
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
+        }
+        
+        // Create sample categories if they don't exist
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        
+        if (!await dbContext.Categories.AnyAsync())
+        {
+            var categories = new[]
+            {
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Gaming",
+                    Description = "Gaming products and accessories",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat1.png",
+                    Slug = "gaming",
+                    IsActive = true,
+                    SortOrder = 1,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Sport Equipment",
+                    Description = "Sports and fitness equipment",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat2.png",
+                    Slug = "sport-equipment",
+                    IsActive = true,
+                    SortOrder = 2,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Kitchen",
+                    Description = "Kitchen appliances and accessories",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat3.png",
+                    Slug = "kitchen",
+                    IsActive = true,
+                    SortOrder = 3,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Robot Cleaner",
+                    Description = "Robotic cleaning devices",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat4.png",
+                    Slug = "robot-cleaner",
+                    IsActive = true,
+                    SortOrder = 4,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Mobiles",
+                    Description = "Mobile phones and accessories",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat5.png",
+                    Slug = "mobiles",
+                    IsActive = true,
+                    SortOrder = 5,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Office",
+                    Description = "Office supplies and equipment",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat6.png",
+                    Slug = "office",
+                    IsActive = true,
+                    SortOrder = 6,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Cameras",
+                    Description = "Digital cameras and photography equipment",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat7.png",
+                    Slug = "cameras",
+                    IsActive = true,
+                    SortOrder = 7,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Computers",
+                    Description = "Desktop and laptop computers",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat8.png",
+                    Slug = "computers",
+                    IsActive = true,
+                    SortOrder = 8,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Televisions",
+                    Description = "TVs and home entertainment systems",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat9.png",
+                    Slug = "televisions",
+                    IsActive = true,
+                    SortOrder = 9,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new ECommerceApp.Domain.Entities.Category
+                {
+                    Name = "Audios",
+                    Description = "Audio equipment and accessories",
+                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat10.png",
+                    Slug = "audios",
+                    IsActive = true,
+                    SortOrder = 10,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
+            };
+            
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
         }
     }
     catch (Exception ex)

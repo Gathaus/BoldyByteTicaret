@@ -1,0 +1,302 @@
+# Frontend & Views Rules
+
+Bu proje ASP.NET Core MVC pattern kullanarak Razor view'lar ile frontend render ediyor.
+
+## View Structure - [Views/](mdc:ECommerceApp.Web/Views/)
+
+### Layout System
+- Ana layout: [_Layout.cshtml](mdc:ECommerceApp.Web/Views/Shared/_Layout.cshtml)
+- View start: [_ViewStart.cshtml](mdc:ECommerceApp.Web/Views/_ViewStart.cshtml)
+- View imports: [_ViewImports.cshtml](mdc:ECommerceApp.Web/Views/_ViewImports.cshtml)
+
+```csharp
+// ✅ Doğru view structure
+@{
+    ViewData["Title"] = "Product List";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@model IEnumerable<ProductViewModel>
+
+@foreach (var product in Model)
+{
+    <div class="product-card">
+        <h3>@product.Name</h3>
+        <p>@product.Price.ToString("C")</p>
+    </div>
+}
+```
+
+## View Directories
+
+### Main Areas
+- **Home**: [Views/Home/](mdc:ECommerceApp.Web/Views/Home/) - Ana sayfa ve genel sayfalar
+- **Products**: [Views/Products/](mdc:ECommerceApp.Web/Views/Products/) - Ürün listeleme ve detay
+- **Cart**: [Views/Cart/](mdc:ECommerceApp.Web/Views/Cart/) - Sepet sayfaları
+- **Auth**: [Views/Auth/](mdc:ECommerceApp.Web/Views/Auth/) - Login/Register sayfaları
+- **Account**: [Views/Account/](mdc:ECommerceApp.Web/Views/Account/) - Kullanıcı hesap sayfaları
+- **Orders**: Sipariş sayfaları (controller var ama view klasörü yok)
+
+### Single Product Views
+- [Views/SingleProduct/](mdc:ECommerceApp.Web/Views/SingleProduct/) - Ürün detay sayfaları
+
+## Static Files - [wwwroot/](mdc:ECommerceApp.Web/wwwroot/)
+
+### CSS Structure
+```
+wwwroot/
+├── css/
+│   └── site.css                    # Ana site CSS
+├── pages/assets/css/
+│   ├── home_1_style.css           # Ana sayfa stilleri
+│   └── inner_pages.css            # İç sayfa stilleri
+└── lib/                           # Third-party kütüphaneler
+    ├── bootstrap/
+    ├── jquery/
+    └── jquery-validation/
+```
+
+### JavaScript Structure
+```
+wwwroot/
+├── js/
+│   └── site.js                    # Ana site JavaScript
+├── pages/assets/js/
+│   ├── home_1_scripts.js          # Ana sayfa script'leri
+│   └── inner_pages.js             # İç sayfa script'leri
+└── lib/                           # Third-party libraries
+```
+
+### Images
+```
+wwwroot/pages/assets/img/
+├── products/                      # Ürün görselleri
+├── cat/                          # Kategori görselleri
+├── brands/                       # Marka logoları
+└── header/                       # Header görselleri
+```
+
+## View Models - [Models/](mdc:ECommerceApp.Web/Models/)
+
+### Existing View Models
+- [AuthModels.cs](mdc:ECommerceApp.Web/Models/AuthModels.cs) - Authentication form'ları için
+- [CartModels.cs](mdc:ECommerceApp.Web/Models/CartModels.cs) - Sepet view'ları için
+- [ErrorViewModel.cs](mdc:ECommerceApp.Web/Models/ErrorViewModel.cs) - Hata sayfaları için
+
+```csharp
+// ✅ Doğru view model yapısı
+public class ProductViewModel
+{
+    public int Id { get; set; }
+    
+    [Display(Name = "Product Name")]
+    public string Name { get; set; }
+    
+    [Display(Name = "Price")]
+    [DataType(DataType.Currency)]
+    public decimal Price { get; set; }
+    
+    [Display(Name = "Category")]
+    public string CategoryName { get; set; }
+    
+    public string ImageUrl { get; set; }
+    public bool IsInStock { get; set; }
+}
+```
+
+## Razor Syntax Best Practices
+
+### Model Binding
+```csharp
+// ✅ Doğru model binding
+@model ProductViewModel
+
+<h1>@Model.Name</h1>
+<p>Price: @Model.Price.ToString("C")</p>
+
+@if (Model.IsInStock)
+{
+    <button class="btn btn-primary">Add to Cart</button>
+}
+else
+{
+    <span class="text-danger">Out of Stock</span>
+}
+```
+
+### Form Handling
+```csharp
+// ✅ Doğru form handling
+@model LoginViewModel
+
+@using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Login</button>
+}
+```
+
+### Partial Views
+```csharp
+// ✅ Doğru partial view kullanımı
+@* Ana view'da *@
+@await Html.PartialAsync("_ProductCard", product)
+
+@* _ProductCard.cshtml partial view'da *@
+@model ProductViewModel
+
+<div class="card">
+    <img src="@Model.ImageUrl" alt="@Model.Name" />
+    <div class="card-body">
+        <h5>@Model.Name</h5>
+        <p>@Model.Price.ToString("C")</p>
+    </div>
+</div>
+```
+
+## CSS & JavaScript Guidelines
+
+### CSS Organization
+```css
+/* ✅ Doğru CSS organizasyonu */
+
+/* Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --font-family: 'Arial', sans-serif;
+}
+
+/* Base styles */
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+}
+
+/* Components */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.mb-3 { margin-bottom: 1rem; }
+```
+
+### JavaScript Best Practices
+```javascript
+// ✅ Doğru JavaScript organizasyonu
+
+// Namespace pattern
+var ECommerceApp = ECommerceApp || {};
+
+ECommerceApp.Cart = {
+    addToCart: function(productId, quantity) {
+        fetch('/api/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: quantity
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                this.updateCartCount();
+                this.showSuccessMessage('Product added to cart');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding to cart:', error);
+            this.showErrorMessage('Failed to add product to cart');
+        });
+    },
+    
+    updateCartCount: function() {
+        // Update cart count in header
+    },
+    
+    showSuccessMessage: function(message) {
+        // Show success notification
+    },
+    
+    showErrorMessage: function(message) {
+        // Show error notification
+    }
+};
+
+// DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize cart functionality
+    var addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            var productId = this.getAttribute('data-product-id');
+            var quantity = document.getElementById('quantity').value || 1;
+            ECommerceApp.Cart.addToCart(productId, quantity);
+        });
+    });
+});
+```
+
+## Responsive Design
+
+### Bootstrap Integration
+Proje Bootstrap kullanıyor, responsive grid system'i kullanılmalı:
+
+```html
+<!-- ✅ Doğru responsive layout -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Sidebar -->
+        </div>
+        <div class="col-md-9">
+            <!-- Main content -->
+            <div class="row">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        @await Html.PartialAsync("_ProductCard", product)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+## Template System
+
+Projede hazır template'ler mevcut:
+- [web/templates/pages/](mdc:ECommerceApp.Web/web/templates/pages/) - HTML template'leri
+- Multiple theme support: `swoo/`, `swoo2/`, `pages/` klasörleri
+
+Bu template'lerden yararlanarak consistent design sağlanmalı.

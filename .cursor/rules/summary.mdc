@@ -1,0 +1,148 @@
+# BoldByteTicaret - Quick Reference
+
+Bu proje .NET 8.0 tabanlı Clean Architecture ile geliştirilmiş bir E-Ticaret uygulamasıdır.
+
+## 🚀 Quick Start
+
+### Development Setup
+```bash
+# Migration çalıştır
+dotnet ef database update --project ECommerceApp.Infrastructure --startup-project ECommerceApp.Web
+
+# Uygulamayı çalıştır
+cd ECommerceApp.Web
+dotnet run
+```
+
+### Default Credentials
+- **Admin**: admin@example.com / Admin@123
+- **API**: https://localhost:7001/swagger
+
+## 📁 Project Structure
+
+```
+├── ECommerceApp.Domain/          # Entities, Interfaces
+├── ECommerceApp.Application/     # Business Logic
+├── ECommerceApp.Infrastructure/  # Data Access, External Services
+└── ECommerceApp.Web/            # Controllers, Views, API
+```
+
+## 🔧 Key Technologies
+
+- **.NET 8.0** + ASP.NET Core MVC
+- **PostgreSQL** + Entity Framework Core
+- **ASP.NET Core Identity** + JWT Authentication
+- **Swagger** API Documentation
+- **Bootstrap** + Razor Views
+
+## 📋 Development Rules
+
+### ✅ DO
+- Follow Clean Architecture dependency rules
+- Use Repository pattern for data access
+- Implement business logic in Service layer
+- Use structured logging with ILogger
+- Write unit tests for services
+- Handle exceptions appropriately
+- Use async/await for I/O operations
+
+### ❌ DON'T
+- Put business logic in Controllers
+- Reference Infrastructure from Domain
+- Use Entity Framework directly in Controllers
+- Hardcode connection strings
+- Ignore exception handling
+- Skip input validation
+
+## 🗂️ Common Patterns
+
+### Service Implementation
+```csharp
+public class ProductService : IProductService
+{
+    private readonly IProductRepository _repository;
+    private readonly ILogger<ProductService> _logger;
+    
+    // Business logic here
+}
+```
+
+### Controller Structure
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService _service;
+    
+    // Orchestration only, delegate to service
+}
+```
+
+### Repository Pattern
+```csharp
+public interface IProductRepository : IRepository<Product>
+{
+    Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
+}
+```
+
+## 🔑 Important Files
+
+- [ApplicationDbContext.cs](mdc:ECommerceApp.Infrastructure/Data/ApplicationDbContext.cs) - Database configuration
+- [Program.cs](mdc:ECommerceApp.Web/Program.cs) - Dependency injection setup
+- [AuthService.cs](mdc:ECommerceApp.Application/Services/AuthService.cs) - Authentication logic
+
+## 📊 Database
+
+- **Provider**: PostgreSQL (Npgsql)
+- **Migrations**: ECommerceApp.Infrastructure/Migrations/
+- **Scripts**: create-migration.sh / create-migration.bat
+
+## 🔐 Authentication
+
+- **Identity**: ASP.NET Core Identity with custom User entity
+- **JWT**: Token-based authentication for API
+- **Roles**: Admin, Customer
+
+## 📝 Migration Commands
+
+```bash
+# Create new migration
+./create-migration.sh "MigrationName"
+
+# Update database
+dotnet ef database update --project ECommerceApp.Infrastructure --startup-project ECommerceApp.Web
+```
+
+## 🧪 Testing
+
+- Unit tests for Service layer
+- Integration tests for Repository layer
+- API tests for Controllers
+- Use AAA pattern (Arrange-Act-Assert)
+
+## 🎨 Frontend
+
+- **Views**: Razor Pages with MVC
+- **CSS**: Bootstrap + custom styles in wwwroot/
+- **JS**: jQuery + vanilla JavaScript
+- **Templates**: Multiple theme support
+
+## 🔍 Troubleshooting
+
+### Common Issues
+1. **Migration Error**: Check connection string in appsettings.json
+2. **Authentication Error**: Verify JWT settings
+3. **Build Error**: Check project references and dependencies
+
+### Logs Location
+- Development: Console output
+- Production: Configure in appsettings.json
+
+## 📚 Additional Resources
+
+- [Clean Architecture Rules](mdc:.cursor/rules/clean-architecture.mdc)
+- [Entity Framework Rules](mdc:.cursor/rules/entity-framework.mdc)
+- [Authentication Rules](mdc:.cursor/rules/authentication.mdc)
+- [Testing Guidelines](mdc:.cursor/rules/testing.mdc)

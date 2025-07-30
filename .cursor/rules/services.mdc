@@ -1,0 +1,265 @@
+# Service Layer Rules
+
+Service katmanı business logic'in bulunduğu katmandır. [ECommerceApp.Application/Services/](mdc:ECommerceApp.Application/Services/) klasöründe implementation'lar, [ECommerceApp.Domain/Services/](mdc:ECommerceApp.Domain/Services/) klasöründe interface'ler bulunur.
+
+## Service Structure
+
+### Interface Definition
+Domain layer'da service interface'leri tanımlanmalı:
+
+```csharp
+// ✅ Doğru service interface - Domain layer'da
+namespace ECommerceApp.Domain.Services
+{
+    public interface IProductService
+    {
+        Task<Product> GetProductByIdAsync(int id);
+        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<Product> CreateProductAsync(CreateProductDto dto);
+        Task<bool> UpdateProductAsync(int id, UpdateProductDto dto);
+        Task<bool> DeleteProductAsync(int id);
+    }
+}
+```
+
+### Service Implementation
+Application layer'da service implementation'ları yapılmalı:
+
+```csharp
+// ✅ Doğru service implementation - Application layer'da
+namespace ECommerceApp.Application.Services
+{
+    public class ProductService : IProductService
+    {
+        private readonly IProductRepository _productRepository;
+        private readonly ILogger<ProductService> _logger;
+        
+        public ProductService(IProductRepository productRepository, ILogger<ProductService> logger)
+        {
+            _productRepository = productRepository;
+            _logger = logger;
+        }
+        
+        public async Task<Product> CreateProductAsync(CreateProductDto dto)
+        {
+            // Business logic here
+            if (dto.Price <= 0)
+                throw new ArgumentException("Product price must be greater than zero");
+                
+            var product = new Product
+            {
+                Name = dto.Name,
+                Price = dto.Price,
+                CreatedAt = DateTime.UtcNow
+            };
+            
+            return await _productRepository.AddAsync(product);
+        }
+    }
+}
+```
+
+## Mevcut Service'ler
+
+### Authentication Service - [AuthService.cs](mdc:ECommerceApp.Application/Services/AuthService.cs)
+- User registration ve login
+- JWT token generation ve validation
+- Password management
+
+```csharp
+// AuthService methods
+Task<bool> RegisterAsync(User user, string password);
+Task<(bool success, string token)> LoginAsync(string email, string password);
+Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
+```
+
+### Cart Service - [CartService.cs](mdc:ECommerceApp.Application/Services/CartService.cs)
+- Shopping cart management
+- Cart item operations
+- Cart calculation
+
+### Order Service - [OrderService.cs](mdc:ECommerceApp.Application/Services/OrderService.cs)
+- Order creation ve processing
+- Order status management
+- Order history
+
+### Product Service - [ProductService.cs](mdc:ECommerceApp.Application/Services/ProductService.cs)
+- Product CRUD operations
+- Product search ve filtering
+- Category management
+
+## Service Best Practices
+
+### Business Logic Placement
+- Business rule'lar service layer'da implement edilmeli
+- Domain entity'lerde sadece basit business logic olmalı
+
+```csharp
+// ✅ Doğru - Service'de business logic
+public async Task<Order> CreateOrderAsync(CreateOrderDto dto)
+{
+    // Business validation
+    if (dto.Items == null || !dto.Items.Any())
+        throw new ArgumentException("Order must contain at least one item");
+        
+    var totalAmount = 0m;
+    var orderItems = new List<OrderItem>();
+    
+    foreach (var item in dto.Items)
+    {
+        var product = await _productRepository.GetByIdAsync(item.ProductId);
+        if (product == null)
+            throw new ArgumentException($"Product {item.ProductId} not found");
+            
+        if (product.Stock < item.Quantity)
+            throw new InvalidOperationException($"Insufficient stock for product {product.Name}");
+            
+        totalAmount += product.Price * item.Quantity;
+        orderItems.Add(new OrderItem
+        {
+            ProductId = item.ProductId,
+            Quantity = item.Quantity,
+            UnitPrice = product.Price
+        });
+    }
+    
+    var order = new Order
+    {
+        UserId = dto.UserId,
+        TotalAmount = totalAmount,
+        OrderItems = orderItems,
+        Status = OrderStatus.Pending,
+        CreatedAt = DateTime.UtcNow
+    };
+    
+    return await _orderRepository.AddAsync(order);
+}
+```
+
+### Exception Handling
+- Service layer'da business exception'lar fırlatılmalı
+- Repository exception'ları handle edilmeli
+
+```csharp
+// ✅ Doğru exception handling
+public async Task<Product> GetProductByIdAsync(int id)
+{
+    if (id <= 0)
+        throw new ArgumentException("Product ID must be greater than zero", nameof(id));
+        
+    try
+    {
+        var product = await _productRepository.GetByIdAsync(id);
+        if (product == null)
+            throw new NotFoundException($"Product with ID {id} not found");
+            
+        return product;
+    }
+    catch (Exception ex) when (!(ex is NotFoundException || ex is ArgumentException))
+    {
+        _logger.LogError(ex, "Error retrieving product {ProductId}", id);
+        throw new ServiceException("An error occurred while retrieving the product", ex);
+    }
+}
+```
+
+### Dependency Injection
+- Service'ler dependency injection ile register edilmeli
+
+```csharp
+// Program.cs'da service registration
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+```
+
+### Async/Await Pattern
+- Tüm I/O operations async olmalı
+- ConfigureAwait(false) kullanımı gerektiğinde
+
+```csharp
+// ✅ Doğru async pattern
+public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
+{
+    var products = await _productRepository.GetByCategoryAsync(categoryId);
+    return products.Where(p => p.IsActive);
+}
+```
+
+### Service Composition
+- Karmaşık operation'lar için service composition kullanılmalı
+
+```csharp
+// ✅ Doğru service composition
+public class OrderService : IOrderService
+{
+    private readonly IOrderRepository _orderRepository;
+    private readonly ICartService _cartService;
+    private readonly IProductService _productService;
+    private readonly IEmailService _emailService;
+    
+    public async Task<Order> CreateOrderFromCartAsync(string userId)
+    {
+        // Get cart items
+        var cart = await _cartService.GetUserCartAsync(userId);
+        
+        // Validate products
+        foreach (var item in cart.Items)
+        {
+            await _productService.ValidateProductAvailabilityAsync(item.ProductId, item.Quantity);
+        }
+        
+        // Create order
+        var order = await CreateOrderAsync(new CreateOrderDto
+        {
+            UserId = userId,
+            Items = cart.Items.Select(i => new OrderItemDto 
+            { 
+                ProductId = i.ProductId, 
+                Quantity = i.Quantity 
+            })
+        });
+        
+        // Clear cart
+        await _cartService.ClearCartAsync(userId);
+        
+        // Send confirmation email
+        await _emailService.SendOrderConfirmationAsync(order);
+        
+        return order;
+    }
+}
+```
+
+### Transaction Management
+- Cross-repository operations için Unit of Work pattern kullanılmalı
+
+```csharp
+// ✅ Doğru transaction management
+public async Task<Order> ProcessOrderAsync(CreateOrderDto dto)
+{
+    using var transaction = await _unitOfWork.BeginTransactionAsync();
+    try
+    {
+        // Create order
+        var order = await _orderRepository.AddAsync(new Order { /* ... */ });
+        
+        // Update product stocks
+        foreach (var item in dto.Items)
+        {
+            await _productService.UpdateStockAsync(item.ProductId, -item.Quantity);
+        }
+        
+        await _unitOfWork.SaveChangesAsync();
+        await transaction.CommitAsync();
+        
+        return order;
+    }
+    catch
+    {
+        await transaction.RollbackAsync();
+        throw;
+         }
+ }
+ ```

@@ -87,11 +87,11 @@ namespace ECommerceApp.Domain.Entities
         }
         
         // Computed Properties
-        public string FullName => $"{FirstName} {LastName}";
+        public string FullName { get => $"{FirstName} {LastName}"; private set { } }
         
-        public int Age => DateOfBirth.HasValue ? 
+        public int Age { get => DateOfBirth.HasValue ? 
             DateTime.Now.Year - DateOfBirth.Value.Year - 
-            (DateTime.Now.DayOfYear < DateOfBirth.Value.DayOfYear ? 1 : 0) : 0;
+            (DateTime.Now.DayOfYear < DateOfBirth.Value.DayOfYear ? 1 : 0) : 0; private set { } }
     }
     
     public class Address
@@ -170,9 +170,9 @@ namespace ECommerceApp.Domain.Entities
             BillingOrders = new HashSet<Order>();
         }
         
-        public string FullAddress => $"{AddressLine1}, {AddressLine2}, {District}, {City}, {PostalCode}, {Country}".Replace(", ,", ",").Trim(',', ' ');
+        public string FullAddress { get => $"{AddressLine1}, {AddressLine2}, {District}, {City}, {PostalCode}, {Country}".Replace(", ,", ",").Trim(',', ' '); private set { } }
         
-        public string FullName => $"{FirstName} {LastName}";
+        public string FullName { get => $"{FirstName} {LastName}"; private set { } }
     }
     
     public class CustomerSupport

@@ -1,0 +1,141 @@
+# Clean Architecture Dependency Rules
+
+Bu proje Clean Architecture pattern'ini kullanır. Katmanlar arası bağımlılıklar bu kurallara uymalıdır.
+
+## Bağımlılık Yönü (Dependency Direction)
+
+```
+Web/API Layer → Application Layer → Domain Layer ← Infrastructure Layer
+```
+
+## Katman Sorumlulukları
+
+### Domain Layer (En İç Katman)
+- **Hiçbir dış katmana bağımlı OLMAMALI**
+- Sadece .NET BCL'e bağımlı olabilir
+- Entity'ler, Value Object'ler, Domain Service interface'leri burada
+- Business rule'lar entity'lerde olmalı
+
+```csharp
+// ✅ Doğru - Domain entity
+public class Product
+{
+    public bool CanBeOrdered => IsActive && Stock > 0;
+}
+```
+
+### Application Layer
+- **Sadece Domain Layer'a bağımlı olmalı**
+- Infrastructure'a DOĞRUDAN bağımlı olmamalı (dependency injection kullan)
+- Business logic implementasyonları burada
+- Use case'ler burada implement edilir
+
+```csharp
+// ✅ Doğru - Application service
+public class OrderService : IOrderService
+{
+    private readonly IOrderRepository _orderRepository; // Interface'e bağımlı
+    
+    public async Task<Order> CreateOrderAsync(CreateOrderDto dto)
+    {
+        // Business logic here
+    }
+}
+```
+
+### Infrastructure Layer
+- **Domain ve Application layer'lara bağımlı olabilir**
+- External service'lere (DB, API, email) erişim burada
+- Repository implementasyonları burada
+- DbContext burada
+
+```csharp
+// ✅ Doğru - Infrastructure repository
+public class ProductRepository : IProductRepository
+{
+    private readonly ApplicationDbContext _context;
+    // Implementation here
+}
+```
+
+### Web Layer (En Dış Katman)
+- **Tüm katmanlara bağımlı olabilir**
+- Sadece API/UI concerns burada
+- Controller'lar sadece orchestration yapmalı
+- Business logic OLMAMALI
+
+```csharp
+// ✅ Doğru - Web controller
+[ApiController]
+public class ProductsController : ControllerBase
+{
+    private readonly IProductService _productService; // Service'e delegate ediyor
+    
+    public async Task<IActionResult> GetProducts()
+    {
+        var products = await _productService.GetAllProductsAsync();
+        return Ok(products);
+    }
+}
+```
+
+## YASAKLI Bağımlılıklar
+
+```csharp
+// ❌ YANLIŞ - Domain layer'da Infrastructure'a bağımlılık
+namespace ECommerceApp.Domain.Entities
+{
+    using ECommerceApp.Infrastructure.Data; // YASAK!
+}
+
+// ❌ YANLIŞ - Domain layer'da Application'a bağımlılık  
+namespace ECommerceApp.Domain.Entities
+{
+    using ECommerceApp.Application.Services; // YASAK!
+}
+
+// ❌ YANLIŞ - Controller'da business logic
+public class ProductsController : ControllerBase
+{
+    public async Task<IActionResult> CreateProduct(ProductDto dto)
+    {
+        // Business logic controller'da olmamalı!
+        if (dto.Price < 0) throw new Exception("Price cannot be negative");
+        var product = new Product { Name = dto.Name };
+        // Direct DB access olmamalı!
+        _context.Products.Add(product);
+        await _context.SaveChangesAsync();
+    }
+}
+```
+
+## Interface Segregation
+
+Repository interface'leri spesifik olmalı:
+
+```csharp
+// ✅ Doğru - Spesifik repository interface
+public interface IProductRepository : IRepository<Product>
+{
+    Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
+    Task<IEnumerable<Product>> GetFeaturedProductsAsync(int count);
+}
+
+// ❌ Yanlış - Generic repository'de her şey
+public interface IRepository<T>
+{
+    Task<T> GetProductByCategoryAsync(int categoryId); // Product'a specific!
+}
+```
+
+## Dependency Injection
+
+Tüm bağımlılıklar [Program.cs](mdc:ECommerceApp.Web/Program.cs)'da register edilmeli:
+
+```csharp
+// Repository registrations
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+// Service registrations  
+builder.Services.AddScoped<IProductService, ProductService>();
+```

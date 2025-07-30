@@ -1,0 +1,55 @@
+# E-Commerce App Project Structure
+
+Bu proje Clean Architecture (Onion Architecture) pattern kullanarak geliştirilmiş bir .NET 8.0 E-Ticaret uygulamasıdır.
+
+## Katman Yapısı
+
+### 1. Domain Layer - [ECommerceApp.Domain](mdc:ECommerceApp.Domain/)
+- **Entities/**: Temel business entity'leri
+  - [Product.cs](mdc:ECommerceApp.Domain/Entities/Product.cs) - Ürün modeli
+  - [User.cs](mdc:ECommerceApp.Domain/Entities/User.cs) - Kullanıcı modeli (Identity tabanlı)
+  - [Order.cs](mdc:ECommerceApp.Domain/Entities/Order.cs) - Sipariş modeli
+  - [Cart.cs](mdc:ECommerceApp.Domain/Entities/Cart.cs) - Sepet modeli
+- **Repositories/**: Repository interface'leri
+- **Services/**: Domain service interface'leri
+
+### 2. Application Layer - [ECommerceApp.Application](mdc:ECommerceApp.Application/)
+- **Services/**: Business logic implementasyonları
+  - [AuthService.cs](mdc:ECommerceApp.Application/Services/AuthService.cs) - Authentication işlemleri
+  - [CartService.cs](mdc:ECommerceApp.Application/Services/CartService.cs) - Sepet işlemleri
+  - [OrderService.cs](mdc:ECommerceApp.Application/Services/OrderService.cs) - Sipariş işlemleri
+
+### 3. Infrastructure Layer - [ECommerceApp.Infrastructure](mdc:ECommerceApp.Infrastructure/)
+- **Data/**: [ApplicationDbContext.cs](mdc:ECommerceApp.Infrastructure/Data/ApplicationDbContext.cs) - EF Core DbContext
+- **Repositories/**: Repository implementasyonları
+- **Migrations/**: Database migration dosyaları
+
+### 4. Web Layer - [ECommerceApp.Web](mdc:ECommerceApp.Web/)
+- **Controllers/**: MVC Controller'lar
+- **Views/**: Razor view dosyaları
+- **Models/**: View model'ler ve DTO'lar
+- [Program.cs](mdc:ECommerceApp.Web/Program.cs) - Uygulama başlangıç noktası
+
+## Teknoloji Stack
+
+- **.NET 8.0** - Framework
+- **PostgreSQL** - Veritabanı (Npgsql)
+- **Entity Framework Core** - ORM
+- **ASP.NET Core Identity** - Authentication/Authorization
+- **JWT** - Token-based authentication
+- **Swagger** - API dokümantasyonu
+
+## Migration Yönetimi
+
+- Migration oluşturmak için: [create-migration.sh](mdc:create-migration.sh) veya [create-migration.bat](mdc:create-migration.bat) scriptleri kullanılır
+- Migrations [ECommerceApp.Infrastructure/Migrations/](mdc:ECommerceApp.Infrastructure/Migrations/) klasöründe saklanır
+
+## Veritabanı
+
+- **PostgreSQL** kullanılıyor
+- Connection string [appsettings.json](mdc:ECommerceApp.Web/appsettings.json)'da tanımlı
+- Database file: [ecommerce.db](mdc:ECommerceApp.Web/ecommerce.db)
+
+## Default Admin User
+- Email: admin@example.com
+- Password: Admin@123

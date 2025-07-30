@@ -85,6 +85,43 @@ namespace ECommerceApp.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
             
+            // Configure Computed Properties to be Ignored (must be first)
+            modelBuilder.Entity<Cart>()
+                .Ignore(e => e.SubtotalAmount)
+                .Ignore(e => e.TotalAmount)
+                .Ignore(e => e.ItemsCount)
+                .Ignore(e => e.UniqueItemsCount)
+                .Ignore(e => e.IsEmpty)
+                .Ignore(e => e.TotalWeight)
+                .Ignore(e => e.RequiresShipping)
+                .Ignore(e => e.HasDigitalItems)
+                .Ignore(e => e.IsExpired);
+                
+            modelBuilder.Entity<CartItem>()
+                .Ignore(e => e.OriginalTotalPrice)
+                .Ignore(e => e.SavedAmount)
+                .Ignore(e => e.DiscountPercentage)
+                .Ignore(e => e.HasDiscount);
+                
+            modelBuilder.Entity<User>()
+                .Ignore(e => e.FullName)
+                .Ignore(e => e.Age);
+                
+            modelBuilder.Entity<Address>()
+                .Ignore(e => e.FullAddress)
+                .Ignore(e => e.FullName);
+                
+            modelBuilder.Entity<Order>()
+                .Ignore(e => e.ItemsCount)
+                .Ignore(e => e.CanBeCancelled)
+                .Ignore(e => e.IsCompleted)
+                .Ignore(e => e.IsPaid);
+                
+            modelBuilder.Entity<OrderItem>()
+                .Ignore(e => e.RemainingQuantity)
+                .Ignore(e => e.IsFullyFulfilled)
+                .Ignore(e => e.RefundableAmount);
+            
             // Configure Entity Relationships and Constraints
             ConfigureProductEntities(modelBuilder);
             ConfigureOrderEntities(modelBuilder);
@@ -423,6 +460,17 @@ namespace ECommerceApp.Infrastructure.Data
                 entity.HasIndex(e => e.SessionId);
                 entity.HasIndex(e => e.UpdatedAt);
                 
+                // Ignore computed properties
+                entity.Ignore(e => e.SubtotalAmount);
+                entity.Ignore(e => e.TotalAmount);
+                entity.Ignore(e => e.ItemsCount);
+                entity.Ignore(e => e.UniqueItemsCount);
+                entity.Ignore(e => e.IsEmpty);
+                entity.Ignore(e => e.TotalWeight);
+                entity.Ignore(e => e.RequiresShipping);
+                entity.Ignore(e => e.HasDigitalItems);
+                entity.Ignore(e => e.IsExpired);
+                
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.Carts)
                     .HasForeignKey(e => e.UserId)
@@ -445,6 +493,11 @@ namespace ECommerceApp.Infrastructure.Data
                 entity.HasKey(e => e.Id);
                 entity.HasIndex(e => new { e.CartId, e.ProductId, e.ProductVariantId }).IsUnique();
                 
+                // Ignore computed properties
+                entity.Ignore(e => e.OriginalTotalPrice);
+                entity.Ignore(e => e.SavedAmount);
+                entity.Ignore(e => e.HasDiscount);
+                
                 entity.HasOne(e => e.Cart)
                     .WithMany(c => c.CartItems)
                     .HasForeignKey(e => e.CartId)
@@ -464,11 +517,23 @@ namespace ECommerceApp.Infrastructure.Data
         
         private void ConfigureUserEntities(ModelBuilder modelBuilder)
         {
+            // User
+            modelBuilder.Entity<User>(entity =>
+            {
+                // Ignore computed properties
+                entity.Ignore(e => e.FullName);
+                entity.Ignore(e => e.Age);
+            });
+            
             // Address
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.HasIndex(e => new { e.UserId, e.IsDefault });
+                
+                // Ignore computed properties
+                entity.Ignore(e => e.FullAddress);
+                entity.Ignore(e => e.FullName);
                 
                 entity.HasOne(e => e.User)
                     .WithMany(u => u.Addresses)
@@ -508,6 +573,65 @@ namespace ECommerceApp.Infrastructure.Data
                     .WithMany()
                     .HasForeignKey(e => e.ProductVariantId)
                     .OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            // CustomerSupport
+            modelBuilder.Entity<CustomerSupport>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.UserId, e.Status });
+                entity.HasIndex(e => e.AssignedToUserId);
+                
+                // Relationship with customer (User)
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.CustomerSupports)
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+                    
+                // Relationship with assigned support user
+                entity.HasOne(e => e.AssignedToUser)
+                    .WithMany()
+                    .HasForeignKey(e => e.AssignedToUserId)
+                    .OnDelete(DeleteBehavior.SetNull);
+                    
+                entity.HasOne(e => e.Order)
+                    .WithMany()
+                    .HasForeignKey(e => e.OrderId)
+                    .OnDelete(DeleteBehavior.SetNull);
+                    
+                entity.HasOne(e => e.Product)
+                    .WithMany()
+                    .HasForeignKey(e => e.ProductId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+            
+            // SupportMessage
+            modelBuilder.Entity<SupportMessage>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.CustomerSupportId, e.CreatedAt });
+                
+                entity.HasOne(e => e.CustomerSupport)
+                    .WithMany(cs => cs.SupportMessages)
+                    .HasForeignKey(e => e.CustomerSupportId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                    
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            
+            // UserActivity
+            modelBuilder.Entity<UserActivity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => new { e.UserId, e.CreatedAt });
+                
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.UserActivities)
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
         

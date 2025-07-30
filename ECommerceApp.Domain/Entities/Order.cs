@@ -129,13 +129,13 @@ namespace ECommerceApp.Domain.Entities
         }
         
         // Computed Properties
-        public decimal ItemsCount => OrderItems?.Sum(x => x.Quantity) ?? 0;
+        public decimal ItemsCount { get => OrderItems?.Sum(x => x.Quantity) ?? 0; private set { } }
         
-        public bool CanBeCancelled => Status is "Pending" or "Confirmed" && PaymentStatus != "Paid";
+        public bool CanBeCancelled { get => Status is "Pending" or "Confirmed" && PaymentStatus != "Paid"; private set { } }
         
-        public bool IsCompleted => Status == "Delivered";
+        public bool IsCompleted { get => Status == "Delivered"; private set { } }
         
-        public bool IsPaid => PaymentStatus == "Paid";
+        public bool IsPaid { get => PaymentStatus == "Paid"; private set { } }
     }
     
     public class OrderItem
@@ -201,11 +201,11 @@ namespace ECommerceApp.Domain.Entities
         }
         
         // Computed Properties
-        public int RemainingQuantity => Quantity - FulfilledQuantity;
+        public int RemainingQuantity { get => Quantity - FulfilledQuantity; private set { } }
         
-        public bool IsFullyFulfilled => FulfilledQuantity >= Quantity;
+        public bool IsFullyFulfilled { get => FulfilledQuantity >= Quantity; private set { } }
         
-        public decimal RefundableAmount => UnitPrice * (Quantity - RefundedQuantity);
+        public decimal RefundableAmount { get => UnitPrice * (Quantity - RefundedQuantity); private set { } }
     }
     
     public class OrderStatusHistory

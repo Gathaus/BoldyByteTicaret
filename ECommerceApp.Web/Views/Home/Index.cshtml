@@ -429,11 +429,6 @@
                 </button>
                 <div class="search-cat d-none d-lg-block">
                     <div class="input-group">
-                        <select name="name"  class="form-select">
-                            <option value=""> All Categories </option>
-                            <option value=""> Categories 1 </option>
-                            <option value=""> Categories 2 </option>
-                        </select>
                         <input type="text" class="form-control" placeholder="Search anything...">
                         <a href="/" class="search-btn"> <i class="fal fa-search"></i> </a>
                     </div>
@@ -625,11 +620,6 @@
                 <div class="container">
                     <div class="search-cat d-block d-lg-none">
                         <div class="input-group">
-                            <select name="name"  class="form-select">
-                                <option value=""> All Categories </option>
-                                <option value=""> Categories 1 </option>
-                                <option value=""> Categories 2 </option>
-                            </select>
                             <input type="text" class="form-control" placeholder="Search anything...">
                             <a href="/" class="search-btn"> <i class="fal fa-search"></i> </a>
                         </div>
@@ -637,7 +627,7 @@
                     <div class="sec-title">
                         <div class="row align-items-center">
                             <div class="col-lg-6">
-                                <h3 class="fsz-24 text-capitalize"> Popular Categories </h3>
+                                <h3 class="fsz-24 text-capitalize"> Categories </h3>
                             </div>
                             <div class="col-lg-6 text-lg-end mt-4 mt-lg-0">
                                 <a href="#0" class="more-link text-capitalize"> View All <i class="la la-angle-right ms-1"></i> </a>
@@ -645,66 +635,32 @@
                         </div>
                     </div>
                     <div class="cat-content">
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat1.png" alt="">
+                        @if (ViewBag.Categories != null)
+                        {
+                            @foreach (var category in (IEnumerable<ECommerceApp.Domain.Entities.Category>)ViewBag.Categories)
+                            {
+                                <a href="/Products?category=@category.Slug" class="cat-card"> 
+                                    <div class="img">
+                                        @if (!string.IsNullOrEmpty(category.ImageUrl))
+                                        {
+                                            <img src="@category.ImageUrl" alt="@category.Name">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/swoo/home_electronic/assets/img/cat/cat1.png" alt="@category.Name">
+                                        }
+                                    </div>
+                                    <p class="fsz-13 fw-bold mt-15"> @category.Name </p>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <!-- Fallback when no categories are available -->
+                            <div class="col-12 text-center">
+                                <p class="text-muted">No categories available at the moment.</p>
                             </div>
-                            <p class="fsz-13 fw-bold mt-15"> Gaming122355 </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat2.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Sport Equip </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat3.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Kitchen </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat4.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Robot Cleaner </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat5.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Mobiles </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat6.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Office </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat7.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Cameras </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat8.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Computers </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat9.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Televisions </p>
-                        </a>
-                        <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="cat-card"> 
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/cat/cat10.png" alt="">
-                            </div>
-                            <p class="fsz-13 fw-bold mt-15"> Audios </p>
-                        </a>
+                        }
                     </div>
                 </div>
             </section>
