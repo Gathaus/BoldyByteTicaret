@@ -15,5 +15,6 @@ namespace ECommerceApp.Domain.Services
         Task<bool> DeleteCategoryAsync(int id);
         Task<bool> HasChildCategoriesAsync(int categoryId);
         Task<bool> HasProductsAsync(int categoryId);
+        Task<IEnumerable<Category>> GetAllCategoriesAsync();
     }
 } 

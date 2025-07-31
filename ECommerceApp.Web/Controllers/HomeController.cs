@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceApp.Web.Models;
 using ECommerceApp.Domain.Services;
+using ECommerceApp.Domain.Entities;
+using ECommerceApp.Infrastructure.Data;
 
 namespace ECommerceApp.Web.Controllers;
 
@@ -9,29 +11,54 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ICategoryService _categoryService;
+    private readonly IServiceProvider _serviceProvider;
 
-    public HomeController(ILogger<HomeController> logger, ICategoryService categoryService)
+    public HomeController(ILogger<HomeController> logger, ICategoryService categoryService, IServiceProvider serviceProvider)
     {
         _logger = logger;
         _categoryService = categoryService;
+        _serviceProvider = serviceProvider;
     }
 
     public async Task<IActionResult> Index()
     {
-        try
-        {
-            var categories = await _categoryService.GetActiveTopLevelCategoriesAsync();
-            ViewBag.Categories = categories;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting categories for Index page");
-            ViewBag.Categories = new List<ECommerceApp.Domain.Entities.Category>();
-        }
+        // Pass categories to the view for the category section
+        var categories = await _categoryService.GetAllCategoriesAsync();
+        ViewBag.Categories = categories?.ToList() ?? new List<Category>();
         
         return View();
     }
-    
+
+    public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// Resets all database data and re-seeds with fresh sample data
+    /// This is a development/demo feature - access via /Home/ResetData
+    /// </summary>
+    public async Task<IActionResult> ResetData()
+    {
+        try
+        {
+            _logger.LogInformation("Database reset requested via web interface");
+            
+            // Reset and seed data
+            await SeedData.SeedAsync(_serviceProvider, resetData: true);
+            
+            TempData["Success"] = "Database has been reset and seeded with fresh data successfully!";
+            _logger.LogInformation("Database reset completed successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while resetting database data");
+            TempData["Error"] = $"Error resetting database: {ex.Message}";
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
     public IActionResult About()
     {
         return View();
@@ -40,11 +67,6 @@ public class HomeController : Controller
     public IActionResult SwooHome()
     {
         return View("Index");
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
     }
 
     public IActionResult Products()

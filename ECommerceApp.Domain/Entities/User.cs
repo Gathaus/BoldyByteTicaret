@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace ECommerceApp.Domain.Entities
@@ -209,9 +210,16 @@ namespace ECommerceApp.Domain.Entities
         public DateTime? ResolvedAt { get; set; }
         
         // Navigation properties
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        
+        [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
+        
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+        
+        [ForeignKey("AssignedToUserId")]
         public virtual User AssignedToUser { get; set; }
         public virtual ICollection<SupportMessage> SupportMessages { get; set; }
         

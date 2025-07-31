@@ -4,10 +4,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECommerceApp.Domain.Entities
 {
-    public class Product
+    // Base Entity for common properties
+    public abstract class BaseEntity
     {
         public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+    }
+
+    // SEO Entity for reusable SEO fields  
+    public abstract class SEOEntity : BaseEntity
+    {
+        [MaxLength(200)]
+        public string MetaTitle { get; set; }
         
+        [MaxLength(500)]
+        public string MetaDescription { get; set; }
+        
+        [MaxLength(200)]
+        public string Slug { get; set; }
+    }
+
+    public class Product : SEOEntity
+    {
         [Required]
         [MaxLength(200)]
         public string Name { get; set; }
@@ -61,15 +81,10 @@ namespace ECommerceApp.Domain.Entities
         
         public int SortOrder { get; set; } = 0;
         
-        // SEO Alanları
-        [MaxLength(200)]
-        public string MetaTitle { get; set; }
+        // Features from Index.cshtml
+        public bool HasInstallment { get; set; } = false; // 0% Installment support
         
-        [MaxLength(500)]
-        public string MetaDescription { get; set; }
-        
-        [MaxLength(200)]
-        public string Slug { get; set; }
+        public ProductStatus Status { get; set; } = ProductStatus.Active;
         
         // İstatistikler
         public int ViewCount { get; set; } = 0;
@@ -77,10 +92,6 @@ namespace ECommerceApp.Domain.Entities
         public decimal AverageRating { get; set; } = 0;
         public int ReviewCount { get; set; } = 0;
         
-        // Tarihler
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
         
         // Navigation properties
@@ -109,11 +120,18 @@ namespace ECommerceApp.Domain.Entities
             ProductViews = new HashSet<ProductView>();
         }
     }
-    
-    public class Category
+
+    public enum ProductStatus
     {
-        public int Id { get; set; }
-        
+        Active = 1,
+        Inactive = 2,
+        OutOfStock = 3,
+        PreOrder = 4,
+        Discontinued = 5
+    }
+    
+    public class Category : SEOEntity
+    {
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -121,7 +139,7 @@ namespace ECommerceApp.Domain.Entities
         [MaxLength(500)]
         public string Description { get; set; }
         
-        [MaxLength(200)]
+        [MaxLength(500)]
         public string ImageUrl { get; set; }
         
         public int? ParentId { get; set; } // Hiyerarşik kategori yapısı
@@ -129,20 +147,6 @@ namespace ECommerceApp.Domain.Entities
         public bool IsActive { get; set; } = true;
         
         public int SortOrder { get; set; } = 0;
-        
-        // SEO Alanları
-        [MaxLength(200)]
-        public string MetaTitle { get; set; }
-        
-        [MaxLength(500)]
-        public string MetaDescription { get; set; }
-        
-        [MaxLength(200)]
-        public string Slug { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
         
         // Navigation properties
         public virtual Category Parent { get; set; }
@@ -158,10 +162,8 @@ namespace ECommerceApp.Domain.Entities
         }
     }
     
-    public class Brand
+    public class Brand : SEOEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -169,7 +171,7 @@ namespace ECommerceApp.Domain.Entities
         [MaxLength(500)]
         public string Description { get; set; }
         
-        [MaxLength(200)]
+        [MaxLength(500)]
         public string LogoUrl { get; set; }
         
         [MaxLength(200)]
@@ -179,20 +181,6 @@ namespace ECommerceApp.Domain.Entities
         
         public int SortOrder { get; set; } = 0;
         
-        // SEO Alanları
-        [MaxLength(200)]
-        public string MetaTitle { get; set; }
-        
-        [MaxLength(500)]
-        public string MetaDescription { get; set; }
-        
-        [MaxLength(200)]
-        public string Slug { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
-        
         // Navigation properties
         public virtual ICollection<Product> Products { get; set; }
         
@@ -201,11 +189,9 @@ namespace ECommerceApp.Domain.Entities
             Products = new HashSet<Product>();
         }
     }
-    
-    public class ProductImage
+
+    public class ProductImage : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         public int ProductId { get; set; }
         
@@ -220,16 +206,12 @@ namespace ECommerceApp.Domain.Entities
         
         public int SortOrder { get; set; } = 0;
         
-        public DateTime CreatedAt { get; set; }
-        
         // Navigation properties
         public virtual Product Product { get; set; }
     }
     
-    public class ProductAttribute
+    public class ProductAttribute : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         public int ProductId { get; set; }
         
@@ -245,10 +227,8 @@ namespace ECommerceApp.Domain.Entities
         public virtual ProductAttributeDefinition Attribute { get; set; }
     }
     
-    public class ProductAttributeDefinition
+    public class ProductAttributeDefinition : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -268,9 +248,6 @@ namespace ECommerceApp.Domain.Entities
         
         public int SortOrder { get; set; } = 0;
         
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        
         // Navigation properties
         public virtual ICollection<ProductAttribute> ProductAttributes { get; set; }
         public virtual ICollection<CategoryAttribute> CategoryAttributes { get; set; }
@@ -284,10 +261,8 @@ namespace ECommerceApp.Domain.Entities
         }
     }
     
-    public class AttributeValue
+    public class AttributeValue : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         public int AttributeId { get; set; }
         
@@ -304,10 +279,8 @@ namespace ECommerceApp.Domain.Entities
         public virtual ProductAttributeDefinition Attribute { get; set; }
     }
     
-    public class CategoryAttribute
+    public class CategoryAttribute : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
         public int CategoryId { get; set; }
         

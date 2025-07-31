@@ -99,27 +99,24 @@ namespace ECommerceApp.Domain.Entities
         public virtual ProductVariant ProductVariant { get; set; }
     }
     
-    public class Tag
+    // Product Labels/Tags for "15% OFF", "best seller", "new", "top rated", etc.
+    public class Tag : BaseEntity
     {
-        public int Id { get; set; }
-        
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string Name { get; set; }
         
-        [MaxLength(200)]
-        public string Description { get; set; }
-        
-        [MaxLength(100)]
-        public string Slug { get; set; }
+        [MaxLength(50)]
+        public string DisplayName { get; set; }
         
         [MaxLength(50)]
-        public string Color { get; set; } // Hex renk kodu
+        public string CssClass { get; set; } // bg-red1, bg-blue1, bg-green1, etc.
+        
+        public TagType Type { get; set; }
         
         public bool IsActive { get; set; } = true;
         
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public int SortOrder { get; set; } = 0;
         
         // Navigation properties
         public virtual ICollection<ProductTag> ProductTags { get; set; }
@@ -129,18 +126,22 @@ namespace ECommerceApp.Domain.Entities
             ProductTags = new HashSet<ProductTag>();
         }
     }
-    
-    public class ProductTag
+
+    public enum TagType
     {
-        public int Id { get; set; }
-        
+        Discount = 1,      // "15% OFF", "10% OFF"
+        Status = 2,        // "best seller", "top rated", "new", "out of stock"
+        Feature = 3,       // "0% installment"
+        Seasonal = 4       // "pre-order", "limited time"
+    }
+
+    public class ProductTag : BaseEntity
+    {
         [Required]
         public int ProductId { get; set; }
         
         [Required]
         public int TagId { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
         
         // Navigation properties
         public virtual Product Product { get; set; }

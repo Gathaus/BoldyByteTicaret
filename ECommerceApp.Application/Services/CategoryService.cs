@@ -126,6 +126,11 @@ namespace ECommerceApp.Application.Services
             return await _categoryRepository.HasProductsAsync(categoryId);
         }
 
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        {
+            return await _categoryRepository.GetAllAsync();
+        }
+
         private string GenerateSlug(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

@@ -293,7 +293,7 @@ namespace ECommerceApp.Infrastructure.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.HasIndex(e => e.Name).IsUnique();
-                entity.HasIndex(e => e.Slug).IsUnique().HasFilter("[Slug] IS NOT NULL");
+                // Removed Slug index as Tag entity doesn't have Slug property
             });
             
             // ProductTag
