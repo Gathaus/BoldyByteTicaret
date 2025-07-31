@@ -75,17 +75,12 @@ namespace ECommerceApp.Application.Services
             existingProduct.ComparePrice = product.ComparePrice;
             existingProduct.Stock = product.Stock;
             existingProduct.SKU = product.SKU;
-            existingProduct.Barcode = product.Barcode;
-            existingProduct.Weight = product.Weight;
             existingProduct.CategoryId = product.CategoryId;
             existingProduct.BrandId = product.BrandId;
             existingProduct.IsActive = product.IsActive;
             existingProduct.IsFeatured = product.IsFeatured;
-            existingProduct.IsDigital = product.IsDigital;
-            existingProduct.RequiresShipping = product.RequiresShipping;
+            existingProduct.HasInstallment = product.HasInstallment;
             existingProduct.TrackQuantity = product.TrackQuantity;
-            existingProduct.ContinueSelling = product.ContinueSelling;
-            existingProduct.LowStockThreshold = product.LowStockThreshold;
             
             // SEO fields
             existingProduct.MetaTitle = product.MetaTitle;

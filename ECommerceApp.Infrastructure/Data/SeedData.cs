@@ -26,22 +26,30 @@ namespace ECommerceApp.Infrastructure.Data
                 }
 
                 // Check if data already exists
-                if (await context.Categories.AnyAsync() || await context.Products.AnyAsync())
+                if (await context.Categories.AnyAsync())
                 {
                     logger.LogInformation("Database already contains data. Skipping seed.");
                     return;
                 }
 
-                logger.LogInformation("Starting database seeding...");
+                logger.LogInformation("Seeding database...");
 
                 // Seed in order of dependencies
                 await SeedTagsAsync(context);
-                await SeedBrandsAsync(context);
-                await SeedCategoriesAsync(context);
-                await SeedProductsAsync(context);
-                await SeedProductTagsAsync(context);
-
                 await context.SaveChangesAsync();
+                
+                await SeedBrandsAsync(context);
+                await context.SaveChangesAsync();
+                
+                await SeedCategoriesAsync(context);
+                await context.SaveChangesAsync();
+                
+                await SeedProductsAsync(context);
+                await context.SaveChangesAsync();
+                
+                await SeedProductTagsAsync(context);
+                await context.SaveChangesAsync();
+
                 logger.LogInformation("Database seeding completed successfully.");
             }
             catch (Exception ex)
@@ -53,39 +61,41 @@ namespace ECommerceApp.Infrastructure.Data
 
         private static async Task ResetDatabaseAsync(ApplicationDbContext context)
         {
-            // Remove all data in dependency order
-            context.ProductTags.RemoveRange(context.ProductTags);
-            context.ProductImages.RemoveRange(context.ProductImages);
-            context.Products.RemoveRange(context.Products);
-            context.Categories.RemoveRange(context.Categories);
-            context.Brands.RemoveRange(context.Brands);
-            context.Tags.RemoveRange(context.Tags);
-            
-            await context.SaveChangesAsync();
+            try
+            {
+                // Execute raw SQL to truncate tables (safer approach)
+                await context.Database.ExecuteSqlRawAsync(@"
+                    TRUNCATE TABLE ""ProductTags"" RESTART IDENTITY CASCADE;
+                    TRUNCATE TABLE ""ProductImages"" RESTART IDENTITY CASCADE;
+                    TRUNCATE TABLE ""Products"" RESTART IDENTITY CASCADE;
+                    TRUNCATE TABLE ""Categories"" RESTART IDENTITY CASCADE;
+                    TRUNCATE TABLE ""Brands"" RESTART IDENTITY CASCADE;
+                    TRUNCATE TABLE ""Tags"" RESTART IDENTITY CASCADE;
+                ");
+                
+                Console.WriteLine("Database tables truncated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during database reset: {ex.Message}");
+                // Continue anyway
+            }
         }
 
         private static async Task SeedTagsAsync(ApplicationDbContext context)
         {
+            if (await context.Tags.AnyAsync()) return;
+
             var tags = new List<Tag>
             {
-                // Discount tags
-                new Tag { Name = "5% OFF", DisplayName = "5% OFF", CssClass = "bg-red1", Type = TagType.Discount },
-                new Tag { Name = "10% OFF", DisplayName = "10% OFF", CssClass = "bg-red1", Type = TagType.Discount },
                 new Tag { Name = "15% OFF", DisplayName = "15% OFF", CssClass = "bg-red1", Type = TagType.Discount },
                 new Tag { Name = "20% OFF", DisplayName = "20% OFF", CssClass = "bg-red1", Type = TagType.Discount },
-
-                // Status tags
+                new Tag { Name = "25% OFF", DisplayName = "25% OFF", CssClass = "bg-red1", Type = TagType.Discount },
                 new Tag { Name = "best seller", DisplayName = "Best Seller", CssClass = "bg-blue1", Type = TagType.Status },
                 new Tag { Name = "new", DisplayName = "New", CssClass = "bg-cyan1", Type = TagType.Status },
                 new Tag { Name = "top rated", DisplayName = "Top Rated", CssClass = "bg-green1", Type = TagType.Status },
-                new Tag { Name = "out of stock", DisplayName = "Out of Stock", CssClass = "bg-dark", Type = TagType.Status },
-
-                // Feature tags
-                new Tag { Name = "0% installment", DisplayName = "0% Installment", CssClass = "bg-orange", Type = TagType.Feature },
-
-                // Seasonal tags
-                new Tag { Name = "pre-order", DisplayName = "Pre-Order", CssClass = "bg-purple", Type = TagType.Seasonal },
-                new Tag { Name = "limited time", DisplayName = "Limited Time", CssClass = "bg-red1", Type = TagType.Seasonal }
+                new Tag { Name = "featured", DisplayName = "Featured", CssClass = "bg-yellow1", Type = TagType.Feature },
+                new Tag { Name = "limited", DisplayName = "Limited Edition", CssClass = "bg-purple1", Type = TagType.Feature }
             };
 
             await context.Tags.AddRangeAsync(tags);
@@ -93,88 +103,20 @@ namespace ECommerceApp.Infrastructure.Data
 
         private static async Task SeedBrandsAsync(ApplicationDbContext context)
         {
+            if (await context.Brands.AnyAsync()) return;
+
             var brands = new List<Brand>
             {
-                new Brand 
-                { 
-                    Name = "Samsung", 
-                    Description = "Leading technology company", 
-                    Slug = "samsung",
-                    LogoUrl = "/images/brands/samsung.png",
-                    Website = "https://samsung.com",
-                    IsActive = true,
-                    SortOrder = 1
-                },
-                new Brand 
-                { 
-                    Name = "Apple", 
-                    Description = "Innovation in technology", 
-                    Slug = "apple",
-                    LogoUrl = "/images/brands/apple.png",
-                    Website = "https://apple.com",
-                    IsActive = true,
-                    SortOrder = 2
-                },
-                new Brand 
-                { 
-                    Name = "Sony", 
-                    Description = "Electronics and entertainment", 
-                    Slug = "sony",
-                    LogoUrl = "/images/brands/sony.png",
-                    Website = "https://sony.com",
-                    IsActive = true,
-                    SortOrder = 3
-                },
-                new Brand 
-                { 
-                    Name = "LG", 
-                    Description = "Life's Good with innovative technology", 
-                    Slug = "lg",
-                    LogoUrl = "/images/brands/lg.png",
-                    Website = "https://lg.com",
-                    IsActive = true,
-                    SortOrder = 4
-                },
-                new Brand 
-                { 
-                    Name = "Canon", 
-                    Description = "Imaging and optical solutions", 
-                    Slug = "canon",
-                    LogoUrl = "/images/brands/canon.png",
-                    Website = "https://canon.com",
-                    IsActive = true,
-                    SortOrder = 5
-                },
-                new Brand 
-                { 
-                    Name = "Gigabyte", 
-                    Description = "Computer hardware manufacturer", 
-                    Slug = "gigabyte",
-                    LogoUrl = "/images/brands/gigabyte.png",
-                    Website = "https://gigabyte.com",
-                    IsActive = true,
-                    SortOrder = 6
-                },
-                new Brand 
-                { 
-                    Name = "Marshall", 
-                    Description = "Audio equipment and speakers", 
-                    Slug = "marshall",
-                    LogoUrl = "/images/brands/marshall.png",
-                    Website = "https://marshallheadphones.com",
-                    IsActive = true,
-                    SortOrder = 7
-                },
-                new Brand 
-                { 
-                    Name = "Bose", 
-                    Description = "Premium audio systems", 
-                    Slug = "bose",
-                    LogoUrl = "/images/brands/bose.png",
-                    Website = "https://bose.com",
-                    IsActive = true,
-                    SortOrder = 8
-                }
+                new Brand { Name = "Apple", Description = "Technology company", Slug = "apple", LogoUrl = "/images/brands/apple.png" },
+                new Brand { Name = "Samsung", Description = "Electronics company", Slug = "samsung", LogoUrl = "/images/brands/samsung.png" },
+                new Brand { Name = "Sony", Description = "Electronics and entertainment", Slug = "sony", LogoUrl = "/images/brands/sony.png" },
+                new Brand { Name = "LG", Description = "Home appliances and electronics", Slug = "lg", LogoUrl = "/images/brands/lg.png" },
+                new Brand { Name = "Canon", Description = "Cameras and printers", Slug = "canon", LogoUrl = "/images/brands/canon.png" },
+                new Brand { Name = "HP", Description = "Computers and printers", Slug = "hp", LogoUrl = "/images/brands/hp.png" },
+                new Brand { Name = "Gigabyte", Description = "Computer hardware", Slug = "gigabyte", LogoUrl = "/images/brands/gigabyte.png" },
+                new Brand { Name = "Durotan", Description = "Coffee machines", Slug = "durotan", LogoUrl = "/images/brands/durotan.png" },
+                new Brand { Name = "Sceptre", Description = "TVs and monitors", Slug = "sceptre", LogoUrl = "/images/brands/sceptre.png" },
+                new Brand { Name = "Sharp", Description = "Electronics", Slug = "sharp", LogoUrl = "/images/brands/sharp.png" }
             };
 
             await context.Brands.AddRangeAsync(brands);
@@ -182,99 +124,16 @@ namespace ECommerceApp.Infrastructure.Data
 
         private static async Task SeedCategoriesAsync(ApplicationDbContext context)
         {
+            if (await context.Categories.AnyAsync()) return;
+
             var categories = new List<Category>
             {
-                // Main categories from Index.cshtml
-                new Category 
-                { 
-                    Name = "Televisions", 
-                    Description = "Smart TVs, LED, OLED and more", 
-                    Slug = "televisions",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat1.png",
-                    IsActive = true,
-                    SortOrder = 1
-                },
-                new Category 
-                { 
-                    Name = "PC Gaming", 
-                    Description = "Gaming computers and accessories", 
-                    Slug = "pc-gaming",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat2.png",
-                    IsActive = true,
-                    SortOrder = 2
-                },
-                new Category 
-                { 
-                    Name = "Computers", 
-                    Description = "Desktop and laptop computers", 
-                    Slug = "computers",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat3.png",
-                    IsActive = true,
-                    SortOrder = 3
-                },
-                new Category 
-                { 
-                    Name = "Cameras", 
-                    Description = "DSLR, mirrorless and digital cameras", 
-                    Slug = "cameras",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat4.png",
-                    IsActive = true,
-                    SortOrder = 4
-                },
-                new Category 
-                { 
-                    Name = "Gadgets", 
-                    Description = "Electronic gadgets and accessories", 
-                    Slug = "gadgets",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat5.png",
-                    IsActive = true,
-                    SortOrder = 5
-                },
-                new Category 
-                { 
-                    Name = "Smart Home", 
-                    Description = "Smart home devices and automation", 
-                    Slug = "smart-home",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat6.png",
-                    IsActive = true,
-                    SortOrder = 6
-                },
-                new Category 
-                { 
-                    Name = "Sport Equipments", 
-                    Description = "Sports and fitness equipment", 
-                    Slug = "sport-equipments",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat7.png",
-                    IsActive = true,
-                    SortOrder = 7
-                },
-                new Category 
-                { 
-                    Name = "Speakers", 
-                    Description = "Audio speakers and sound systems", 
-                    Slug = "speakers",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat8.png",
-                    IsActive = true,
-                    SortOrder = 8
-                },
-                new Category 
-                { 
-                    Name = "Laptops", 
-                    Description = "Portable computers and notebooks", 
-                    Slug = "laptops",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat9.png",
-                    IsActive = true,
-                    SortOrder = 9
-                },
-                new Category 
-                { 
-                    Name = "Mobiles & Tablets", 
-                    Description = "Smartphones and tablet devices", 
-                    Slug = "mobiles-tablets",
-                    ImageUrl = "~/swoo/home_electronic/assets/img/cat/cat10.png",
-                    IsActive = true,
-                    SortOrder = 10
-                }
+                new Category { Name = "Electronics", Description = "Electronic devices and accessories", Slug = "electronics", ImageUrl = "/images/categories/electronics.png" },
+                new Category { Name = "Computers & Gaming", Description = "Computers, laptops and gaming equipment", Slug = "computers-gaming", ImageUrl = "/images/categories/computers.png" },
+                new Category { Name = "Home & Kitchen", Description = "Home appliances and kitchen equipment", Slug = "home-kitchen", ImageUrl = "/images/categories/home.png" },
+                new Category { Name = "TV & Audio", Description = "Televisions and audio equipment", Slug = "tv-audio", ImageUrl = "/images/categories/tv.png" },
+                new Category { Name = "Cameras", Description = "Digital cameras and accessories", Slug = "cameras", ImageUrl = "/images/categories/cameras.png" },
+                new Category { Name = "Mobile & Tablets", Description = "Smartphones and tablets", Slug = "mobile-tablets", ImageUrl = "/images/categories/mobile.png" }
             };
 
             await context.Categories.AddRangeAsync(categories);
@@ -282,280 +141,122 @@ namespace ECommerceApp.Infrastructure.Data
 
         private static async Task SeedProductsAsync(ApplicationDbContext context)
         {
-            // Get categories and brands for foreign keys
-            var tvCategory = await context.Categories.FirstAsync(c => c.Name == "Televisions");
-            var gamingCategory = await context.Categories.FirstAsync(c => c.Name == "PC Gaming");
-            var computerCategory = await context.Categories.FirstAsync(c => c.Name == "Computers");
-            var cameraCategory = await context.Categories.FirstAsync(c => c.Name == "Cameras");
-            var smartHomeCategory = await context.Categories.FirstAsync(c => c.Name == "Smart Home");
-            var speakerCategory = await context.Categories.FirstAsync(c => c.Name == "Speakers");
-            var sportCategory = await context.Categories.FirstAsync(c => c.Name == "Sport Equipments");
-            var gadgetCategory = await context.Categories.FirstAsync(c => c.Name == "Gadgets");
+            if (await context.Products.AnyAsync()) return;
 
-            var samsungBrand = await context.Brands.FirstAsync(b => b.Name == "Samsung");
-            var appleBrand = await context.Brands.FirstAsync(b => b.Name == "Apple");
-            var canonBrand = await context.Brands.FirstAsync(b => b.Name == "Canon");
-            var gigabyteBrand = await context.Brands.FirstAsync(b => b.Name == "Gigabyte");
-            var marshallBrand = await context.Brands.FirstAsync(b => b.Name == "Marshall");
-            var boseBrand = await context.Brands.FirstAsync(b => b.Name == "Bose");
+            // Get categories and brands for relationships
+            var electronics = await context.Categories.FirstAsync(c => c.Slug == "electronics");
+            var computers = await context.Categories.FirstAsync(c => c.Slug == "computers-gaming");
+            var tv = await context.Categories.FirstAsync(c => c.Slug == "tv-audio");
+            var home = await context.Categories.FirstAsync(c => c.Slug == "home-kitchen");
+            var cameras = await context.Categories.FirstAsync(c => c.Slug == "cameras");
+
+            var durotan = await context.Brands.FirstAsync(b => b.Slug == "durotan");
+            var canon = await context.Brands.FirstAsync(b => b.Slug == "canon");
+            var sharp = await context.Brands.FirstAsync(b => b.Slug == "sharp");
+            var gigabyte = await context.Brands.FirstAsync(b => b.Slug == "gigabyte");
+            var sceptre = await context.Brands.FirstAsync(b => b.Slug == "sceptre");
 
             var products = new List<Product>
             {
-                // Products from Index.cshtml
                 new Product
                 {
                     Name = "Durotan Manual Espresso Machine, Coffee Maker",
-                    Description = "Professional espresso machine for home use",
-                    ShortDescription = "Manual espresso machine with premium features",
-                    Price = 489.00m,
-                    ComparePrice = 619.00m,
-                    Stock = 50,
-                    CategoryId = smartHomeCategory.Id,
-                    BrandId = null, // Generic brand
-                    HasInstallment = true,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 34,
-                    SKU = "ESP-001",
-                    Slug = "durotan-espresso-machine",
+                    Description = "High-quality manual espresso machine for perfect coffee",
+                    ShortDescription = "Manual espresso machine with premium build quality",
+                    Price = 489.00M,
+                    ComparePrice = 619.00M,
+                    Stock = 15,
+                    SKU = "DUR-ESP-001",
+                    CategoryId = home.Id,
+                    BrandId = durotan.Id,
                     IsActive = true,
                     IsFeatured = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
+                    HasInstallment = true,
+                    AverageRating = 5.0M,
+                    ReviewCount = 34,
+                    Slug = "durotan-manual-espresso-machine",
+                    MetaTitle = "Durotan Manual Espresso Machine - Premium Coffee Maker",
+                    SortOrder = 1
                 },
                 new Product
                 {
                     Name = "Canon DSLR Camera EOS II, Only Body",
                     Description = "Professional DSLR camera for photography enthusiasts",
-                    ShortDescription = "High-quality DSLR camera body",
-                    Price = 579.00m,
-                    ComparePrice = 819.00m,
-                    Stock = 25,
-                    CategoryId = cameraCategory.Id,
-                    BrandId = canonBrand.Id,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 4,
-                    ReviewCount = 5,
-                    SKU = "CAM-001",
-                    Slug = "canon-dslr-camera-eos-ii",
+                    ShortDescription = "High-resolution DSLR camera body",
+                    Price = 579.00M,
+                    ComparePrice = 819.00M,
+                    Stock = 8,
+                    SKU = "CAN-EOS-002",
+                    CategoryId = cameras.Id,
+                    BrandId = canon.Id,
                     IsActive = true,
                     IsFeatured = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
+                    HasInstallment = false,
+                    AverageRating = 4.0M,
+                    ReviewCount = 5,
+                    Slug = "canon-dslr-camera-eos-ii",
+                    MetaTitle = "Canon DSLR Camera EOS II - Professional Photography",
+                    SortOrder = 2
                 },
                 new Product
                 {
-                    Name = "Samsung 49\" Class FHD (1080p) Android LED TV",
-                    Description = "Smart Full HD Android TV with Google Assistant",
-                    ShortDescription = "49-inch Smart Android TV",
-                    Price = 3029.50m,
-                    Stock = 15,
-                    CategoryId = tvCategory.Id,
-                    BrandId = samsungBrand.Id,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 0,
-                    ReviewCount = 0,
-                    SKU = "TV-001",
-                    Slug = "samsung-49-android-led-tv",
+                    Name = "Sharp 49\" Class FHD (1080p) Android LED TV",
+                    Description = "Large screen Android TV with Full HD resolution",
+                    ShortDescription = "49-inch Android LED TV with smart features",
+                    Price = 3029.50M,
+                    ComparePrice = null,
+                    Stock = 5,
+                    SKU = "SHA-TV-049",
+                    CategoryId = tv.Id,
+                    BrandId = sharp.Id,
                     IsActive = true,
                     IsFeatured = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
+                    HasInstallment = false,
+                    AverageRating = 0,
+                    ReviewCount = 0,
+                    Slug = "sharp-49-android-led-tv",
+                    MetaTitle = "Sharp 49\" FHD Android LED TV - Smart Entertainment",
+                    SortOrder = 3
                 },
                 new Product
                 {
                     Name = "Gigabyte PC Gaming Case, Core i7, 32GB Ram",
-                    Description = "High-performance gaming computer with latest specs",
-                    ShortDescription = "Gaming PC with Core i7 and 32GB RAM",
-                    Price = 1279.00m,
-                    Stock = 8,
-                    CategoryId = gamingCategory.Id,
-                    BrandId = gigabyteBrand.Id,
-                    HasInstallment = true,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 2,
-                    SKU = "PC-001",
-                    Slug = "gigabyte-gaming-pc-i7-32gb",
+                    Description = "High-performance gaming computer with latest specifications",
+                    ShortDescription = "Gaming PC with Core i7 processor and 32GB RAM",
+                    Price = 1279.00M,
+                    ComparePrice = null,
+                    Stock = 3,
+                    SKU = "GIG-PC-I7",
+                    CategoryId = computers.Id,
+                    BrandId = gigabyte.Id,
                     IsActive = true,
                     IsFeatured = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
+                    HasInstallment = true,
+                    AverageRating = 5.0M,
+                    ReviewCount = 2,
+                    Slug = "gigabyte-gaming-pc-i7-32gb",
+                    MetaTitle = "Gigabyte Gaming PC - Core i7 32GB RAM",
+                    SortOrder = 4
                 },
                 new Product
                 {
                     Name = "Sceptre 32\" Internet TV",
-                    Description = "Smart Internet TV with streaming capabilities",
-                    ShortDescription = "32-inch Smart Internet TV",
-                    Price = 610.00m,
-                    Stock = 20,
-                    CategoryId = tvCategory.Id,
-                    BrandId = null,
-                    HasInstallment = true,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 12,
-                    SKU = "TV-002",
-                    Slug = "sceptre-32-internet-tv",
+                    Description = "Smart TV with internet connectivity and streaming capabilities",
+                    ShortDescription = "32-inch smart TV with internet features",
+                    Price = 610.00M,
+                    ComparePrice = null,
+                    Stock = 12,
+                    SKU = "SCE-TV-032",
+                    CategoryId = tv.Id,
+                    BrandId = sceptre.Id,
                     IsActive = true,
                     IsFeatured = true,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "Air Purifier with True HEPA H14 Filter",
-                    Description = "Advanced air purification system for cleaner air",
-                    ShortDescription = "HEPA H14 air purifier",
-                    Price = 489.00m,
-                    ComparePrice = 619.00m,
-                    Stock = 30,
-                    CategoryId = smartHomeCategory.Id,
-                    BrandId = null,
                     HasInstallment = true,
-                    Status = ProductStatus.Active,
-                    AverageRating = 4,
-                    ReviewCount = 5,
-                    SKU = "AIR-001",
-                    Slug = "air-purifier-hepa-h14",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "Apple iMac All-in-one Desktop Computer with M1",
-                    Description = "Powerful all-in-one computer with Apple M1 chip",
-                    ShortDescription = "iMac with M1 chip",
-                    Price = 2725.00m,
-                    Stock = 12,
-                    CategoryId = computerCategory.Id,
-                    BrandId = appleBrand.Id,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 2,
-                    SKU = "IMAC-001",
-                    Slug = "apple-imac-m1-desktop",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "aPod LTE+GPS Silver Grey",
-                    Description = "Tablet with LTE connectivity and GPS",
-                    ShortDescription = "LTE tablet with GPS",
-                    Price = 524.00m,
-                    Stock = 18,
-                    CategoryId = gadgetCategory.Id,
-                    BrandId = null,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 3,
-                    ReviewCount = 1,
-                    SKU = "TAB-001",
-                    Slug = "apod-lte-gps-tablet",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "TORO Smart Self Balancing Transporter Scooter",
-                    Description = "Electric self-balancing scooter for personal transport",
-                    ShortDescription = "Smart self-balancing scooter",
-                    Price = 1512.90m,
-                    Stock = 5,
-                    CategoryId = sportCategory.Id,
-                    BrandId = null,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 2,
-                    SKU = "SCOOT-001",
-                    Slug = "toro-self-balancing-scooter",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "Marshall Stanmore II Wireless Bluetooth Speaker",
-                    Description = "Premium wireless speaker with classic Marshall design",
-                    ShortDescription = "Wireless Bluetooth speaker",
-                    Price = 325.00m,
-                    Stock = 22,
-                    CategoryId = speakerCategory.Id,
-                    BrandId = marshallBrand.Id,
-                    HasInstallment = true,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
-                    ReviewCount = 2,
-                    SKU = "SPEAK-001",
-                    Slug = "marshall-stanmore-ii-speaker",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "Bose SoundLink III Speaker",
-                    Description = "Portable wireless speaker with superior sound quality",
-                    ShortDescription = "Portable Bluetooth speaker",
-                    Price = 149.00m,
-                    Stock = 35,
-                    CategoryId = speakerCategory.Id,
-                    BrandId = boseBrand.Id,
-                    HasInstallment = false,
-                    Status = ProductStatus.Active,
-                    AverageRating = 5,
+                    AverageRating = 5.0M,
                     ReviewCount = 12,
-                    SKU = "SPEAK-002",
-                    Slug = "bose-soundlink-iii-speaker",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
-                },
-                new Product
-                {
-                    Name = "TCL OLED 4K Ultra HD, 47\" Smart TV",
-                    Description = "Premium OLED TV with 4K Ultra HD resolution",
-                    ShortDescription = "47-inch OLED 4K Smart TV",
-                    Price = 1205.00m,
-                    Stock = 0, // Out of stock
-                    CategoryId = tvCategory.Id,
-                    BrandId = null,
-                    HasInstallment = true,
-                    Status = ProductStatus.OutOfStock,
-                    AverageRating = 0,
-                    ReviewCount = 0,
-                    SKU = "TV-003",
-                    Slug = "tcl-oled-4k-47-smart-tv",
-                    IsActive = true,
-                    IsFeatured = false,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    PublishedAt = DateTime.UtcNow
+                    Slug = "sceptre-32-internet-tv",
+                    MetaTitle = "Sceptre 32\" Smart Internet TV",
+                    SortOrder = 5
                 }
             };
 
@@ -564,64 +265,40 @@ namespace ECommerceApp.Infrastructure.Data
 
         private static async Task SeedProductTagsAsync(ApplicationDbContext context)
         {
-            // Get all products and tags
+            if (await context.ProductTags.AnyAsync()) return;
+
+            // Get products and tags
             var products = await context.Products.ToListAsync();
-            var tags = await context.Tags.ToListAsync();
+            var discountTag = await context.Tags.FirstAsync(t => t.Name == "15% OFF");
+            var bestSellerTag = await context.Tags.FirstAsync(t => t.Name == "best seller");
+            var newTag = await context.Tags.FirstAsync(t => t.Name == "new");
+            var topRatedTag = await context.Tags.FirstAsync(t => t.Name == "top rated");
 
             var productTags = new List<ProductTag>();
 
-            // Assign tags based on product characteristics
-            foreach (var product in products)
-            {
-                // Add discount tags if product has compare price
-                if (product.ComparePrice.HasValue && product.ComparePrice > product.Price)
-                {
-                    var discountPercent = (int)Math.Round(((product.ComparePrice.Value - product.Price) / product.ComparePrice.Value) * 100);
-                    var discountTag = tags.FirstOrDefault(t => t.Name == $"{discountPercent}% OFF" || 
-                                                              (discountPercent >= 15 && t.Name == "15% OFF") ||
-                                                              (discountPercent >= 10 && discountPercent < 15 && t.Name == "10% OFF") ||
-                                                              (discountPercent >= 5 && discountPercent < 10 && t.Name == "5% OFF"));
-                    if (discountTag != null)
-                    {
-                        productTags.Add(new ProductTag { ProductId = product.Id, TagId = discountTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                    }
-                }
+            // Durotan Espresso Machine - 15% OFF + best seller
+            var espressoMachine = products.First(p => p.SKU == "DUR-ESP-001");
+            productTags.Add(new ProductTag { ProductId = espressoMachine.Id, TagId = discountTag.Id });
+            productTags.Add(new ProductTag { ProductId = espressoMachine.Id, TagId = bestSellerTag.Id });
 
-                // Add best seller tag for featured products with good ratings
-                if (product.IsFeatured && product.AverageRating >= 4)
-                {
-                    var bestSellerTag = tags.First(t => t.Name == "best seller");
-                    productTags.Add(new ProductTag { ProductId = product.Id, TagId = bestSellerTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                }
+            // Canon Camera - 15% OFF + best seller
+            var camera = products.First(p => p.SKU == "CAN-EOS-002");
+            productTags.Add(new ProductTag { ProductId = camera.Id, TagId = discountTag.Id });
+            productTags.Add(new ProductTag { ProductId = camera.Id, TagId = bestSellerTag.Id });
 
-                // Add top rated tag for products with 5-star rating
-                if (product.AverageRating == 5 && product.ReviewCount > 10)
-                {
-                    var topRatedTag = tags.First(t => t.Name == "top rated");
-                    productTags.Add(new ProductTag { ProductId = product.Id, TagId = topRatedTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                }
+            // Sharp TV - new + best seller
+            var sharpTv = products.First(p => p.SKU == "SHA-TV-049");
+            productTags.Add(new ProductTag { ProductId = sharpTv.Id, TagId = newTag.Id });
+            productTags.Add(new ProductTag { ProductId = sharpTv.Id, TagId = bestSellerTag.Id });
 
-                // Add new tag for recently created products
-                if (product.CreatedAt >= DateTime.UtcNow.AddDays(-30))
-                {
-                    var newTag = tags.First(t => t.Name == "new");
-                    productTags.Add(new ProductTag { ProductId = product.Id, TagId = newTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                }
+            // Gigabyte PC - best seller
+            var gamingPc = products.First(p => p.SKU == "GIG-PC-I7");
+            productTags.Add(new ProductTag { ProductId = gamingPc.Id, TagId = bestSellerTag.Id });
 
-                // Add out of stock tag
-                if (product.Status == ProductStatus.OutOfStock)
-                {
-                    var outOfStockTag = tags.First(t => t.Name == "out of stock");
-                    productTags.Add(new ProductTag { ProductId = product.Id, TagId = outOfStockTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                }
-
-                // Add installment tag for products with installment support
-                if (product.HasInstallment)
-                {
-                    var installmentTag = tags.First(t => t.Name == "0% installment");
-                    productTags.Add(new ProductTag { ProductId = product.Id, TagId = installmentTag.Id, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
-                }
-            }
+            // Sceptre TV - best seller + top rated
+            var sceptreTv = products.First(p => p.SKU == "SCE-TV-032");
+            productTags.Add(new ProductTag { ProductId = sceptreTv.Id, TagId = bestSellerTag.Id });
+            productTags.Add(new ProductTag { ProductId = sceptreTv.Id, TagId = topRatedTag.Id });
 
             await context.ProductTags.AddRangeAsync(productTags);
         }
