@@ -69,4 +69,11 @@ namespace ECommerceApp.Web.Models
         [DataType(DataType.Password)]
         public required string ConfirmPassword { get; set; }
     }
+    
+    public class ForgotPasswordModel
+    {
+        [Required]
+        [EmailAddress]
+        public required string Email { get; set; }
+    }
 } 

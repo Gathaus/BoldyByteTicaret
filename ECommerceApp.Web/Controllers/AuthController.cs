@@ -8,24 +8,108 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerceApp.Web.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly ICategoryService _categoryService;
+        private readonly ILogger<AuthController> _logger;
         
-        public AuthController(IAuthService authService)
+        public AuthController(
+            IAuthService authService,
+            ICategoryService categoryService,
+            ILogger<AuthController> logger)
         {
             _authService = authService;
+            _categoryService = categoryService;
+            _logger = logger;
         }
         
-        // POST: api/auth/register
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        // GET: /Auth/Login
+        public async Task<IActionResult> Login()
+        {
+            try
+            {
+                // Categories for header/footer navigation
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = categories?.Where(c => c.IsActive).OrderBy(c => c.SortOrder).ToList() ?? new List<Category>();
+                
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading login page");
+                ViewBag.Categories = new List<Category>();
+                return View();
+            }
+        }
+        
+        // POST: /Auth/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(model);
+            }
+            
+            try
+            {
+                var result = await _authService.LoginAsync(model.Email, model.Password);
+                if (result.success)
+                {
+                    // Store JWT token in session or cookie if needed
+                    HttpContext.Session.SetString("AuthToken", result.token);
+                    
+                    // Redirect to home page or returnUrl
+                    var returnUrl = Request.Query["returnUrl"].FirstOrDefault();
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+                
+                ModelState.AddModelError(string.Empty, "Invalid email or password");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during login for user {Email}", model.Email);
+                ModelState.AddModelError(string.Empty, "An error occurred during login. Please try again.");
+            }
+            
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+        
+        // GET: /Auth/Register
+        public async Task<IActionResult> Register()
+        {
+            try
+            {
+                // Categories for header/footer navigation
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = categories?.Where(c => c.IsActive).OrderBy(c => c.SortOrder).ToList() ?? new List<Category>();
+                
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading register page");
+                ViewBag.Categories = new List<Category>();
+                return View();
+            }
+        }
+        
+        // POST: /Auth/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
             }
             
             var user = new User
@@ -41,159 +125,87 @@ namespace ECommerceApp.Web.Controllers
                 var result = await _authService.RegisterAsync(user, model.Password);
                 if (result)
                 {
-                    return Ok(new { message = "Registration successful" });
+                    TempData["Success"] = "Registration successful! Please log in.";
+                    return RedirectToAction("Login");
                 }
                 
-                return BadRequest(new { message = "Registration failed" });
+                ModelState.AddModelError(string.Empty, "Registration failed. Please try again.");
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                _logger.LogError(ex, "Error during registration for user {Email}", model.Email);
+                ModelState.AddModelError(string.Empty, "An error occurred during registration. Please try again.");
+            }
+            
+            return View(model);
+        }
+        
+        // POST: /Auth/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            try
+            {
+                // Clear authentication token from session
+                HttpContext.Session.Remove("AuthToken");
+                
+                // If using cookie authentication, sign out
+                // await HttpContext.SignOutAsync();
+                
+                TempData["Success"] = "You have been logged out successfully.";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during logout");
+            }
+            
+            return RedirectToAction("Index", "Home");
+        }
+        
+        // GET: /Auth/ForgotPassword
+        public async Task<IActionResult> ForgotPassword()
+        {
+            try
+            {
+                var categories = await _categoryService.GetAllCategoriesAsync();
+                ViewBag.Categories = categories?.Where(c => c.IsActive).OrderBy(c => c.SortOrder).ToList() ?? new List<Category>();
+                
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading forgot password page");
+                ViewBag.Categories = new List<Category>();
+                return View();
             }
         }
         
-        // POST: api/auth/login
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        // POST: /Auth/ForgotPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(model);
             }
             
             try
             {
-                var (success, token) = await _authService.LoginAsync(model.Email, model.Password);
-                if (success)
-                {
-                    var user = await _authService.GetUserByEmailAsync(model.Email);
-                    return Ok(new
-                    {
-                        token,
-                        user = new
-                        {
-                            id = user.Id,
-                            email = user.Email,
-                            firstName = user.FirstName,
-                            lastName = user.LastName
-                        }
-                    });
-                }
+                // Implement password reset logic here
+                // await _authService.SendPasswordResetEmailAsync(model.Email);
                 
-                return Unauthorized(new { message = "Invalid credentials" });
+                TempData["Success"] = "If an account with that email exists, we have sent a password reset link.";
+                return RedirectToAction("Login");
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-        
-        // GET: api/auth/profile
-        [HttpGet("profile")]
-        [Authorize]
-        public async Task<IActionResult> GetProfile()
-        {
-            try
-            {
-                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized();
-                }
-                
-                var user = await _authService.GetUserByIdAsync(userId);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                
-                return Ok(new
-                {
-                    id = user.Id,
-                    email = user.Email,
-                    firstName = user.FirstName,
-                    lastName = user.LastName
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-        
-        // PUT: api/auth/profile
-        [HttpPut("profile")]
-        [Authorize]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                _logger.LogError(ex, "Error sending password reset for email {Email}", model.Email);
+                ModelState.AddModelError(string.Empty, "An error occurred. Please try again.");
             }
             
-            try
-            {
-                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized();
-                }
-                
-                var user = await _authService.GetUserByIdAsync(userId);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.UserName = model.Email;
-                
-                var result = await _authService.UpdateUserAsync(user);
-                if (result)
-                {
-                    return Ok(new { message = "Profile updated successfully" });
-                }
-                
-                return BadRequest(new { message = "Profile update failed" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-        
-        // POST: api/auth/change-password
-        [HttpPost("change-password")]
-        [Authorize]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            try
-            {
-                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return Unauthorized();
-                }
-                
-                var result = await _authService.ChangePasswordAsync(userId, model.CurrentPassword, model.NewPassword);
-                if (result)
-                {
-                    return Ok(new { message = "Password changed successfully" });
-                }
-                
-                return BadRequest(new { message = "Password change failed" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return View(model);
         }
     }
 } 
