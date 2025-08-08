@@ -725,222 +725,285 @@
                         </div> -->
                     </div>
                     <div class="deals-cards">
-                        <div class="column-sm">
-                            <div class="deal-card">
-                                <div class="top">
-                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod1.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                        @{
+                            var weeklyDeals = Model.BestWeeklyDeals;
+                            var dealIndex = 0;
+                        }
+
+                        @if (weeklyDeals != null && weeklyDeals.Any())
+                        {
+                            <!-- Small Column 1 -->
+                            <div class="column-sm">
+                                @for (int i = 0; i < 2 && dealIndex < weeklyDeals.Count; i++, dealIndex++)
+                                {
+                                    var product = weeklyDeals[dealIndex];
+                                    <div class="deal-card">
+                                        <div class="top">
+                                            @if (Model.HasInstallment(product))
+                                            {
+                                                <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                            }
+                                            <div class="icons">
+                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                <a href="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                            </div>
+                                        </div>
+                                        <a href="/SingleProduct/Single_product/@product.Id" class="img th-140 mb-20 d-block">
+                                            <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" alt="@product.Name" class="img-contain">
+                                        </a>
+                                        <div class="info">
+                                            @if (Model.HasDiscount(product))
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> @Model.GetDiscountPercentage(product) </span>
+                                            }
+                                            @if (product.IsFeatured)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> featured </span>
+                                            }
+                                            @if (product.SalesCount > 100)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
+                                            }
+                                            @if (product.AverageRating >= 4.5m)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top rated </span>
+                                            }
+                                            <a href="/SingleProduct/Single_product/@product.Id" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                            @if (product.ReviewCount > 0)
+                                            {
+                                                <div class="stars fsz-13 mt-2">
+                                                    @Html.Raw(Model.GetRatingStars((double)product.AverageRating))
+                                                    <span> (@product.ReviewCount) </span>
+                                                </div>
+                                            }
+                                            <p class="price color-red1 mt-2 fsz-20"> 
+                                                @Model.FormatPrice(product.Price)
+                                                @if (Model.HasDiscount(product))
+                                                {
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(product.ComparePrice!.Value) </span>
+                                                }
+                                            </p>
+                                            @if (product.Stock > 0)
+                                            {
+                                                var soldPercentage = Math.Min(100, (product.SalesCount * 100) / Math.Max(1, product.SalesCount + product.Stock));
+                                                <div class="progress mt-20">
+                                                    <div class="progress-bar bg-blue1" role="progressbar" style="width: @(soldPercentage)%" aria-valuenow="@soldPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="fsz-12 mt-3"> Sold: @product.SalesCount / @(product.SalesCount + product.Stock) </p>
+                                            }
+                                        </div>
+                                        <a href="#0" class="cart-btn addCart" data-product-id="@product.Id"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod1.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Air Purifier with <br> True HEPA H14 Filter </a>
-                                    <div class="stars fsz-13 mt-2">
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span> (5) </span>
-                                    </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> $489.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span> </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 24 / 80 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                                }
                             </div>
-                            <div class="deal-card">
-                                <div class="top">
-                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod2.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+
+                            <!-- Large Column -->
+                            @if (dealIndex < weeklyDeals.Count)
+                            {
+                                var featuredProduct = weeklyDeals[dealIndex];
+                                dealIndex++;
+                                <div class="column-lg">
+                                    <div class="deal-card">
+                                        <div class="top">
+                                            @if (Model.HasInstallment(featuredProduct))
+                                            {
+                                                <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                            }
+                                            <div class="icons">
+                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                <a href="@(featuredProduct.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod3.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                            </div>
+                                        </div>
+                                        <a href="/SingleProduct/Single_product/@featuredProduct.Id" class="img th-600 mb-20 d-block">
+                                            <img src="@(featuredProduct.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod3.png")" alt="@featuredProduct.Name" class="img-contain">
+                                        </a>
+                                        <div class="info">
+                                            @if (Model.HasDiscount(featuredProduct))
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> @Model.GetDiscountPercentage(featuredProduct) </span>
+                                            }
+                                            @if (featuredProduct.IsFeatured)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> featured </span>
+                                            }
+                                            @if (featuredProduct.SalesCount > 100)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
+                                            }
+                                            @if (featuredProduct.AverageRating >= 4.5m)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top rated </span>
+                                            }
+                                            <a href="/SingleProduct/Single_product/@featuredProduct.Id" class="title fsz-14 mt-15 fw-600 hover-blue1"> @featuredProduct.Name </a>
+                                            @if (featuredProduct.ReviewCount > 0)
+                                            {
+                                                <div class="stars fsz-13 mt-2">
+                                                    @Html.Raw(Model.GetRatingStars((double)featuredProduct.AverageRating))
+                                                    <span> (@featuredProduct.ReviewCount) </span>
+                                                </div>
+                                            }
+                                            <p class="price color-red1 mt-2 fsz-20"> 
+                                                @Model.FormatPrice(featuredProduct.Price)
+                                                @if (Model.HasDiscount(featuredProduct))
+                                                {
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(featuredProduct.ComparePrice!.Value) </span>
+                                                }
+                                            </p>
+                                            @if (featuredProduct.Stock > 0)
+                                            {
+                                                var soldPercentage = Math.Min(100, (featuredProduct.SalesCount * 100) / Math.Max(1, featuredProduct.SalesCount + featuredProduct.Stock));
+                                                <div class="progress mt-20">
+                                                    <div class="progress-bar bg-blue1" role="progressbar" style="width: @(soldPercentage)%" aria-valuenow="@soldPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="fsz-12 mt-3"> Sold: @featuredProduct.SalesCount / @(featuredProduct.SalesCount + featuredProduct.Stock) </p>
+                                            }
+                                        </div>
+                                        <a href="#0" class="cart-btn addCart" data-product-id="@featuredProduct.Id"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
                                 </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod2.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white"> 5% OFF </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shaork Robot Vacuum with Self-Empty Base </a>
-                                    <p class="price color-red1 mt-2 fsz-20"> $325.00 <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $428.00 </span> </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            }
+
+                            <!-- Small Column 2 -->
+                            <div class="column-sm">
+                                @for (int i = 0; i < 4 && dealIndex < weeklyDeals.Count; i++, dealIndex++)
+                                {
+                                    var product = weeklyDeals[dealIndex];
+                                    <div class="deal-card">
+                                        <div class="top">
+                                            @if (Model.HasInstallment(product))
+                                            {
+                                                <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                            }
+                                            <div class="icons">
+                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                <a href="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod4.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                            </div>
+                                        </div>
+                                        <a href="/SingleProduct/Single_product/@product.Id" class="img th-140 mb-20 d-block">
+                                            <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod4.png")" alt="@product.Name" class="img-contain">
+                                        </a>
+                                        <div class="info">
+                                            @if (Model.HasDiscount(product))
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> @Model.GetDiscountPercentage(product) </span>
+                                            }
+                                            @if (product.IsFeatured)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> featured </span>
+                                            }
+                                            @if (product.SalesCount > 100)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
+                                            }
+                                            @if (product.AverageRating >= 4.5m)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top rated </span>
+                                            }
+                                            <a href="/SingleProduct/Single_product/@product.Id" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                            @if (product.ReviewCount > 0)
+                                            {
+                                                <div class="stars fsz-13 mt-2">
+                                                    @Html.Raw(Model.GetRatingStars((double)product.AverageRating))
+                                                    <span> (@product.ReviewCount) </span>
+                                                </div>
+                                            }
+                                            <p class="price color-red1 mt-2 fsz-20"> 
+                                                @Model.FormatPrice(product.Price)
+                                                @if (Model.HasDiscount(product))
+                                                {
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(product.ComparePrice!.Value) </span>
+                                                }
+                                            </p>
+                                            @if (product.Stock > 0)
+                                            {
+                                                var soldPercentage = Math.Min(100, (product.SalesCount * 100) / Math.Max(1, product.SalesCount + product.Stock));
+                                                <div class="progress mt-20">
+                                                    <div class="progress-bar bg-blue1" role="progressbar" style="width: @(soldPercentage)%" aria-valuenow="@soldPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="fsz-12 mt-3"> Sold: @product.SalesCount / @(product.SalesCount + product.Stock) </p>
+                                            }
+                                        </div>
+                                        <a href="#0" class="cart-btn addCart" data-product-id="@product.Id"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
-                                    <p class="fsz-12 mt-3"> Sold: 1 / 19 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                                }
                             </div>
-                        </div>
-                        <div class="column-lg">
-                            <div class="deal-card">
-                                <div class="top">
-                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod3.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+
+                            <!-- Small Column 3 -->
+                            <div class="column-sm">
+                                @for (int i = 0; i < 2 && dealIndex < weeklyDeals.Count; i++, dealIndex++)
+                                {
+                                    var product = weeklyDeals[dealIndex];
+                                    <div class="deal-card">
+                                        <div class="top">
+                                            @if (Model.HasInstallment(product))
+                                            {
+                                                <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                            }
+                                            <div class="icons">
+                                                <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                <a href="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod6.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                            </div>
+                                        </div>
+                                        <a href="/SingleProduct/Single_product/@product.Id" class="img th-140 mb-20 d-block">
+                                            <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod6.png")" alt="@product.Name" class="img-contain">
+                                        </a>
+                                        <div class="info">
+                                            @if (Model.HasDiscount(product))
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> @Model.GetDiscountPercentage(product) </span>
+                                            }
+                                            @if (product.IsFeatured)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> featured </span>
+                                            }
+                                            @if (product.SalesCount > 100)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
+                                            }
+                                            @if (product.AverageRating >= 4.5m)
+                                            {
+                                                <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top rated </span>
+                                            }
+                                            <a href="/SingleProduct/Single_product/@product.Id" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                            @if (product.ReviewCount > 0)
+                                            {
+                                                <div class="stars fsz-13 mt-2">
+                                                    @Html.Raw(Model.GetRatingStars((double)product.AverageRating))
+                                                    <span> (@product.ReviewCount) </span>
+                                                </div>
+                                            }
+                                            <p class="price color-red1 mt-2 fsz-20"> 
+                                                @Model.FormatPrice(product.Price)
+                                                @if (Model.HasDiscount(product))
+                                                {
+                                                    <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(product.ComparePrice!.Value) </span>
+                                                }
+                                            </p>
+                                            @if (product.Stock > 0)
+                                            {
+                                                var soldPercentage = Math.Min(100, (product.SalesCount * 100) / Math.Max(1, product.SalesCount + product.Stock));
+                                                <div class="progress mt-20">
+                                                    <div class="progress-bar bg-blue1" role="progressbar" style="width: @(soldPercentage)%" aria-valuenow="@soldPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <p class="fsz-12 mt-3"> Sold: @product.SalesCount / @(product.SalesCount + product.Stock) </p>
+                                            }
+                                        </div>
+                                        <a href="#0" class="cart-btn addCart" data-product-id="@product.Id"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
                                     </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-600 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod3.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-blue1 text-white text-uppercase"> best seller </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Durotan Manual Espresso Machine, Latte, Cappuccino Maker & Espresso Machine. </a>
-                                    <div class="stars fsz-13 mt-2">
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <span> (34) </span>
-                                    </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> 
-                                        $489.00 
-                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
-                                    </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 82 / 100 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                                }
                             </div>
-                        </div>
-                        <div class="column-sm">
-                            <div class="deal-card">
-                                <div class="top">
-                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod4.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                    </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod4.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-green1 text-white text-uppercase"> top rated </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Sona QLED Ultra HD 4k Smart Android TV 59' </a>
-                                    <div class="stars fsz-13 mt-2">
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <span> (2) </span>
-                                    </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> 
-                                        $489.00 
-                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
-                                    </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 8%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 7 / 85 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                        }
+                        else
+                        {
+                            <!-- Fallback if no deals available -->
+                            <div class="col-12 text-center">
+                                <p>No weekly deals available at the moment.</p>
                             </div>
-                            <div class="deal-card">
-                                <div class="top">
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod5.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                    </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod5.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white"> pre-order </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shaork Robot Vacuum with Self-Empty Base </a>
-                                    <p class="price color-red1 mt-2 fsz-20"> 
-                                        $489.00 
-                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
-                                    </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 1 / 19 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                            </div>
-                        </div>
-                        <div class="column-sm">
-                            <div class="deal-card">
-                                <div class="top">
-                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod6.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                    </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod6.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white text-uppercase"> 15% OFF </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Air Purifier with <br> True HEPA H14 Filter </a>
-                                    <div class="stars fsz-13 mt-2">
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star active"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span> (5) </span>
-                                    </div>
-                                    <p class="price color-red1 mt-2 fsz-20"> 
-                                        $489.00 
-                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
-                                    </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 24 / 80 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                            </div>
-                            <div class="deal-card">
-                                <div class="top">
-                                    <div class="icons">
-                                        <a href="#0" class="icon fav active"> <i class="fal fa-heart"></i> </a>
-                                        <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
-                                        <a href="/assets/img/products/prod7.png" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
-                                    </div>
-                                </div>
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-140 mb-20 d-block">
-                                    <img src="~/swoo/home_electronic/assets/img/products/prod7.png" alt="" class="img-contain">
-                                </a>
-                                <div class="info">
-                                    <span class="label fsz-11 py-1 px-3 rounded-pill bg-red1 text-white"> 5% OFF </span>
-                                    <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> Shaork Robot Vacuum with Self-Empty Base </a>
-                                    <p class="price color-red1 mt-2 fsz-20"> 
-                                        $489.00 
-                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> $619.00 </span>
-                                    </p>
-                                    <div class="progress mt-20">
-                                        <div class="progress-bar bg-blue1" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <p class="fsz-12 mt-3"> Sold: 1 / 19 </p>
-                                </div>
-                                <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
-                            </div>
-                        </div>
+                        }
                     </div>
                     <div class="text-center mt-30">
                         <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="butn px-5 py-3 bg-white color-000 rounded-pill fw-600"> <span> See All Products (63) </span> </a>
