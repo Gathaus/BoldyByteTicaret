@@ -34,55 +34,51 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        var viewModel = new HomeIndexViewModel();
+        
         try
         {
             // 1. Categories for Popular Categories section
             var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.Categories = categories?.Where(c => c.IsActive).OrderBy(c => c.SortOrder).ToList() ?? new List<Category>();
+            viewModel.Categories = categories?.Where(c => c.IsActive).OrderBy(c => c.SortOrder).ToList() ?? new List<Category>();
             
             // 2. Featured Products for Best Seller section
             var featuredProducts = await _productService.GetFeaturedProductsAsync(20);
-            ViewBag.FeaturedProducts = featuredProducts?.Where(p => p.IsActive).ToList() ?? new List<Product>();
+            viewModel.FeaturedProducts = featuredProducts?.Where(p => p.IsActive).ToList() ?? new List<Product>();
             
             // 3. All Products for different sections
             var allProducts = await _productService.GetAllProductsAsync();
             var activeProducts = allProducts?.Where(p => p.IsActive).ToList() ?? new List<Product>();
             
             // 4. Best Seller Products (products with highest sales)
-            var bestSellerProducts = activeProducts.OrderByDescending(p => p.SalesCount).Take(10).ToList();
-            ViewBag.BestSellerProducts = bestSellerProducts;
+            viewModel.BestSellerProducts = activeProducts.OrderByDescending(p => p.SalesCount).Take(10).ToList();
             
             // 5. Popular Brands
             var brands = await _brandService.GetPopularBrandsAsync(6);
-            ViewBag.PopularBrands = brands?.ToList() ?? new List<Brand>();
+            viewModel.PopularBrands = brands?.ToList() ?? new List<Brand>();
             
             // 6. Suggest Today Products (featured + top rated)
-            var suggestTodayProducts = activeProducts.Where(p => p.IsFeatured || p.AverageRating >= 4).Take(15).ToList();
-            ViewBag.SuggestTodayProducts = suggestTodayProducts;
+            viewModel.SuggestTodayProducts = activeProducts.Where(p => p.IsFeatured || p.AverageRating >= 4).Take(15).ToList();
             
             // 7. Top Rated Products
-            var topRatedProducts = activeProducts.Where(p => p.AverageRating >= 4).OrderByDescending(p => p.AverageRating).Take(10).ToList();
-            ViewBag.TopRatedProducts = topRatedProducts;
+            viewModel.TopRatedProducts = activeProducts.Where(p => p.AverageRating >= 4).OrderByDescending(p => p.AverageRating).Take(10).ToList();
             
             // 8. Discount Products (products with compare price)
-            var discountProducts = activeProducts.Where(p => p.ComparePrice > p.Price).Take(10).ToList();
-            ViewBag.DiscountProducts = discountProducts;
+            viewModel.DiscountProducts = activeProducts.Where(p => p.ComparePrice > p.Price).Take(10).ToList();
             
             // 9. New Products (recently published)
-            var newProducts = activeProducts.Where(p => p.PublishedAt.HasValue && p.PublishedAt.Value >= DateTime.UtcNow.AddDays(-30))
+            viewModel.NewProducts = activeProducts.Where(p => p.PublishedAt.HasValue && p.PublishedAt.Value >= DateTime.UtcNow.AddDays(-30))
                                           .OrderByDescending(p => p.PublishedAt).Take(10).ToList();
-            ViewBag.NewProducts = newProducts;
             
             // 10. Tags for labels
             var tags = await _tagService.GetActiveTagsAsync();
-            ViewBag.Tags = tags?.ToList() ?? new List<Tag>();
+            viewModel.Tags = tags?.ToList() ?? new List<Tag>();
             
             // 11. Categories for Best Seller tabs (limit to main categories)
-            var mainCategories = categories?.Where(c => c.IsActive && !c.ParentId.HasValue).Take(5).ToList() ?? new List<Category>();
-            ViewBag.MainCategories = mainCategories;
+            viewModel.MainCategories = viewModel.Categories.Where(c => c.IsActive && !c.ParentId.HasValue).Take(5).ToList();
             
             // 12. Trending Search Keywords (you can customize these)
-            ViewBag.TrendingSearches = new List<string>
+            viewModel.TrendingSearches = new List<string>
             {
                 "Vacuum Robot", "Bluetooth Speaker", "Oled TV", "Security Camera", 
                 "Macbook M1", "Smart Washing Machine", "iPad Mini 2023", "PS5", 
@@ -90,27 +86,32 @@ public class HomeController : Controller
                 "Gaming Computer", "Smart Air Purifier", "Apple Watch"
             };
             
+            // 13. Best Weekly Deals (products with highest discount percentages or special weekly offers)
+            var weeklyDeals = activeProducts.Where(p => p.ComparePrice.HasValue && p.ComparePrice > p.Price)
+                                          .OrderByDescending(p => (p.ComparePrice!.Value - p.Price) / p.ComparePrice.Value * 100) // Order by discount percentage
+                                          .Take(12) // Take top 12 deals
+                                          .ToList();
+            
+            // If we don't have enough discounted products, fill with featured products
+            if (weeklyDeals.Count < 12)
+            {
+                var additionalProducts = activeProducts.Where(p => p.IsFeatured && !weeklyDeals.Contains(p))
+                                                     .Take(12 - weeklyDeals.Count)
+                                                     .ToList();
+                weeklyDeals.AddRange(additionalProducts);
+            }
+            
+            viewModel.BestWeeklyDeals = weeklyDeals;
+            
             _logger.LogInformation("Index page data loaded successfully");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error loading data for Index page");
-            
-            // Provide empty data to prevent view errors
-            ViewBag.Categories = new List<Category>();
-            ViewBag.FeaturedProducts = new List<Product>();
-            ViewBag.BestSellerProducts = new List<Product>();
-            ViewBag.PopularBrands = new List<Brand>();
-            ViewBag.SuggestTodayProducts = new List<Product>();
-            ViewBag.TopRatedProducts = new List<Product>();
-            ViewBag.DiscountProducts = new List<Product>();
-            ViewBag.NewProducts = new List<Product>();
-            ViewBag.Tags = new List<Tag>();
-            ViewBag.MainCategories = new List<Category>();
-            ViewBag.TrendingSearches = new List<string>();
+            TempData["Error"] = "An error occurred while loading the page. Please try again.";
         }
         
-        return View();
+        return View(viewModel);
     }
 
     public IActionResult Privacy()

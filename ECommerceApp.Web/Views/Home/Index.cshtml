@@ -1,94 +1,9 @@
-﻿@{
+@using ECommerceApp.Domain.Entities
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model ECommerceApp.Web.Models.HomeIndexViewModel
+@{
     Layout = null;
     
-    // Best Sellers temporary data model
-    var bestSellerProducts = new List<dynamic>
-    {
-        new {
-            Id = 1,
-            Name = "Durotan Manual Espresso Machine, Coffe Maker",
-            Price = 489.00M,
-            OldPrice = 619.00M,
-            Image = "~/swoo/home_electronic/assets/img/products/prod3.png",
-            Rating = 5,
-            ReviewCount = 34,
-            Labels = new [] { 
-                new { Text = "15% OFF", Class = "bg-red1" },
-                new { Text = "best seller", Class = "bg-blue1" }
-            },
-            HasInstallment = true
-        },
-        new {
-            Id = 2,
-            Name = "Conar DSLR Camera EOS II, Only Body",
-            Price = 579.00M,
-            OldPrice = 819.00M,
-            Image = "~/swoo/home_electronic/assets/img/products/prod7.png",
-            Rating = 4,
-            ReviewCount = 5,
-            Labels = new [] { 
-                new { Text = "15% OFF", Class = "bg-red1" },
-                new { Text = "best seller", Class = "bg-blue1" }
-            },
-            HasInstallment = false
-        },
-        new {
-            Id = 3,
-            Name = "Shorp 49\" Class FHD (1080p) Android Led TV",
-            Price = 3029.50M,
-            OldPrice = 0,
-            Image = "~/swoo/home_electronic/assets/img/products/prod8.png",
-            Rating = 0,
-            ReviewCount = 0,
-            Labels = new [] { 
-                new { Text = "new", Class = "bg-cyan1" },
-                new { Text = "best seller", Class = "bg-blue1" }
-            },
-            HasInstallment = false
-        },
-        new {
-            Id = 4,
-            Name = "Gigabyte PC Gaming Case, Core i7, 32GB Ram",
-            Price = 1279.00M,
-            OldPrice = 0,
-            Image = "~/swoo/home_electronic/assets/img/products/prod9.png",
-            Rating = 5,
-            ReviewCount = 2,
-            Labels = new [] { 
-                new { Text = "best seller", Class = "bg-blue1" }
-            },
-            HasInstallment = true
-        },
-        new {
-            Id = 5,
-            Name = "Sceptre 32\" Internet TV",
-            Price = 610.00M,
-            OldPrice = 0,
-            Image = "~/swoo/home_electronic/assets/img/products/prod10.png",
-            Rating = 5,
-            ReviewCount = 12,
-            Labels = new [] { 
-                new { Text = "best seller", Class = "bg-blue1" },
-                new { Text = "top rated", Class = "bg-green1" }
-            },
-            HasInstallment = true
-        },
-        new {
-            Id = 6,
-            Name = "Shorp 49\" Class FHD (1080p) Android Led TV",
-            Price = 3029.50M,
-            OldPrice = 0,
-            Image = "~/swoo/home_electronic/assets/img/products/prod8.png",
-            Rating = 0,
-            ReviewCount = 0,
-            Labels = new [] { 
-                new { Text = "new", Class = "bg-cyan1" },
-                new { Text = "best seller", Class = "bg-blue1" }
-            },
-            HasInstallment = false
-        }
-    };
-
     // Best Seller Section Model
     var bestSellerSection = new {
         Title = "Best Seller",
@@ -104,7 +19,7 @@
                 {
                     new {
                         Id = 1,
-                        Name = "Durotan Manual Espresso Machine, Coffe Maker",
+                        Name = "Durotan Manual Espresso Machine, Coffe Maker123123test",
                         Price = 489.00M,
                         OldPrice = 619.00M,
                         Image = "~/swoo/home_electronic/assets/img/products/prod3.png",
@@ -635,9 +550,9 @@
                         </div>
                     </div>
                     <div class="cat-content">
-                        @if (ViewBag.Categories != null)
+                        @if (Model.Categories != null)
                         {
-                            @foreach (var category in (IEnumerable<ECommerceApp.Domain.Entities.Category>)ViewBag.Categories)
+                            @foreach (var category in Model.Categories)
                             {
                                 <a href="/Products?category=@category.Slug" class="cat-card"> 
                                     <div class="img">
