@@ -40,6 +40,15 @@ namespace ECommerceApp.Web.Models
         // Best Weekly Deals Products (products with highest discount or special weekly offers)
         public List<Product> BestWeeklyDeals { get; set; } = new List<Product>();
 
+        // Best Seller Products by Categories (for Best Seller section with category tabs)
+        public Dictionary<string, List<Product>> BestSellersByCategory { get; set; } = new Dictionary<string, List<Product>>();
+
+        // Suggest Today Products by Categories (for Suggest Today section with category tabs)
+        public Dictionary<string, List<Product>> SuggestTodayByCategory { get; set; } = new Dictionary<string, List<Product>>();
+
+        // Just Landing Products by Categories (for Just Landing section with category tabs)
+        public Dictionary<string, List<Product>> JustLandingByCategory { get; set; } = new Dictionary<string, List<Product>>();
+
         // Helper methods for view logic
         public string GetDiscountPercentage(Product product)
         {
@@ -171,6 +180,51 @@ namespace ECommerceApp.Web.Models
                 return $"Save {savings:C}";
             }
             return string.Empty;
+        }
+
+        // Category-based helper methods
+        public List<string> GetBestSellerCategoryNames()
+        {
+            return BestSellersByCategory.Keys.ToList();
+        }
+
+        public List<Product> GetBestSellersByCategory(string categoryName)
+        {
+            return BestSellersByCategory.ContainsKey(categoryName) ? BestSellersByCategory[categoryName] : new List<Product>();
+        }
+
+        public List<string> GetSuggestTodayCategoryNames()
+        {
+            return SuggestTodayByCategory.Keys.ToList();
+        }
+
+        public List<Product> GetSuggestTodayByCategory(string categoryName)
+        {
+            return SuggestTodayByCategory.ContainsKey(categoryName) ? SuggestTodayByCategory[categoryName] : new List<Product>();
+        }
+
+        public List<string> GetJustLandingCategoryNames()
+        {
+            return JustLandingByCategory.Keys.ToList();
+        }
+
+        public List<Product> GetJustLandingByCategory(string categoryName)
+        {
+            return JustLandingByCategory.ContainsKey(categoryName) ? JustLandingByCategory[categoryName] : new List<Product>();
+        }
+
+        public string GetCategoryTabId(string categoryName, string prefix)
+        {
+            return $"{prefix}-{categoryName.Replace(" ", "").Replace("/", "").Replace("&", "").ToLower()}";
+        }
+
+        public string GetCategorySlugForUrl(string categoryName)
+        {
+            return categoryName.ToLower()
+                .Replace(" ", "-")
+                .Replace("/", "-")
+                .Replace("&", "and")
+                .Replace("'", "");
         }
     }
 }

@@ -102,6 +102,51 @@ public class HomeController : Controller
             }
             
             viewModel.BestWeeklyDeals = weeklyDeals;
+
+            // 14. Best Seller Products by Categories (for Best Seller section with category tabs)
+            var topCategories = viewModel.MainCategories.Take(6).ToList(); // Top 6 categories for tabs
+            foreach (var category in topCategories)
+            {
+                var categoryProducts = activeProducts.Where(p => p.CategoryId == category.Id)
+                                                   .OrderByDescending(p => p.SalesCount)
+                                                   .Take(12) // 12 products per category for grid
+                                                   .ToList();
+                viewModel.BestSellersByCategory[category.Name] = categoryProducts;
+            }
+
+            // 15. Suggest Today Products by Categories
+            foreach (var category in topCategories)
+            {
+                var categoryProducts = activeProducts.Where(p => p.CategoryId == category.Id && (p.IsFeatured || p.AverageRating >= 4.0m))
+                                                   .OrderByDescending(p => p.AverageRating)
+                                                   .ThenByDescending(p => p.SalesCount)
+                                                   .Take(12)
+                                                   .ToList();
+                viewModel.SuggestTodayByCategory[category.Name] = categoryProducts;
+            }
+
+            // 16. Just Landing Products by Categories (recently published products)
+            foreach (var category in topCategories)
+            {
+                var categoryProducts = activeProducts.Where(p => p.CategoryId == category.Id && 
+                                                               p.PublishedAt.HasValue && 
+                                                               p.PublishedAt.Value >= DateTime.UtcNow.AddDays(-7)) // Last 7 days
+                                                   .OrderByDescending(p => p.PublishedAt)
+                                                   .Take(12)
+                                                   .ToList();
+                
+                // If not enough new products, fill with latest products from category
+                if (categoryProducts.Count < 12)
+                {
+                    var additionalCategoryProducts = activeProducts.Where(p => p.CategoryId == category.Id && !categoryProducts.Contains(p))
+                                                                  .OrderByDescending(p => p.CreatedAt)
+                                                                  .Take(12 - categoryProducts.Count)
+                                                                  .ToList();
+                    categoryProducts.AddRange(additionalCategoryProducts);
+                }
+                
+                viewModel.JustLandingByCategory[category.Name] = categoryProducts;
+            }
             
             _logger.LogInformation("Index page data loaded successfully");
         }
