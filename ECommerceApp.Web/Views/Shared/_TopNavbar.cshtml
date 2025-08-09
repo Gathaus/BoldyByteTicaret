@@ -1,0 +1,203 @@
+@model ECommerceApp.Web.Models.HomeIndexViewModel
+
+    <!--  Start top navbar  -->
+    <div class="tc-top-navbar-style1 py-3 bg-blue1 text-white text-center">
+        <div class="container">
+            <p> <span class="small rounded-pill bg-white color-000 me-1 px-2 fw-bold"> Special </span> Get 10%  <strong class="text-uppercase"> Discount  </strong> for first order <a href="/" class="ms-3 text-decoration-underline fst-italic"> Register Now </a> </p>
+        </div>
+    </div>
+    <!--  End top navbar  -->
+
+
+    <!--  Start navbar  -->
+    <nav class="navbar tc-navbar-style1 navbar-expand-lg navbar-light">
+        <div class="container">
+            <div class="content">
+                <a class="navbar-brand" href="/">
+                    <img src="~/swoo/home_electronic/assets/img/logo.png" alt="" class="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="search-cat d-none d-lg-block">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search anything...">
+                        <a href="/" class="search-btn"> <i class="fal fa-search"></i> </a>
+                    </div>
+                </div>
+                <div class="hot-line">
+                    <span class="icon"> <i class="las la-tty"></i> </span>
+                    <div class="inf">
+                        <small class="fsz-13 d-block"> Hotline 24/7 </small>
+                        <h6 class="fsz-20 color-blue1 fw-bold"> <a href="tel:(025)36862516"> (025) 3686 25 16 </a> </h6>
+                    </div>
+                </div>
+                <div class="icons">
+                    <a href="/"> <i class="la la-sync"></i> </a>
+                    <a href="/"> <i class="lar la-heart"></i> <span class="dot"></span> </a>
+                    <a href="/"> <i class="la la-user"></i> </a>
+                    <a href="/"> <i class="la la-shopping-cart"></i> <span class="num"> 2 </span> </a>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mt-3">
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="/" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Demos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_baby/index.html">Home Baby</a></li>
+                            <li><a class="dropdown-item" href="index.html">Home Electronic</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_lighting/index.html">Home Lighting</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_pets/index.html">Home Pets</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_tech/index.html">Home Tech</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="/" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Pages
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/about.html">About</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/login.html">Login</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/profile.html">Profile</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/register.html">Register</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="/" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Products
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html">products</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products_layout_2.html">products layout 2</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/cart.html">Cart</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/checkout.html">Checkout</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html">Single Product</a></li>
+                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product_pay.html">Single Product Pay</a></li>
+                        </ul>
+                    </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Sell on Swoo</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Order Tracking</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/">Recently Viewed</a>
+                  </li>
+                </ul>
+              </div>
+        </div>
+    </nav>
+    <!--  End navbar  -->
+
+    
+    <!--  Start links-nav  -->
+    <div class="tc-links-nav-style1 d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="links">
+                        <ul class="links-ul">
+                            <li>
+                                <a href="/"> <i class="la la-grip-lines"></i> </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-toggle" href="/" id="navbarDropdown11" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Demos
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown11">
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_baby/index.html">Home Baby</a></li>
+                                    <li><a class="dropdown-item" href="index.html">Home Electronic</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_lighting/index.html">Home Lighting</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_pets/index.html">Home Pets</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_tech/index.html">Home Tech</a></li>
+                                </ul>
+                            </li>
+                          <li class="nav-item dropdown">
+                                <a class="dropdown-toggle" href="/" id="navbarDropdown22" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pages
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown22">
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/about.html">About</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/login.html">Login</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/profile.html">Profile</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/register.html">Register</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="/" id="navbarDropdown33" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Products
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown33">
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html">products</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products_layout_2.html">products layout 2</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/cart.html">Cart</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/checkout.html">Checkout</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html">Single Product</a></li>
+                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product_pay.html">Single Product Pay</a></li>
+                                </ul>
+                            </li>
+                          <li class="nav-item">
+                            <a class="" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a>
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="nav-side d-flex align-items-center">
+                        <div class="links">
+                            <ul class="links-ul">
+                                <li>
+                                    <a href="/"> <i class="fal fa-store me-2"></i> Sell on Swoo </a>
+                                </li>
+                                <li>
+                                    <a href="/"> <i class="fal fa-shopping-bag me-2"></i> Order Tracking </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="/" id="navbarDropdown222" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Recently Viewed
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown222">
+                                      <li><a class="dropdown-item" href="/">Demos 1</a></li>
+                                      <li><a class="dropdown-item" href="/">Demos 2</a></li>
+                                      <li><a class="dropdown-item" href="/">Demos 3</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="links lang-links">
+                            <ul class="links-ul">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="/" id="navbarDropdown333" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="la la-dollar-sign me-1"></i> USD
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown333">
+                                      <li><a class="dropdown-item" href="/">USD</a></li>
+                                      <li><a class="dropdown-item" href="/">USD</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="/" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/swoo/home_electronic/assets/img/eng.png" alt="" class="me-2 icon-15"> Eng
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                                      <li><a class="dropdown-item" href="/">Arabic</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End links-nav  -->
