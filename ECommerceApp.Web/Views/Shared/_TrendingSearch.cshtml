@@ -1,0 +1,34 @@
+@model ECommerceApp.Web.Models.HomeIndexViewModel
+
+<section class="tc-trend-search-style1 wow fadeInUp slow" data-wow-delay="0.2s">
+    <div class="container">
+        <h3 class="fsz-30 mb-30"> Trending Search</h3>
+        <div class="links">
+            @{
+                var trendingSearchTerms = new List<string>
+                {
+                    "Vacuum Robot",
+                    "Bluetooth Speaker",
+                    "Oled TV",
+                    "Security Camera",
+                    "Macbook M1",
+                    "Smart Washing Machine",
+                    "iPad Mini 2023",
+                    "PS5",
+                    "Earbuds",
+                    "Air Condition Inverter",
+                    "Flycam",
+                    "Electric Bike",
+                    "Gaming Computer",
+                    "Smart Air Purifier",
+                    "Apple Watch"
+                };
+            }
+
+            @foreach (var searchTerm in trendingSearchTerms)
+            {
+                <a href="/Products?search=@Uri.EscapeDataString(searchTerm)" class="link"> @searchTerm </a>
+            }
+        </div>
+    </div>
+</section>
