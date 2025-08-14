@@ -1,0 +1,156 @@
+@using ECommerceApp.Domain.Entities
+@model ECommerceApp.Web.Models.HomeIndexViewModel
+
+        <!--  Start best-seller  -->
+        <section class="tc-best-seller-style1 wow fadeInUp slow" data-wow-delay="0.2s">
+            <div class="container">
+                <div class="title mb-40">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h3 class="fsz-30">Best Seller</h3>
+                        </div>
+                        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html" class="more-btn fsz-14 text-uppercase fw-500"> View All <i class="fal fa-angle-right ms-1"></i> </a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav nav-pills mb-40" id="pills-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-tab1-tab" data-bs-toggle="pill" data-bs-target="#pills-tab1" type="button" role="tab" aria-selected="true">Top 30</button>
+                    </li>
+                    @{
+                        var categoryNames = Model.GetBestSellerCategoryNames();
+                        var tabIndex = 2;
+                    }
+                    @foreach (var categoryName in categoryNames)
+                    {
+                        var tabId = Model.GetCategoryTabId(categoryName, "pills-tab");
+                        var isEven = tabIndex % 2 == 0;
+                        var targetTab = isEven ? "pills-tab2" : "pills-tab1";
+                        
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="@(tabId)-tab" data-bs-toggle="pill" data-bs-target="#@targetTab" type="button" role="tab" aria-selected="false">@categoryName</button>
+                        </li>
+                        
+                        tabIndex++;
+                    }
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent1">
+                    <!-- Top 30 Tab -->
+                    <div class="tab-pane fade show active" id="pills-tab1" role="tabpanel" aria-labelledby="pills-tab1-tab">
+                        <div class="products-slider">
+                            <div class="swiper-wrapper">
+                                @foreach (var product in Model.BestSellerProducts.Take(30))
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="product-card">
+                                            <div class="top">
+                                                @if (Model.HasInstallment(product))
+                                                {
+                                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                                }
+                                                <div class="icons">
+                                                    <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                    <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                    <a href="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                                </div>
+                                            </div>
+                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                                <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" alt="" class="img-contain">
+                                            </a>
+                                            <div class="info">
+                                                @Html.Raw(Model.GetProductLabels(product))
+                                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                                @if (product.AverageRating > 0)
+                                                {
+                                                    @Html.Raw(Model.GetRatingStars((double)product.AverageRating))
+                                                    <span> (@product.ReviewCount) </span>
+                                                }
+                                                <p class="price color-red1 mt-2 fsz-20"> 
+                                                    @Model.FormatPrice(product.Price)
+                                                    @if (Model.HasDiscount(product))
+                                                    {
+                                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(product.ComparePrice ?? 0) </span>
+                                                    }
+                                                </p>
+                                            </div>
+                                            <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="slider-controls">
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Category Tab 2 (Even numbered categories) -->
+                    <div class="tab-pane fade" id="pills-tab2" role="tabpanel" aria-labelledby="pills-tab2-tab">
+                        <div class="products-slider">
+                            <div class="swiper-wrapper">
+                                @{
+                                    var evenCategoryProducts = new List<ECommerceApp.Domain.Entities.Product>();
+                                    var evenIndex = 2;
+                                    foreach (var categoryName in categoryNames)
+                                    {
+                                        if (evenIndex % 2 == 0)
+                                        {
+                                            evenCategoryProducts.AddRange(Model.GetBestSellersByCategory(categoryName));
+                                        }
+                                        evenIndex++;
+                                    }
+                                }
+                                @foreach (var product in evenCategoryProducts.Take(20))
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="product-card">
+                                            <div class="top">
+                                                @if (Model.HasInstallment(product))
+                                                {
+                                                    <small class="fsz-11 py-1 px-3 rounded-pill color-red1 border-red1 border"> 0% Installment </small>
+                                                }
+                                                <div class="icons">
+                                                    <a href="#0" class="icon fav"> <i class="fal fa-heart"></i> </a>
+                                                    <a href="#0" class="icon"> <i class="fal fa-sync"></i> </a>
+                                                    <a href="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" class="icon" data-fancybox="deal"> <i class="fal fa-eye"></i> </a>
+                                                </div>
+                                            </div>
+                                            <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="img th-160 mb-20 d-block">
+                                                <img src="@(product.ProductImages.FirstOrDefault()?.ImageUrl ?? "~/swoo/home_electronic/assets/img/products/prod1.png")" alt="" class="img-contain">
+                                            </a>
+                                            <div class="info">
+                                                @Html.Raw(Model.GetProductLabels(product))
+                                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="title fsz-14 mt-15 fw-600 hover-blue1"> @product.Name </a>
+                                                @if (product.AverageRating > 0)
+                                                {
+                                                    @Html.Raw(Model.GetRatingStars((double)product.AverageRating))
+                                                    <span> (@product.ReviewCount) </span>
+                                                }
+                                                <p class="price color-red1 mt-2 fsz-20"> 
+                                                    @Model.FormatPrice(product.Price)
+                                                    @if (Model.HasDiscount(product))
+                                                    {
+                                                        <span class="old-price color-999 text-decoration-line-through ms-2 fsz-16"> @Model.FormatPrice(product.ComparePrice ?? 0) </span>
+                                                    }
+                                                </p>
+                                            </div>
+                                            <a href="#0" class="cart-btn addCart"> <i class="la la-cart-plus me-1"></i> Add To Cart </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="slider-controls">
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  End best-seller  -->
