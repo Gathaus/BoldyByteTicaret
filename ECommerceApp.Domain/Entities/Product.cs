@@ -144,6 +144,19 @@ namespace ECommerceApp.Domain.Entities
         
         public DateTime? PublishedAt { get; set; }
         
+        // Product style and appearance properties
+        [MaxLength(50)]
+        public string Style { get; set; } = "";
+        
+        [MaxLength(50)]
+        public string Finish { get; set; } = "";
+        
+        [MaxLength(50)]
+        public string Color { get; set; } = "";
+        
+        [MaxLength(50)]
+        public string Room { get; set; } = "";
+        
         // Navigation properties
         public virtual Category Category { get; set; } = null!;
         public virtual Brand? Brand { get; set; }
