@@ -64,6 +64,21 @@ public class ProductsController : Controller
             var categories = await _categoryService.GetAllCategoriesAsync();
             viewModel.Categories = categories.ToList();
 
+            // Get popular categories for slider
+            var popularCategories = categories
+                .Where(c => c.IsActive && !c.ParentId.HasValue) // Ana kategoriler
+                .OrderByDescending(c => c.Products.Count) // Ürün sayısına göre sırala
+                .Take(6) // En popüler 6 kategori
+                .Select(c => new CategoryViewModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ImageUrl = c.ImageUrl,
+                    ProductCount = c.Products.Count
+                })
+                .ToList();
+            ViewBag.PopularCategories = popularCategories;
+
             // Get brands for filter
             var brands = await _brandService.GetAllBrandsAsync();
             viewModel.Brands = brands.ToList();

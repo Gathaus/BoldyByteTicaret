@@ -1,0 +1,24 @@
+@* Model tanımlamasını kaldırıyoruz çünkü ViewBag kullanıyoruz *@
+
+<!--  Start categories  -->
+<section class="tc-categories-style6 p-30 radius-4 bg-white mt-3 wow fadeInUp">
+    <h6 class="fsz-18 fw-bold text-uppercase mb-30"> popular categories </h6>
+    <div class="content">
+        @if (ViewBag.PopularCategories != null)
+        {
+            foreach (var category in ViewBag.PopularCategories)
+            {
+                <a href="@Url.Action("Index", "Products", new { categoryId = category.Id })" class="number-item">
+                    <div class="inf">
+                        <h6 class="fsz-14 fw-bold mb-0 sm-title">@category.Name</h6>
+                        <small class="fsz-12 color-666">@category.ProductCount Items</small>
+                    </div>
+                    <div class="img">
+                        <img src="@category.ImageUrl" alt="@category.Name" class="img-contain">
+                    </div>
+                </a>
+            }
+        }
+    </div>
+</section>
+<!--  End categories  -->
