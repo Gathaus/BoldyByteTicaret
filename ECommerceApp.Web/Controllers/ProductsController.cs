@@ -1,3 +1,4 @@
+using ECommerceApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceApp.Domain.Services;
 using ECommerceApp.Web.Models;
@@ -86,6 +87,74 @@ public class ProductsController : Controller
             // Get tags for filter
             var tags = await _tagService.GetActiveTagsAsync();
             viewModel.Tags = tags.ToList();
+
+            // Get best sellers for the category
+            var bestSellers = await _productService.GetBestSellersAsync(6); // 6 ürün getir
+            
+            // Add dummy products to the list
+            var dummyProducts = new List<Product>
+            {
+                new Product
+                { 
+                    Id = 999,
+                    Name = "Premium Wireless Headphones X2000",
+                    Price = 299.99m,
+                    ComparePrice = 349.99m,
+                    AverageRating = 4.5m,
+                    ReviewCount = 87,
+                    ProductImages = new List<ProductImage> 
+                    { 
+                        new ProductImage { ImageUrl = "~/swoo2/assets/img/products/dummy1.png", IsMain = true }
+                    },
+                    Stock = 25,
+                    StockStatus = "InStock",
+                    IsFreeShipping = true,
+                    HasFreeGift = true
+                },
+                new Product
+                { 
+                    Id = 1000,
+                    Name = "Smart Watch Pro Elite",
+                    Price = 449.99m,
+                    ComparePrice = 499.99m,
+                    AverageRating = 4.8m,
+                    ReviewCount = 156,
+                    ProductImages = new List<ProductImage> 
+                    { 
+                        new ProductImage { ImageUrl = "~/swoo2/assets/img/products/dummy2.png", IsMain = true }
+                    },
+                    Stock = 0,
+                    StockStatus = "PreOrder",
+                    IsFreeShipping = true,
+                    HasFreeGift = false
+                }
+            };
+            
+            // Combine real and dummy products
+            var combinedBestSellers = bestSellers.ToList();
+            combinedBestSellers.AddRange(dummyProducts);
+            
+            // Map to view models
+            var viewModels = combinedBestSellers.Select(p => new ECommerceApp.Web.Models.ProductViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                ComparePrice = p.ComparePrice,
+                Stock = p.Stock,
+                AverageRating = p.AverageRating,
+                ReviewCount = p.ReviewCount,
+                ProductImages = p.ProductImages?.Select(pi => new ECommerceApp.Web.Models.ProductImageViewModel
+                {
+                    ImageUrl = pi.ImageUrl,
+                    IsMain = pi.IsMain
+                }).ToList() ?? new List<ECommerceApp.Web.Models.ProductImageViewModel>(),
+                StockStatus = p.StockStatus,
+                IsFreeShipping = p.IsFreeShipping,
+                HasFreeGift = p.HasFreeGift
+            }).ToList();
+            
+            ViewBag.BestSellers = viewModels;
 
             return View(viewModel);
         }

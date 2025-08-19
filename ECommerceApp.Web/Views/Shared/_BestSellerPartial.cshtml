@@ -3,172 +3,101 @@
     <div class="main-content">
         <div class="best-slider6">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <div class="top-inf">
-                            <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
-                        </div>
-                        <a href="single_product.html" class="img">
-                            <img src="~/swoo2/assets/img/products/prod9.png" alt="" class="img-contain main-image">
-                        </a>
-                        <div class="info">
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star color-999"></i>
+                @if (ViewBag.BestSellers != null)
+                {
+                    @foreach (ECommerceApp.Web.Models.ProductViewModel product in ViewBag.BestSellers)
+                    {
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <div class="top-inf">
+                                    @if (product.HasDiscount)
+                                    {
+                                        <div class="dis-card">
+                                            <small class="fsz-10 d-block text-uppercase"> save </small>
+                                            <h6 class="fsz-14"> $@product.DiscountAmount.ToString("0") </h6>
+                                        </div>
+                                    }
+                                    <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
                                 </div>
-                                <span class="num"> (152) </span>
-                            </div>
-                            <h6> <a href="single_product.html" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> BOSO 2 Wireless On Ear Headphone </a> </h6>
-                            <div class="price mt-15">
-                                <h5 class="fsz-18 fw-600"> $359.00 </h5>
-                            </div>
-                            <div class="meta">
-                                <a href="#" class="meta-item color-green2"> free shipping <span class="bg bg-green2"></span> </a>
-                                <a href="#" class="meta-item color-red1"> free gift <span class="bg bg-red1"></span> </a>
-                            </div>
-                            <p class="fsz-12 mt-2"> <i class="fas fa-check-circle color-green2 me-1"></i> In stock </p>
-                            <div class="thumbnail-imgs mt-10">
-                                <span class="color-img icon-40">
-                                    <img src="~/swoo2/assets/img/products/prod9.png" alt="" class="thumbnail selected">
-                                </span>
-                                <span class="color-img icon-40">
-                                    <img src="~/swoo2/assets/img/products/cl_1.jpg" alt="" class="thumbnail">
-                                </span>
-                            </div>
-                            <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart"> <span> Add To Cart </span> </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <div class="top-inf">
-                            <div class="dis-card">
-                                <small class="fsz-10 d-block text-uppercase"> save </small>
-                                <h6 class="fsz-14"> $199.00 </h6>
-                            </div>
-                            <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
-                        </div>
-                        <a href="single_product.html" class="img">
-                            <img src="~/swoo2/assets/img/products/prod10.png" alt="" class="img-contain main-image">
-                        </a>
-                        <div class="info">
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
+                                <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="img">
+                                    <img src="@(product.ProductImages?.FirstOrDefault(p => p.IsMain)?.ImageUrl ?? "~/swoo2/assets/img/products/default.png")" alt="@product.Name" class="img-contain main-image">
+                                </a>
+                                <div class="info">
+                                    <div class="rating">
+                                        <div class="stars">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < product.AverageRating)
+                                                {
+                                                    <i class="la la-star"></i>
+                                                }
+                                                else if (i < product.AverageRating + 0.5m)
+                                                {
+                                                    <i class="la la-star-half"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="la la-star color-999"></i>
+                                                }
+                                            }
+                                        </div>
+                                        <span class="num"> (@product.ReviewCount) </span>
+                                    </div>
+                                    <h6> <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> @product.Name </a> </h6>
+                                    <div class="price mt-15">
+                                        @if (product.HasDiscount)
+                                        {
+                                            <h5 class="fsz-18 color-red1 fw-600"> $@product.Price.ToString("0.00") <span class="old fsz-14 color-666 text-decoration-line-through"> $@product.ComparePrice.Value.ToString("0.00") </span> </h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="fsz-18 fw-600"> $@product.Price.ToString("0.00") </h5>
+                                        }
+                                    </div>
+                                    <div class="meta">
+                                        @if (product.IsFreeShipping)
+                                        {
+                                            <a href="#" class="meta-item color-green2"> free shipping <span class="bg bg-green2"></span> </a>
+                                        }
+                                        @if (product.HasFreeGift)
+                                        {
+                                            <a href="#" class="meta-item color-red1"> free gift <span class="bg bg-red1"></span> </a>
+                                        }
+                                    </div>
+                                    <p class="fsz-12 mt-2">
+                                        @if (product.StockStatus == "InStock")
+                                        {
+                                            <i class="fas fa-check-circle color-green2 me-1"></i> <span>In stock</span>
+                                        }
+                                        else if (product.StockStatus == "OutOfStock")
+                                        {
+                                            <i class="fas fa-times-circle color-red1 me-1"></i> <span>Out of stock</span>
+                                        }
+                                        else if (product.StockStatus == "PreOrder")
+                                        {
+                                            <span class="text-uppercase"> PRE - ORDER </span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-phone-alt me-1"></i> <a href="#"> Contact </a>
+                                        }
+                                    </p>
+                                    <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart" data-product-id="@product.Id"> <span> Add To Cart </span> </a>
                                 </div>
-                                <span class="num"> (152) </span>
                             </div>
-                            <h6> <a href="single_product.html" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> OPod Pro 12.9 Inch M1 2023, 64GB + Wifi, GPS </a> </h6>
-                            <div class="price mt-15">
-                                <h5 class="fsz-18 color-red1 fw-600"> $569.00 <span class="old fsz-14 color-666 text-decoration-line-through"> $759.00 </span> </h5>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="swiper-slide">
+                        <div class="product-card">
+                            <div class="info">
+                                <p class="text-center">No best sellers found.</p>
                             </div>
-                            <div class="meta">
-                                <a href="#" class="meta-item color-green2"> free shipping <span class="bg bg-green2"></span> </a>
-                            </div>
-                            <p class="fsz-12 mt-2"> <i class="fas fa-check-circle color-green2 me-1"></i> In stock </p>
-                            <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart"> <span> Add To Cart </span> </a>
                         </div>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <div class="top-inf">
-                            <div class="dis-card">
-                                <small class="fsz-10 d-block text-uppercase"> save </small>
-                                <h6 class="fsz-14"> $59.00 </h6>
-                            </div>
-                            <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
-                        </div>
-                        <a href="single_product.html" class="img">
-                            <img src="~/swoo2/assets/img/products/prod11.png" alt="" class="img-contain main-image">
-                        </a>
-                        <div class="info">
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star-half"></i>
-                                </div>
-                                <span class="num"> (8) </span>
-                            </div>
-                            <h6> <a href="single_product.html" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> uLosk Mini case 2.0,  Xenon i10 / 32GB / SSD 512GB / VGA 8GB </a> </h6>
-                            <div class="price mt-15">
-                                <h5 class="fsz-18 color-red1 fw-600"> $1,729.00 <span class="old fsz-14 color-666 text-decoration-line-through"> $2,119.00 </span> </h5>
-                            </div>
-                            <div class="meta">
-                                <a href="#" class="meta-item color-green2"> free shipping <span class="bg bg-green2"></span> </a>
-                            </div>
-                            <p class="fsz-12 mt-2"> <i class="fas fa-times-circle color-red1 me-1"></i> Out of stock </p>
-                            <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart"> <span> Add To Cart </span> </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <div class="top-inf">
-                            <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
-                        </div>
-                        <a href="single_product.html" class="img">
-                            <img src="~/swoo2/assets/img/products/prod12.png" alt="" class="img-contain main-image">
-                        </a>
-                        <div class="info">
-                            <h6> <a href="single_product.html" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> Opplo Watch Series 8 GPS + Cellular Stainless Steel Case with Milanese Loop </a> </h6>
-                            <div class="price mt-15">
-                                <h5 class="fsz-18 fw-600"> $979.00 - $1,259.00 </h5>
-                            </div>
-                            <div class="meta">
-                                <a href="#" class="meta-item color-222"> $2.98 Shipping <span class="bg bg-222"></span> </a>
-                            </div>
-                            <p class="fsz-12 mt-2 text-uppercase"> PRE - ORDER </p>                                                    
-                            <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart"> <span> Add To Cart </span> </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <div class="top-inf">
-                            <div class="dis-card">
-                                <small class="fsz-10 d-block text-uppercase"> save </small>
-                                <h6 class="fsz-14"> $3.00 </h6>
-                            </div>
-                            <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
-                        </div>
-                        <a href="single_product.html" class="img">
-                            <img src="~/swoo2/assets/img/products/prod13.png" alt="" class="img-contain main-image">
-                        </a>
-                        <div class="info">
-                            <div class="rating">
-                                <div class="stars">
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                    <i class="la la-star"></i>
-                                </div>
-                                <span class="num"> (9) </span>
-                            </div>
-                            <h6> <a href="single_product.html" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> iSmart 24V Charger </a> </h6>
-                            <div class="price mt-15">
-                                <h5 class="fsz-18 color-red1 fw-600"> $9.00 <span class="old fsz-14 color-666 text-decoration-line-through"> $12.00 </span> </h5>
-                            </div>
-                            <div class="meta">
-                                <a href="#" class="meta-item color-222"> $3.98 Shipping <span class="bg bg-222"></span> </a>
-                            </div>
-                            <p class="fsz-12 mt-2"> <i class="fas fa-phone-alt me-1"></i> <a href="#"> Contact </a> </p>
-                            <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart"> <span> Add To Cart </span> </a>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
         </div>
         <div class="swiper-button-next"></div>
