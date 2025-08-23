@@ -35,7 +35,7 @@ namespace ECommerceApp.Web.Controllers
         {
             try
             {
-                var product = await _productService.GetProductByIdAsync(id);
+                var product = await _productService.GetProductByIdAsync(1);
                 if (product == null || !product.IsActive)
                 {
                     return NotFound();
