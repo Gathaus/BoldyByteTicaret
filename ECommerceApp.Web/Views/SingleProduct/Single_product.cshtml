@@ -254,85 +254,9 @@
                 }
 
 
-                <!--  Start products together  -->
-                <section class="product-together">
-                    <div class="row gx-2">
-                        <div class="col-lg-9">
-                            <div class="buy-together p-30 radius-4 bg-white mt-3 wow fadeInUp">
-                                <h6 class="fsz-18 fw-bold text-uppercase"> frequently bought together </h6>
-                                <div class="row">
-                                    <div class="col-lg-9">
-                                        <div class="products-imgs mt-20">
-                                            <div class="img">
-                                                <img src="~/swoo2/assets/img/sin_product/prod1.jpg" alt="">
-                                            </div>
-                                            <span class="plus"> <i class="fal fa-plus"></i> </span>
-                                            <div class="img">
-                                                <img src="~/swoo2/assets/img/sin_product/prod6.jpg" alt="">
-                                            </div>
-                                            <span class="plus"> <i class="fal fa-plus"></i> </span>
-                                            <div class="img op-3">
-                                                <img src="~/swoo2/assets/img/sin_product/prod7.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <ul class="mt-30">
-                                            <li>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="together1" value="option1">
-                                                    <label class="form-check-label color-333" for="together1">
-                                                        <strong> This item: </strong> Somseng Galatero X6 Ultra LTE 4G/128 Gb, Black Smartphone ( <strong class="text-danger"> $569.00 </strong> ) 
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="together2" value="option1">
-                                                    <label class="form-check-label color-333" for="together2">
-                                                        BOSO 2 Wireless On Ear Headphone  ( <strong class="text-danger"> $369.00 </strong> ) 
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="checkbox" id="together3" value="option1">
-                                                    <label class="form-check-label color-333" for="together3">
-                                                        Opplo Watch Series 8 GPS + Cellular Stainless Stell Case with Milanese Loop ( <strong class="text-danger"> $129.00 </strong> ) 
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="total-price">
-                                            <small class="fsz-12 color-666 text-uppercase mb-2"> Total Price: </small>
-                                            <h5 class="fsz-30 fw-bold"> $609.00 </h5>
-                                            <a href="#" class="butn bg-green2 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-30 w-100 py-3"> <span> Add To Cart </span> </a>
-                                            <a href="#" class="color-666 mt-3"> <i class="fas fa-heart me-2 color-999"></i> Ad all to Wishlist </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="banners mt-3">
-                                <a href="#" class="img th-200 mb-2 d-block">
-                                    <img src="~/swoo2/assets/img/ban1.png" alt="" class="img-cover radius-5">
-                                </a>
-                                <a href="#" class="banner th-200">
-                                    <img src="~/swoo2/assets/img/ban2.png" alt="" class="img-cover radius-5">
-                                    <div class="info">
-                                        <h6 class="fsz-22"> <strong> oPad Pro </strong> <br> Mini 5 </h6>
-                                        <div class="price">
-                                            <small class="fsz-10 color-999 text-uppercase"> from </small>
-                                            <h5 class="fsz-24 fw-200 color-green2"> $169 </h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <!--  End products together  -->
+                @{
+                    await Html.RenderPartialAsync("_FrequentlyBoughtTogether");
+                }
 
 
                 <!--  Start details  -->
