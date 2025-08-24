@@ -142,6 +142,12 @@ namespace ECommerceApp.Domain.Entities
         public decimal AverageRating { get; set; } = 0;
         public int ReviewCount { get; set; } = 0;
         
+        // Additional properties for partial view
+        public decimal DiscountAmount { get; set; } = 0;
+        public bool IsFreeShipping { get; set; } = false;
+        public bool HasFreeGift { get; set; } = false;
+        public string StockStatus { get; set; } = "InStock";
+        
         public DateTime? PublishedAt { get; set; }
         
         // Product style and appearance properties
@@ -197,4 +203,4 @@ namespace ECommerceApp.Domain.Entities
         public virtual Product Product { get; set; } = null!;
         public virtual Tag Tag { get; set; } = null!;
     }
-} 
+}

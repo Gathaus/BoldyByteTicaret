@@ -1,0 +1,106 @@
+<div class="best-seller mt-5 mt-lg-0">
+    <h6 class="fsz-18 fw-bold text-uppercase mb-30"> Best seller in this category </h6>
+    <div class="main-content">
+        <div class="best-slider6">
+            <div class="swiper-wrapper">
+                @if (ViewBag.BestSellers != null)
+                {
+                    @foreach (ECommerceApp.Web.Models.ProductViewModel product in ViewBag.BestSellers)
+                    {
+                        <div class="swiper-slide">
+                            <div class="product-card">
+                                <div class="top-inf">
+                                    @if (product.HasDiscount)
+                                    {
+                                        <div class="dis-card">
+                                            <small class="fsz-10 d-block text-uppercase"> save </small>
+                                            <h6 class="fsz-14"> $@product.DiscountAmount.ToString("0") </h6>
+                                        </div>
+                                    }
+                                    <a href="#0" class="fav-btn"> <i class="las la-heart"></i> </a>
+                                </div>
+                                <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="img">
+                                    <img src="@(product.ProductImages?.FirstOrDefault(p => p.IsMain)?.ImageUrl ?? "~/swoo2/assets/img/products/default.png")" alt="@product.Name" class="img-contain main-image">
+                                </a>
+                                <div class="info">
+                                    <div class="rating">
+                                        <div class="stars">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < product.AverageRating)
+                                                {
+                                                    <i class="la la-star"></i>
+                                                }
+                                                else if (i < product.AverageRating + 0.5m)
+                                                {
+                                                    <i class="la la-star-half"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="la la-star color-999"></i>
+                                                }
+                                            }
+                                        </div>
+                                        <span class="num"> (@product.ReviewCount) </span>
+                                    </div>
+                                    <h6> <a href="@Url.Action("Details", "Products", new { id = product.Id })" class="prod-title fsz-14 fw-bold mt-2 hover-green2"> @product.Name </a> </h6>
+                                    <div class="price mt-15">
+                                        @if (product.HasDiscount)
+                                        {
+                                            <h5 class="fsz-18 color-red1 fw-600"> $@product.Price.ToString("0.00") <span class="old fsz-14 color-666 text-decoration-line-through"> $@product.ComparePrice.Value.ToString("0.00") </span> </h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="fsz-18 fw-600"> $@product.Price.ToString("0.00") </h5>
+                                        }
+                                    </div>
+                                    <div class="meta">
+                                        @if (product.IsFreeShipping)
+                                        {
+                                            <a href="#" class="meta-item color-green2"> free shipping <span class="bg bg-green2"></span> </a>
+                                        }
+                                        @if (product.HasFreeGift)
+                                        {
+                                            <a href="#" class="meta-item color-red1"> free gift <span class="bg bg-red1"></span> </a>
+                                        }
+                                    </div>
+                                    <p class="fsz-12 mt-2">
+                                        @if (product.StockStatus == "InStock")
+                                        {
+                                            <i class="fas fa-check-circle color-green2 me-1"></i> <span>In stock</span>
+                                        }
+                                        else if (product.StockStatus == "OutOfStock")
+                                        {
+                                            <i class="fas fa-times-circle color-red1 me-1"></i> <span>Out of stock</span>
+                                        }
+                                        else if (product.StockStatus == "PreOrder")
+                                        {
+                                            <span class="text-uppercase"> PRE - ORDER </span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-phone-alt me-1"></i> <a href="#"> Contact </a>
+                                        }
+                                    </p>
+                                    <a href="#0" class="butn bg-000 text-white radius-4 fw-500 fsz-12 text-uppercase text-center mt-2 hover-bg-green2 addCart" data-product-id="@product.Id"> <span> Add To Cart </span> </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="swiper-slide">
+                        <div class="product-card">
+                            <div class="info">
+                                <p class="text-center">No best sellers found.</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</div>
