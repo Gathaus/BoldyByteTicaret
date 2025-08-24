@@ -3,7 +3,7 @@
     <!--  Start top navbar  -->
     <div class="tc-top-navbar-style1 py-3 bg-blue1 text-white text-center">
         <div class="container">
-            <p> <span class="small rounded-pill bg-white color-000 me-1 px-2 fw-bold"> Special </span> Get 10%  <strong class="text-uppercase"> Discount  </strong> for first order <a href="/" class="ms-3 text-decoration-underline fst-italic"> Register Now </a> </p>
+            <p> <span class="small rounded-pill bg-white color-000 me-1 px-2 fw-bold"> Özel </span> İlk siparişinizde %10  <strong class="text-uppercase"> İndirim  </strong> fırsatı <a href="/Auth/Register" class="ms-3 text-decoration-underline fst-italic"> Hemen Kayıt Ol </a> </p>
         </div>
     </div>
     <!--  End top navbar  -->
@@ -21,78 +21,82 @@
                 </button>
                 <div class="search-cat d-none d-lg-block">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search anything...">
+                        <input type="text" class="form-control" placeholder="Ürün, kategori veya marka ara...">
                         <a href="/" class="search-btn"> <i class="fal fa-search"></i> </a>
                     </div>
                 </div>
                 <div class="hot-line">
                     <span class="icon"> <i class="las la-tty"></i> </span>
                     <div class="inf">
-                        <small class="fsz-13 d-block"> Hotline 24/7 </small>
-                        <h6 class="fsz-20 color-blue1 fw-bold"> <a href="tel:(025)36862516"> (025) 3686 25 16 </a> </h6>
+                        <small class="fsz-13 d-block"> Müşteri Hizmetleri </small>
+                        <h6 class="fsz-20 color-blue1 fw-bold"> <a href="tel:08502220000"> 0850 222 00 00 </a> </h6>
                     </div>
                 </div>
                 <div class="icons">
-                    <a href="/"> <i class="la la-sync"></i> </a>
-                    <a href="/"> <i class="lar la-heart"></i> <span class="dot"></span> </a>
-                    <a href="/"> <i class="la la-user"></i> </a>
-                    <a href="/"> <i class="la la-shopping-cart"></i> <span class="num"> 2 </span> </a>
+                    <a href="/" title="Favoriler"> <i class="lar la-heart"></i> <span class="dot"></span> </a>
+                    <a href="/Profile" title="Hesabım"> <i class="la la-user"></i> </a>
+                    <a href="/Cart" title="Sepetim"> <i class="la la-shopping-cart"></i> <span class="num"> 2 </span> </a>
                 </div>
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mt-3">
+                    <!-- Tek Kategoriler Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" href="/" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Demos
+                        <a class="dropdown-toggle nav-link fw-bold" href="/Products" id="navbarDropdownCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fal fa-th-large me-2"></i> Kategoriler
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_baby/index.html">Home Baby</a></li>
-                            <li><a class="dropdown-item" href="index.html">Home Electronic</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_lighting/index.html">Home Lighting</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_pets/index.html">Home Pets</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_tech/index.html">Home Tech</a></li>
+                        <ul class="dropdown-menu mega-menu" aria-labelledby="navbarDropdownCategories">
+                            @if (Model?.MainCategories != null && Model.MainCategories.Any())
+                            {
+                                @foreach (var category in Model.MainCategories.Where(c => c.IsActive).OrderBy(c => c.SortOrder))
+                                {
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="/Products?category=@category.Slug">
+                                            <strong>@category.Name</strong>
+                                        </a>
+                                        @if (category.Children != null && category.Children.Any())
+                                        {
+                                            <ul class="dropdown-menu">
+                                                @foreach (var subCategory in category.Children.Where(c => c.IsActive).OrderBy(c => c.SortOrder))
+                                                {
+                                                    <li><a class="dropdown-item" href="/Products?category=@subCategory.Slug">@subCategory.Name</a></li>
+                                                }
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item fw-bold text-primary" href="/Products?category=@category.Slug">Tüm @category.Name</a></li>
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item fw-bold text-success" href="/Products"><i class="fal fa-list me-2"></i>Tüm Kategoriler</a></li>
+                            }
+                            else
+                            {
+                                <!-- Fallback kategoriler -->
+                                <li><a class="dropdown-item" href="/Products?category=elektronik"><strong>Elektronik</strong></a></li>
+                                <li><a class="dropdown-item" href="/Products?category=moda"><strong>Moda & Giyim</strong></a></li>
+                                <li><a class="dropdown-item" href="/Products?category=ev-yasam"><strong>Ev & Yaşam</strong></a></li>
+                                <li><a class="dropdown-item" href="/Products?category=spor"><strong>Spor & Outdoor</strong></a></li>
+                                <li><a class="dropdown-item" href="/Products?category=saglik"><strong>Sağlık & Kişisel Bakım</strong></a></li>
+                                <li><a class="dropdown-item" href="/Products?category=otomotiv"><strong>Otomotiv</strong></a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item fw-bold text-success" href="/Products"><i class="fal fa-list me-2"></i>Tüm Kategoriler</a></li>
+                            }
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" href="/" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Pages
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/about.html">About</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/login.html">Login</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/profile.html">Profile</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/register.html">Register</a></li>
-                        </ul>
+                    
+                    <!-- Diğer Menü Öğeleri -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Products"><i class="fal fa-fire me-2"></i>Hakkımızda</a>
                     </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" href="/" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Products
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html">products</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products_layout_2.html">products layout 2</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/cart.html">Cart</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/checkout.html">Checkout</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html">Single Product</a></li>
-                            <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product_pay.html">Single Product Pay</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Products?featured=true"><i class="fal fa-star me-2"></i>Öne Çıkanlar</a>
                     </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Sell on Swoo</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Order Tracking</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Recently Viewed</a>
-                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Contact"><i class="fal fa-envelope me-2"></i>İletişim</a>
+                    </li>
                 </ul>
-              </div>
+            </div>
         </div>
     </nav>
     <!--  End navbar  -->
@@ -108,47 +112,38 @@
                             <li>
                                 <a href="/"> <i class="la la-grip-lines"></i> </a>
                             </li>
+                            <!-- Tek Kategoriler Dropdown -->
                             <li class="nav-item dropdown">
-                                <a class="dropdown-toggle" href="/" id="navbarDropdown11" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Demos
+                                <a class="dropdown-toggle" href="/Products" id="navbarDropdownLinksCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fal fa-th-large me-1"></i> Kategoriler
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown11">
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_baby/index.html">Home Baby</a></li>
-                                    <li><a class="dropdown-item" href="index.html">Home Electronic</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_lighting/index.html">Home Lighting</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_pets/index.html">Home Pets</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/home_tech/index.html">Home Tech</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownLinksCategories">
+                                    @if (Model?.MainCategories != null && Model.MainCategories.Any())
+                                    {
+                                        @foreach (var category in Model.MainCategories.Where(c => c.IsActive).OrderBy(c => c.SortOrder).Take(8))
+                                        {
+                                            <li><a class="dropdown-item" href="/Products?category=@category.Slug"><strong>@category.Name</strong></a></li>
+                                        }
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item fw-bold text-primary" href="/Products">Tüm Kategoriler</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" href="/Products?category=elektronik">Elektronik</a></li>
+                                        <li><a class="dropdown-item" href="/Products?category=moda">Moda & Giyim</a></li>
+                                        <li><a class="dropdown-item" href="/Products?category=ev-yasam">Ev & Yaşam</a></li>
+                                        <li><a class="dropdown-item" href="/Products?category=spor">Spor & Outdoor</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item fw-bold text-primary" href="/Products">Tüm Kategoriler</a></li>
+                                    }
                                 </ul>
                             </li>
-                          <li class="nav-item dropdown">
-                                <a class="dropdown-toggle" href="/" id="navbarDropdown22" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pages
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown22">
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/about.html">About</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/login.html">Login</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/profile.html">Profile</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/register.html">Register</a></li>
-                                </ul>
+                            <li class="nav-item">
+                                <a class="" href="/Products"><i class="fal fa-fire me-1"></i> Fırsatlar</a>
                             </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" href="/" id="navbarDropdown33" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Products
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown33">
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products.html">products</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/products_layout_2.html">products layout 2</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/cart.html">Cart</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/checkout.html">Checkout</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html">Single Product</a></li>
-                                    <li><a class="dropdown-item" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product_pay.html">Single Product Pay</a></li>
-                                </ul>
+                            <li class="nav-item">
+                                <a class="" href="/Contact"><i class="fal fa-envelope me-1"></i> İletişim</a>
                             </li>
-                          <li class="nav-item">
-                            <a class="" href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/contact.html">Contact</a>
-                          </li>
                         </ul>
                     </div>
                 </div>
@@ -157,20 +152,13 @@
                         <div class="links">
                             <ul class="links-ul">
                                 <li>
-                                    <a href="/"> <i class="fal fa-store me-2"></i> Sell on Swoo </a>
+                                    <a href="/"> <i class="fal fa-store me-2"></i> Satıcı Ol </a>
                                 </li>
                                 <li>
-                                    <a href="/"> <i class="fal fa-shopping-bag me-2"></i> Order Tracking </a>
+                                    <a href="/"> <i class="fal fa-shipping-fast me-3"></i> Sipariş Takibi </a>
                                 </li>
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" href="/" id="navbarDropdown222" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Recently Viewed
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown222">
-                                      <li><a class="dropdown-item" href="/">Demos 1</a></li>
-                                      <li><a class="dropdown-item" href="/">Demos 2</a></li>
-                                      <li><a class="dropdown-item" href="/">Demos 3</a></li>
-                                    </ul>
+                                <li>
+                                    <a href="/"> <i class="fal fa-headset me-3"></i>Yardım & Destek </a>
                                 </li>
                             </ul>
                         </div>
@@ -178,19 +166,21 @@
                             <ul class="links-ul">
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown333" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="la la-dollar-sign me-1"></i> USD
+                                        <i class="la la-lira-sign me-1"></i> TRY
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown333">
+                                      <li><a class="dropdown-item" href="/">TRY</a></li>
                                       <li><a class="dropdown-item" href="/">USD</a></li>
-                                      <li><a class="dropdown-item" href="/">USD</a></li>
+                                      <li><a class="dropdown-item" href="/">EUR</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/swoo/home_electronic/assets/img/eng.png" alt="" class="me-2 icon-15"> Eng
+                                        <img src="~/swoo/home_electronic/assets/img/tr.png" alt="" class="me-2 icon-15"> TR
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
-                                      <li><a class="dropdown-item" href="/">Arabic</a></li>
+                                      <li><a class="dropdown-item" href="/">Türkçe</a></li>
+                                      <li><a class="dropdown-item" href="/">English</a></li>
                                     </ul>
                                 </li>
                             </ul>
