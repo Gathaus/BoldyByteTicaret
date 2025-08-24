@@ -81,35 +81,7 @@
         <!--  End trend-search  -->
 
 
-        <!--  Start main-banner  -->
-        <section class="tc-main-banner-style1 wow fadeInUp slow" data-wow-delay="0.2s">
-            <div class="container">
-                <div class="banner">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <h6 class="fsz-24 text-uppercase color-cyan1 lh-1"> Pre Order </h6>
-                            <small class="fsz-10 color-999 text-uppercase"> be the first to own </small>
-                            <p class="fsz-14 mt-2 text-white"> From $399 </p>
-                        </div>
-                        <div class="col-lg-4 order-last order-lg-0">
-                            <div class="img">
-                                <img src="~/swoo/home_electronic/assets/img/products/banner.png" alt="">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mt-3 mt-lg-0">
-                            <small class="fsz-12 color-cyan1"> Opplo Watch Sport <br> Series 8 </small>
-                            <h3 class="fsz-30 mt-10 fw-300 text-white"> A healthy leap ahead </h3>
-                        </div>
-                        <div class="col-lg-2 mt-4 mt-lg-0">
-                            <div class="text-lg-end">
-                                <a href="https://ui-themez.smartinnovates.net/items/swoo_html/inner_pages/single_product.html" class="butn px-4 pt-10 pb-10 bg-white color-000 rounded-pill fw-600"> <span> Discover Now </span> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--  End main-banner  -->
+        @await Html.PartialAsync("_MainBanner", Model)
 
 
         @await Html.PartialAsync("_BestSellerSection", Model)
