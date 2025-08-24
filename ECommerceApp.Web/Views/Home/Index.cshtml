@@ -109,23 +109,7 @@
 
 
         <!--  Start subscribe  -->
-        <section class="tc-subscribe-style1">
-            <div class="container">
-                <div class="row align-items-center justify-content-between">
-                    <div class="col-lg-6">
-                        <h3 class="fsz-30 fw-400"> <strong class="fw-700"> Subscribe </strong> & Get <span class="color-cyan1"> 10% OFF </span> for first order </h3>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <span class="icon"> <i class="far fa-envelope"></i> </span>
-                            <input type="text" placeholder="Enter your email address">
-                            <button> Subscibe </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img src="~/swoo/home_electronic/assets/img/plane.png" alt="" class="plane">
-        </section>
+        @await Html.PartialAsync("_Subscribe")
         <!--  End subscribe  -->
 
 
