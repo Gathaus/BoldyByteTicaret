@@ -61,7 +61,8 @@
 <body class="home-style1">
 
 
-    @await Html.PartialAsync("_TopNavbar", Model)
+    @* Eski satır: @await Html.PartialAsync("_TopNavbar", Model) *@
+    @await Component.InvokeAsync("Navbar")
 
 
 
