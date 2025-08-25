@@ -20,8 +20,27 @@
                 </button>
                 <div class="search-cat d-none d-lg-block">
                     <div class="input-group">
+                        <select name="category" class="form-select">
+                            <option value=""> Tüm Kategoriler </option>
+                            @if (Model?.MainCategories != null && Model.MainCategories.Any())
+                            {
+                                @foreach (var category in Model.MainCategories.Where(c => c.IsActive).OrderBy(c => c.SortOrder))
+                                {
+                                    <option value="@category.Slug"> @category.Name </option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="elektronik"> Elektronik </option>
+                                <option value="moda"> Moda & Giyim </option>
+                                <option value="ev-yasam"> Ev & Yaşam </option>
+                                <option value="spor"> Spor & Outdoor </option>
+                                <option value="saglik"> Sağlık & Kişisel Bakım </option>
+                                <option value="otomotiv"> Otomotiv </option>
+                            }
+                        </select>
                         <input type="text" class="form-control" placeholder="Ürün, kategori veya marka ara...">
-                        <a href="/" class="search-btn"> <i class="fal fa-search"></i> </a>
+                        <a href="#" class="search-btn"> <i class="fal fa-search"></i> </a>
                     </div>
                 </div>
                 <div class="hot-line">
@@ -108,7 +127,7 @@
     <!--  Start links-nav  -->
     <div class="tc-links-nav-style1 d-none d-lg-block">
         <div class="container">
-            <div class="row">
+            <div class="row g-0">
                 <div class="col-lg-6">
                     <div class="links">
                         <ul class="links-ul">
@@ -151,7 +170,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="nav-side d-flex align-items-center">
+                    <div class="nav-side d-flex align-items-center justify-content-end">
                         <div class="links">
                             <ul class="links-ul">
                                 <li>
