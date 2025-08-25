@@ -1,5 +1,23 @@
 @model ECommerceApp.Web.Models.NavbarViewModel
 
+<style>
+    /* Fix dropdown arrows */
+    .dropdown-toggle::after {
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+    }
+    
+    .dropdown-toggle:empty::after {
+        margin-left: 0;
+    }
+</style>
+
     <!--  Start top navbar  -->
     <div class="tc-top-navbar-style1 py-3 bg-blue1 text-white text-center">
         <div class="container">
@@ -57,7 +75,7 @@
                     <!-- Kategoriler Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle nav-link fw-bold" href="/Products" id="navbarDropdownCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-th-large me-2"></i> Kategoriler
+                            Kategoriler
                         </a>
                         <ul class="dropdown-menu mega-menu" aria-labelledby="navbarDropdownCategories">
                             @if (Model?.MainCategories != null && Model.MainCategories.Any())
@@ -116,7 +134,7 @@
                             <!-- Kategoriler Dropdown -->
                             <li class="nav-item dropdown">
                                 <a class="dropdown-toggle" href="/Products" id="navbarDropdownLinksCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-th-large me-1"></i> Kategoriler
+                                    Kategoriler
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownLinksCategories">
                                     @if (Model?.MainCategories != null && Model.MainCategories.Any())
@@ -158,7 +176,7 @@
                             <ul class="links-ul">
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown333" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="la la-lira-sign me-1"></i> TRY
+                                        TRY
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown333">
                                       <li><a class="dropdown-item" href="/">TRY</a></li>
@@ -168,7 +186,7 @@
                                 </li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/swoo/home_electronic/assets/img/tr.png" alt="" class="me-2 icon-15"> TR
+                                        TR
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
                                       <li><a class="dropdown-item" href="/">Türkçe</a></li>
