@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="icons">
-                    <a href="/" title="Favoriler"> <i class="lar la-heart"></i> <span class="dot"></span> </a>
+                    @* <a href="/" title="Favoriler"> <i class="lar la-heart"></i> <span class="dot"></span> </a> *@
                     <a href="/Profile" title="Hesabım"> <i class="la la-user"></i> </a>
                     <a href="/Cart" title="Sepetim"> <i class="la la-shopping-cart"></i> 
                         @if (Model.CartItemCount > 0)
@@ -176,21 +176,21 @@
                             <ul class="links-ul">
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown333" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        TRY
+                                        <i class="fas fa-lira-sign me-1"></i> TRY
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown333">
-                                      <li><a class="dropdown-item" href="/">TRY</a></li>
-                                      <li><a class="dropdown-item" href="/">USD</a></li>
-                                      <li><a class="dropdown-item" href="/">EUR</a></li>
+                                      <li><a class="dropdown-item" href="/"><i class="fas fa-lira-sign me-2"></i>TRY</a></li>
+                                      <li><a class="dropdown-item" href="/"><i class="fas fa-dollar-sign me-2"></i>USD</a></li>
+                                      <li><a class="dropdown-item" href="/"><i class="fas fa-euro-sign me-2"></i>EUR</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="/" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        TR
+                                        <i class="fas fa-flag me-1"></i> TR
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown4">
-                                      <li><a class="dropdown-item" href="/">Türkçe</a></li>
-                                      <li><a class="dropdown-item" href="/">English</a></li>
+                                      <li><a class="dropdown-item" href="/"><i class="fas fa-flag me-2" style="color: #e74c3c;"></i>Türkçe</a></li>
+                                      <li><a class="dropdown-item" href="/"><i class="fas fa-flag me-2" style="color: #3498db;"></i>English</a></li>
                                     </ul>
                                 </li>
                             </ul>
