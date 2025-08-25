@@ -29,18 +29,9 @@
                                     <option value="@category.Slug"> @category.Name </option>
                                 }
                             }
-                            else
-                            {
-                                <option value="elektronik"> Elektronik </option>
-                                <option value="moda"> Moda & Giyim </option>
-                                <option value="ev-yasam"> Ev & Yaşam </option>
-                                <option value="spor"> Spor & Outdoor </option>
-                                <option value="saglik"> Sağlık & Kişisel Bakım </option>
-                                <option value="otomotiv"> Otomotiv </option>
-                            }
                         </select>
                         <input type="text" class="form-control" placeholder="Ürün, kategori veya marka ara...">
-                        <a href="#" class="search-btn"> <i class="fal fa-search"></i> </a>
+                        <a href="#" class="search-btn"> <i class="fas fa-search"></i> </a>
                     </div>
                 </div>
                 <div class="hot-line">
@@ -66,7 +57,7 @@
                     <!-- Kategoriler Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle nav-link fw-bold" href="/Products" id="navbarDropdownCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fal fa-th-large me-2"></i> Kategoriler
+                            <i class="fas fa-th-large me-2"></i> Kategoriler
                         </a>
                         <ul class="dropdown-menu mega-menu" aria-labelledby="navbarDropdownCategories">
                             @if (Model?.MainCategories != null && Model.MainCategories.Any())
@@ -91,32 +82,20 @@
                                     </li>
                                 }
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item fw-bold text-success" href="/Products"><i class="fal fa-list me-2"></i>Tüm Kategoriler</a></li>
-                            }
-                            else
-                            {
-                                <!-- Fallback kategoriler -->
-                                <li><a class="dropdown-item" href="/Products?category=elektronik"><strong>Elektronik</strong></a></li>
-                                <li><a class="dropdown-item" href="/Products?category=moda"><strong>Moda & Giyim</strong></a></li>
-                                <li><a class="dropdown-item" href="/Products?category=ev-yasam"><strong>Ev & Yaşam</strong></a></li>
-                                <li><a class="dropdown-item" href="/Products?category=spor"><strong>Spor & Outdoor</strong></a></li>
-                                <li><a class="dropdown-item" href="/Products?category=saglik"><strong>Sağlık & Kişisel Bakım</strong></a></li>
-                                <li><a class="dropdown-item" href="/Products?category=otomotiv"><strong>Otomotiv</strong></a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item fw-bold text-success" href="/Products"><i class="fal fa-list me-2"></i>Tüm Kategoriler</a></li>
+                                <li><a class="dropdown-item fw-bold text-success" href="/Products"><i class="fas fa-list me-2"></i>Tüm Kategoriler</a></li>
                             }
                         </ul>
                     </li>
                     
                     <!-- Diğer Menü Öğeleri -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/Products"><i class="fal fa-fire me-2"></i>Hakkımızda</a>
+                        <a class="nav-link" href="/Products"><i class="fas fa-fire me-2"></i>Hakkımızda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Products?featured=true"><i class="fal fa-star me-2"></i>Öne Çıkanlar</a>
+                        <a class="nav-link" href="/Products?featured=true"><i class="fas fa-star me-2"></i>Öne Çıkanlar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Contact"><i class="fal fa-envelope me-2"></i>İletişim</a>
+                        <a class="nav-link" href="/Contact"><i class="fas fa-envelope me-2"></i>İletişim</a>
                     </li>
                 </ul>
             </div>
@@ -137,7 +116,7 @@
                             <!-- Kategoriler Dropdown -->
                             <li class="nav-item dropdown">
                                 <a class="dropdown-toggle" href="/Products" id="navbarDropdownLinksCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fal fa-th-large me-1"></i> Kategoriler
+                                    <i class="fas fa-th-large me-1"></i> Kategoriler
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownLinksCategories">
                                     @if (Model?.MainCategories != null && Model.MainCategories.Any())
@@ -149,22 +128,13 @@
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item fw-bold text-primary" href="/Products">Tüm Kategoriler</a></li>
                                     }
-                                    else
-                                    {
-                                        <li><a class="dropdown-item" href="/Products?category=elektronik">Elektronik</a></li>
-                                        <li><a class="dropdown-item" href="/Products?category=moda">Moda & Giyim</a></li>
-                                        <li><a class="dropdown-item" href="/Products?category=ev-yasam">Ev & Yaşam</a></li>
-                                        <li><a class="dropdown-item" href="/Products?category=spor">Spor & Outdoor</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item fw-bold text-primary" href="/Products">Tüm Kategoriler</a></li>
-                                    }
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="" href="/Products"><i class="fal fa-fire me-1"></i> Fırsatlar</a>
+                                <a class="" href="/Products"><i class="fas fa-fire me-1"></i> Fırsatlar</a>
                             </li>
                             <li class="nav-item">
-                                <a class="" href="/Contact"><i class="fal fa-envelope me-1"></i> İletişim</a>
+                                <a class="" href="/Contact"><i class="fas fa-envelope me-1"></i> İletişim</a>
                             </li>
                         </ul>
                     </div>
@@ -174,13 +144,13 @@
                         <div class="links">
                             <ul class="links-ul">
                                 <li>
-                                    <a href="/"> <i class="fal fa-store me-2"></i> Satıcı Ol </a>
+                                    <a href="/"> <i class="fas fa-store me-2"></i> Satıcı Ol </a>
                                 </li>
                                 <li>
-                                    <a href="/"> <i class="fal fa-shipping-fast me-3"></i> Sipariş Takibi </a>
+                                    <a href="/"> <i class="fas fa-shipping-fast me-3"></i> Sipariş Takibi </a>
                                 </li>
                                 <li>
-                                    <a href="/"> <i class="fal fa-headset me-3"></i>Yardım & Destek </a>
+                                    <a href="/"> <i class="fas fa-headset me-3"></i>Yardım & Destek </a>
                                 </li>
                             </ul>
                         </div>

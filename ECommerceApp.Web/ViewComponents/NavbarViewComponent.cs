@@ -7,10 +7,12 @@ namespace ECommerceApp.Web.ViewComponents
     public class NavbarViewComponent : ViewComponent
     {
         private readonly ICategoryService _categoryService;
+        private readonly ICartService _cartService;
 
-        public NavbarViewComponent(ICategoryService categoryService)
+        public NavbarViewComponent(ICategoryService categoryService, ICartService cartService)
         {
             _categoryService = categoryService;
+            _cartService = cartService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -24,8 +26,9 @@ namespace ECommerceApp.Web.ViewComponents
                     .OrderBy(c => c.SortOrder)
                     .ToList() ?? new List<ECommerceApp.Domain.Entities.Category>();
                 
-                // Sepet sayısı ve kullanıcı bilgileri burada eklenebilir
-                navbarViewModel.CartItemCount = 2; // Örnek değer
+                // Sepet sayısını dinamik olarak al
+                var sessionId = HttpContext.Session.Id;
+                navbarViewModel.CartItemCount = await _cartService.GetCartItemCountAsync(sessionId);
                 navbarViewModel.IsUserLoggedIn = User.Identity?.IsAuthenticated ?? false;
                 navbarViewModel.UserName = User.Identity?.Name;
             }
